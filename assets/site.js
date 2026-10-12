@@ -192,6 +192,9 @@
   // | grossesse:<simple|video> | annee:<simple|video> | pack:<simple|video> (12/10 : l'option vidéo est une variante du livre ;
   // l'année racontée, 1 à 6, se choisit dans l'app ; le tarif fidélité des années suivantes n'est pas encore vendu sur le site).
   // Compléments rattachés à une histoire : carte_<clé>, copie_<clé>, voix10_<clé> (Vœux). Lignes de vie se vend seul.
+  // Pour un livre déjà en cours (liens de l'app, propriété Shopify « Projet ») : ajoutvoix:<CODE> (Vœux, 10 voix, 15 €)
+  // et ajoutvideo:<CODE> (13/10 : option vidéo ajoutée plus tard, SKU video-grossesse 20 € ou video-annee 30 € ;
+  // le livre concerné, grossesse ou annee, est retenu à part dans localStorage « lt-ajoutvideo »).
   var PH = 'assets/photos/';
   var BASE = {
     mavie: { name: 'Mémoire · Ma vie', note: 'Une voix, 12 mois pour raconter', price: 119, img: 'hero-1.jpg', copy: 39, pitch: 'Toute une vie racontée de sa voix.' },
@@ -210,10 +213,16 @@
     voeux: { anniversaire: 'Anniversaire', mariage: 'Mariage', retraite: 'Départ à la retraite', naissance: 'Naissance', depart: 'Pot de départ' },
     recit: { voyage: 'Voyage entre amis', evjf: 'EVJF', evg: 'EVG' },
     grossesse: { simple: 'Sans vidéo', video: 'Avec vidéos' },
-    annee: { simple: 'Sans vidéo', video: 'Avec vidéos' },
+    annee: { simple: 'Sans vidéo', video: 'Année 1 avec vidéos' },
     pack: { simple: 'Sans vidéo', video: 'Avec vidéos' }
   };
   var OCC_IMG = { 'voeux:mariage': 'mariage-couple.jpg', 'voeux:retraite': 'diner-jardin.jpg', 'voeux:depart': 'fete-champagne.jpg', 'voeux:naissance': 'famille-canape.jpg', 'recit:evjf': 'hero-2.jpg', 'recit:evg': 'montagne-amis.jpg' };
+  var VIDEO = {
+    grossesse: { name: 'Option vidéo · Grossesse', note: '4 vidéos d\'une minute', price: 20, sku: 'video-grossesse' },
+    annee: { name: 'Option vidéo · L\'année 1', note: '12 vidéos d\'une minute', price: 30, sku: 'video-annee' }
+  };
+  var videoFor = {};
+  try { videoFor = JSON.parse(localStorage.getItem('lt-ajoutvideo') || '{}') || {}; } catch (e) { videoFor = {}; }
   var baseOf = function (k) { return String(k).split(':')[0]; };
   var isStory = function (k) { var b = baseOf(k), o = k.split(':')[1]; return !!BASE[b] && (!OCC[b] || !!OCC[b][o]); };
   var prod = function (k) {
@@ -221,6 +230,8 @@
     // Voix ajoutées à un livre Vœux déjà en cours (lien de l'app ou des emails) : la ligne Shopify portera la propriété « Projet ».
     var pj = /^ajoutvoix:([A-Z0-9]{4}-[A-Z0-9]{4})$/.exec(k);
     if (pj) return { name: '10 voix de plus', note: 'Pour votre livre Vœux en cours · projet ' + pj[1], price: 15, max: 12, kind: 'voix', alone: true, props: { Projet: pj[1] } };
+    var pv = /^ajoutvideo:([A-Z0-9]{4}-[A-Z0-9]{4})$/.exec(k), vv = pv && VIDEO[videoFor[pv[1]]];
+    if (pv) return !vv ? null : { name: vv.name, note: vv.note + ' · pour votre livre en cours · projet ' + pv[1], price: vv.price, max: 1, kind: 'video', alone: true, sku: vv.sku, props: { Projet: pv[1] } };
     var m = /^(carte|copie|voix10)_(.+)$/.exec(k);
     if (m) {
       var p = isStory(m[2]) && prod(m[2]);
@@ -273,6 +284,7 @@
     card: '<svg viewBox="0 0 40 48"><rect x="6" y="4" width="28" height="40" rx="3" fill="#fde7f1"/><rect x="6" y="26" width="28" height="18" rx="3" fill="#ffe0cc"/><g fill="#fa8216"><rect x="13" y="22" width="2.4" height="5" rx="1.2"/><rect x="16.6" y="19" width="2.4" height="11" rx="1.2"/><rect x="20.2" y="17.5" width="2.4" height="14" rx="1.2"/><rect x="23.8" y="21" width="2.4" height="7" rx="1.2"/><rect x="27.4" y="19.5" width="2.4" height="10" rx="1.2"/></g></svg>',
     copy: '<svg viewBox="0 0 40 48"><rect x="12" y="8" width="24" height="24" rx="2" fill="#e8ddd2"/><rect x="5" y="15" width="24" height="24" rx="2" fill="#f4ede6" stroke="#d6cabe"/><rect x="5" y="15" width="3" height="24" fill="#d6cabe"/><text x="17" y="31" font-size="9" font-family="Manrope,sans-serif" font-weight="800" fill="#5a2471" text-anchor="middle">×2</text></svg>',
     voix: '<svg viewBox="0 0 40 48"><path d="M6 12h28a3 3 0 0 1 3 3v15a3 3 0 0 1-3 3H17l-7 6v-6H6a3 3 0 0 1-3-3V15a3 3 0 0 1 3-3z" fill="#fde7f1"/><text x="20" y="27" font-size="11" font-family="Manrope,sans-serif" font-weight="800" fill="#5a2471" text-anchor="middle">+10</text></svg>',
+    video: '<svg viewBox="0 0 40 48"><rect x="4" y="13" width="32" height="22" rx="3" fill="#fde7f1"/><path d="M17 19v10l9-5z" fill="#5a2471"/></svg>',
     lignes: '<svg viewBox="0 0 40 48"><rect x="8" y="5" width="26" height="38" rx="2" fill="#fff" stroke="#d6cabe"/><path d="M13 14h16M13 19h16M13 24h16M13 29h16M13 34h11" stroke="#e2d6dd" stroke-width="1.4"/><path d="M8 5v38" stroke="#ff2e7e" stroke-width="2"/></svg>'
   };
   var thumb = function (k, small) {
@@ -291,7 +303,7 @@
     var badge = document.querySelector('.cart-count');
     if (badge) { badge.hidden = count() === 0; badge.textContent = count(); }
     var stories = Object.keys(cart).filter(isStory);
-    var topups = Object.keys(cart).filter(function (k) { return k.indexOf('ajoutvoix:') === 0; });
+    var topups = Object.keys(cart).filter(function (k) { return k.indexOf('ajoutvoix:') === 0 || k.indexOf('ajoutvideo:') === 0; });
     if (!stories.length && !cart.lignes && !topups.length) {
       body.innerHTML = '<p class="empty">Votre panier est vide.</p>';
       foot.innerHTML = '<a class="btn btn-ink" href="index.html#prix">Choisir un livre</a>';
@@ -324,10 +336,11 @@
       sub += 39 * cart.lignes;
       html += '<div class="group"><div class="line">' + thumb('lignes') + '<div><b>Lignes de vie</b><small>' + prod('lignes').note + '</small>' + qty('lignes') + '</div><span class="price">' + euro(39 * cart.lignes) + '</span></div></div>';
     }
-    // Voix pour un livre déjà en cours : seules, avec leur quantité (150 voix au plus en tout, vérifié par le serveur).
+    // Voix ou option vidéo pour un livre déjà en cours : seules (150 voix au plus en tout, vérifié par le serveur ; vidéo : une fois).
     topups.forEach(function (k) {
       var p = prod(k); sub += p.price * cart[k];
-      html += '<div class="group"><div class="line">' + thumb(k) + '<div><b>' + p.name + '</b><small>' + p.note + '</small>' + qty(k) + '</div><span class="price">' + euro(p.price * cart[k]) + '</span></div></div>';
+      var ctl = p.max === 1 ? '<button type="button" class="remove" data-dec="' + k + '">Retirer</button>' : qty(k);
+      html += '<div class="group"><div class="line">' + thumb(k) + '<div><b>' + p.name + '</b><small>' + p.note + '</small>' + ctl + '</div><span class="price">' + euro(p.price * cart[k]) + '</span></div></div>';
     });
     body.innerHTML = html;
     var inBase = stories.map(baseOf).concat(stories);
@@ -364,6 +377,7 @@
     cart[k] = Math.min(max, isStory(k) ? 1 : (cart[k] || 0) + (n || 1));
   };
   window.ltAddToCart = function (k, n) { addItem(k, n); save(); openCart(); };
+  window.ltAddVideo = function (code, book) { videoFor[code] = book; window.ltAddToCart('ajoutvideo:' + code); };
   document.addEventListener('click', function (e) {
     var t = e.target.closest('[data-open-cart],[data-close-cart],[data-inc],[data-dec]');
     if (!t) return;
@@ -467,6 +481,32 @@
     '<p>Ajoutez 10 voix à votre livre, autant de fois que nécessaire, jusqu\'à 150 voix en tout. Les invités en attente reçoivent aussitôt leur lien.</p></div>' +
     '<div class="addvoices-act"><b>15 €</b><span>les 10 voix</span><button class="btn btn-ink" type="button">Ajouter 10 voix</button></div></div></div>';
   box.querySelector('button').addEventListener('click', function () { window.ltAddToCart('ajoutvoix:' + code); });
+  var main = document.querySelector('main') || document.body, hero = main.querySelector('.hero-top, .page-hero');
+  if (hero && hero.parentNode) hero.parentNode.insertBefore(box, hero.nextSibling); else main.insertBefore(box, main.firstChild);
+  setTimeout(function () { box.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
+})();
+
+
+// Grossesse ou L'année de votre enfant ouverte depuis l'app (?ajout=video&projet=CODE) : on propose d'ajouter l'option vidéo à ce livre.
+(function () {
+  var q = new URLSearchParams(location.search), code = String(q.get('projet') || '').trim().toUpperCase();
+  var page = /annee-enfant/.test(location.pathname) ? 'annee' : /grossesse/.test(location.pathname) ? 'grossesse' : '';
+  if (q.get('ajout') !== 'video' || !page || !/^[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code) || !window.ltAddToCart) return;
+  var T = page === 'annee'
+    ? { k: 'Votre livre L\'année de votre enfant · projet ', h: 'Ajouter les vidéos <em>à votre livre</em>', p: 'L\'option vidéo de l\'année 1 : 12 vidéos d\'une minute, une par mois, chacune imprimée en QR code dans le livre. La fonction s\'ouvre dans l\'app dès la commande. Les années 2 à 6 n\'ont pas de vidéo.', price: 30 }
+    : { k: 'Votre journal Grossesse · projet ', h: 'Ajouter les vidéos <em>à votre livre</em>', p: '4 vidéos d\'une minute, chacune imprimée en QR code dans le livre. La fonction s\'ouvre dans l\'app dès la commande.', price: 20 };
+  var box = document.createElement('section');
+  box.className = 'addvoices';
+  box.innerHTML = '<div class="wrap"><div class="addvoices-card"><div><p class="kicker">' + T.k + code + '</p>' +
+    '<h2>' + T.h + '</h2><p>' + T.p + '</p></div>' +
+    '<div class="addvoices-act"><b>' + T.price + ' €</b><span>l\'option vidéo</span><button class="btn btn-ink" type="button">Ajouter les vidéos</button></div></div></div>';
+  box.querySelector('button').addEventListener('click', function () {
+    var m = {};
+    try { m = JSON.parse(localStorage.getItem('lt-ajoutvideo') || '{}') || {}; } catch (e) { m = {}; }
+    m[code] = page;
+    try { localStorage.setItem('lt-ajoutvideo', JSON.stringify(m)); } catch (e) {}
+    window.ltAddVideo(code, page);
+  });
   var main = document.querySelector('main') || document.body, hero = main.querySelector('.hero-top, .page-hero');
   if (hero && hero.parentNode) hero.parentNode.insertBefore(box, hero.nextSibling); else main.insertBefore(box, main.firstChild);
   setTimeout(function () { box.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
