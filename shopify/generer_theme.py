@@ -64,6 +64,9 @@ COPY_HANDLE = "exemplaire-supplementaire"
 VOIX_HANDLE = "10-voix-de-plus"
 # 13/10 : option vidéo ajoutée plus tard à un livre en cours (ligne ajoutvideo:<CODE>, propriété « Projet »).
 VIDEO_HANDLES = {"grossesse": "video-grossesse", "annee": "video-annee"}
+# 13/10 : plus de temps de voix et de pages pour un livre en cours (ligne ajoutpages:<CODE>, propriété « Projet ») :
+# « + 1 h, environ 20 pages » (Mémoire, Chronique, Année) ou « + 30 min, environ 10 pages » (Récit, Carnet de bord, Grossesse).
+PAGES_HANDLES = {"29": "pages-29", "19": "pages-19"}
 
 
 def base_of(key):
@@ -509,7 +512,8 @@ def snippets():
     d += ["  },",
           f"  copy: [{{%- for v in all_products['{COPY_HANDLE}'].variants -%}}{{ \"id\": {{{{ v.id }}}}, \"price\": {{{{ v.price }}}} }}{{%- unless forloop.last -%}},{{%- endunless -%}}{{%- endfor -%}}],",
           f"  voix10: {{%- assign v = all_products['{VOIX_HANDLE}'].selected_or_first_available_variant -%}}{{% if v %}}{{ \"id\": {{{{ v.id }}}}, \"price\": {{{{ v.price }}}} }}{{% else %}}null{{% endif %}},",
-          "  video: {" + ", ".join(f"{json.dumps(k)}: {{%- assign v = all_products['{h}'].selected_or_first_available_variant -%}}{{% if v %}}{{ \"id\": {{{{ v.id }}}}, \"price\": {{{{ v.price }}}} }}{{% else %}}null{{% endif %}}" for k, h in VIDEO_HANDLES.items()) + "}",
+          "  video: {" + ", ".join(f"{json.dumps(k)}: {{%- assign v = all_products['{h}'].selected_or_first_available_variant -%}}{{% if v %}}{{ \"id\": {{{{ v.id }}}}, \"price\": {{{{ v.price }}}} }}{{% else %}}null{{% endif %}}" for k, h in VIDEO_HANDLES.items()) + "},",
+          "  pages: {" + ", ".join(f"{json.dumps(k)}: {{%- assign v = all_products['{h}'].selected_or_first_available_variant -%}}{{% if v %}}{{ \"id\": {{{{ v.id }}}}, \"price\": {{{{ v.price }}}} }}{{% else %}}null{{% endif %}}" for k, h in PAGES_HANDLES.items()) + "}",
           "};",
           "</script>"]
     (OUT / "snippets" / "mm-data.liquid").write_text("\n".join(d) + "\n", encoding="utf-8")

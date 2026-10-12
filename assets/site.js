@@ -194,7 +194,9 @@
   // Compléments rattachés à une histoire : carte_<clé>, copie_<clé>, voix10_<clé> (Vœux). Lignes de vie se vend seul.
   // Pour un livre déjà en cours (liens de l'app, propriété Shopify « Projet ») : ajoutvoix:<CODE> (Vœux, 10 voix, 15 €)
   // et ajoutvideo:<CODE> (13/10 : option vidéo ajoutée plus tard, SKU video-grossesse 20 € ou video-annee 30 € ;
-  // le livre concerné, grossesse ou annee, est retenu à part dans localStorage « lt-ajoutvideo »).
+  // le livre concerné, grossesse ou annee, est retenu à part dans localStorage « lt-ajoutvideo »)
+  // et ajoutpages:<CODE> (13/10 : plus de temps de voix et de pages, SKU pages-29 « + 1 h, environ 20 pages » ou pages-19
+  // « + 30 min, environ 10 pages » selon le livre, retenu dans localStorage « lt-ajoutpages » ; deux ajouts au plus par livre).
   var PH = 'assets/photos/';
   var BASE = {
     mavie: { name: 'Mémoire · Ma vie', note: 'Une voix, 12 mois pour raconter', price: 119, img: 'hero-1.jpg', copy: 39, pitch: 'Toute une vie racontée de sa voix.' },
@@ -221,6 +223,12 @@
     grossesse: { name: 'Option vidéo · Grossesse', note: '4 vidéos d\'une minute', price: 20, sku: 'video-grossesse' },
     annee: { name: 'Option vidéo · L\'année 1', note: '12 vidéos d\'une minute', price: 30, sku: 'video-annee' }
   };
+  var PAGES = {
+    '29': { name: '+ 1 h de voix, environ 20 pages', price: 29, sku: 'pages-29' },
+    '19': { name: '+ 30 min de voix, environ 10 pages', price: 19, sku: 'pages-19' }
+  };
+  var pagesFor = {};
+  try { pagesFor = JSON.parse(localStorage.getItem('lt-ajoutpages') || '{}') || {}; } catch (e) { pagesFor = {}; }
   var videoFor = {};
   try { videoFor = JSON.parse(localStorage.getItem('lt-ajoutvideo') || '{}') || {}; } catch (e) { videoFor = {}; }
   var baseOf = function (k) { return String(k).split(':')[0]; };
@@ -232,6 +240,8 @@
     if (pj) return { name: '10 voix de plus', note: 'Pour votre livre Vœux en cours · projet ' + pj[1], price: 15, max: 12, kind: 'voix', alone: true, props: { Projet: pj[1] } };
     var pv = /^ajoutvideo:([A-Z0-9]{4}-[A-Z0-9]{4})$/.exec(k), vv = pv && VIDEO[videoFor[pv[1]]];
     if (pv) return !vv ? null : { name: vv.name, note: vv.note + ' · pour votre livre en cours · projet ' + pv[1], price: vv.price, max: 1, kind: 'video', alone: true, sku: vv.sku, props: { Projet: pv[1] } };
+    var pg = /^ajoutpages:([A-Z0-9]{4}-[A-Z0-9]{4})$/.exec(k), pp = pg && PAGES[pagesFor[pg[1]]];
+    if (pg) return !pp ? null : { name: pp.name, note: 'Plus de temps pour raconter · pour votre livre en cours · projet ' + pg[1], price: pp.price, max: 2, kind: 'pages', alone: true, sku: pp.sku, props: { Projet: pg[1] } };
     var m = /^(carte|copie|voix10)_(.+)$/.exec(k);
     if (m) {
       var p = isStory(m[2]) && prod(m[2]);
@@ -284,6 +294,7 @@
     card: '<svg viewBox="0 0 40 48"><rect x="6" y="4" width="28" height="40" rx="3" fill="#fde7f1"/><rect x="6" y="26" width="28" height="18" rx="3" fill="#ffe0cc"/><g fill="#fa8216"><rect x="13" y="22" width="2.4" height="5" rx="1.2"/><rect x="16.6" y="19" width="2.4" height="11" rx="1.2"/><rect x="20.2" y="17.5" width="2.4" height="14" rx="1.2"/><rect x="23.8" y="21" width="2.4" height="7" rx="1.2"/><rect x="27.4" y="19.5" width="2.4" height="10" rx="1.2"/></g></svg>',
     copy: '<svg viewBox="0 0 40 48"><rect x="12" y="8" width="24" height="24" rx="2" fill="#e8ddd2"/><rect x="5" y="15" width="24" height="24" rx="2" fill="#f4ede6" stroke="#d6cabe"/><rect x="5" y="15" width="3" height="24" fill="#d6cabe"/><text x="17" y="31" font-size="9" font-family="Manrope,sans-serif" font-weight="800" fill="#5a2471" text-anchor="middle">×2</text></svg>',
     voix: '<svg viewBox="0 0 40 48"><path d="M6 12h28a3 3 0 0 1 3 3v15a3 3 0 0 1-3 3H17l-7 6v-6H6a3 3 0 0 1-3-3V15a3 3 0 0 1 3-3z" fill="#fde7f1"/><text x="20" y="27" font-size="11" font-family="Manrope,sans-serif" font-weight="800" fill="#5a2471" text-anchor="middle">+10</text></svg>',
+    pages: '<svg viewBox="0 0 40 48"><rect x="9" y="6" width="22" height="30" rx="2" fill="#fde7f1"/><path d="M14 14h12M14 19h12M14 24h8" stroke="#e2b9cc" stroke-width="1.4"/><circle cx="29" cy="35" r="8" fill="#5a2471"/><path d="M29 31v8M25 35h8" stroke="#fff" stroke-width="2"/></svg>',
     video: '<svg viewBox="0 0 40 48"><rect x="4" y="13" width="32" height="22" rx="3" fill="#fde7f1"/><path d="M17 19v10l9-5z" fill="#5a2471"/></svg>',
     lignes: '<svg viewBox="0 0 40 48"><rect x="8" y="5" width="26" height="38" rx="2" fill="#fff" stroke="#d6cabe"/><path d="M13 14h16M13 19h16M13 24h16M13 29h16M13 34h11" stroke="#e2d6dd" stroke-width="1.4"/><path d="M8 5v38" stroke="#ff2e7e" stroke-width="2"/></svg>'
   };
@@ -303,7 +314,7 @@
     var badge = document.querySelector('.cart-count');
     if (badge) { badge.hidden = count() === 0; badge.textContent = count(); }
     var stories = Object.keys(cart).filter(isStory);
-    var topups = Object.keys(cart).filter(function (k) { return k.indexOf('ajoutvoix:') === 0 || k.indexOf('ajoutvideo:') === 0; });
+    var topups = Object.keys(cart).filter(function (k) { return k.indexOf('ajoutvoix:') === 0 || k.indexOf('ajoutvideo:') === 0 || k.indexOf('ajoutpages:') === 0; });
     if (!stories.length && !cart.lignes && !topups.length) {
       body.innerHTML = '<p class="empty">Votre panier est vide.</p>';
       foot.innerHTML = '<a class="btn btn-ink" href="index.html#prix">Choisir un livre</a>';
@@ -378,6 +389,11 @@
   };
   window.ltAddToCart = function (k, n) { addItem(k, n); save(); openCart(); };
   window.ltAddVideo = function (code, book) { videoFor[code] = book; window.ltAddToCart('ajoutvideo:' + code); };
+  window.ltAddPages = function (code, unit) {
+    pagesFor[code] = unit;
+    try { localStorage.setItem('lt-ajoutpages', JSON.stringify(pagesFor)); } catch (e) {}
+    window.ltAddToCart('ajoutpages:' + code);
+  };
   document.addEventListener('click', function (e) {
     var t = e.target.closest('[data-open-cart],[data-close-cart],[data-inc],[data-dec]');
     if (!t) return;
@@ -507,6 +523,28 @@
     try { localStorage.setItem('lt-ajoutvideo', JSON.stringify(m)); } catch (e) {}
     window.ltAddVideo(code, page);
   });
+  var main = document.querySelector('main') || document.body, hero = main.querySelector('.hero-top, .page-hero');
+  if (hero && hero.parentNode) hero.parentNode.insertBefore(box, hero.nextSibling); else main.insertBefore(box, main.firstChild);
+  setTimeout(function () { box.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
+})();
+
+// Page d'un livre ouverte depuis l'app (?ajout=pages&projet=CODE, 13/10) : le livre est presque plein, on propose
+// d'ajouter du temps de voix et des pages (tous les livres sauf les Vœux ; deux ajouts au plus, vérifié par le serveur).
+(function () {
+  var q = new URLSearchParams(location.search), code = String(q.get('projet') || '').trim().toUpperCase();
+  var m = /([a-z-]+)\.html$/.exec(location.pathname), page = m ? m[1] : '';
+  var unit = ['memoire', 'ma-vie', 'mes-ancetres', 'un-temps-fort', 'chronique', 'annee-enfant'].indexOf(page) >= 0 ? '29'
+    : ['recit', 'voyage-solo', 'grossesse'].indexOf(page) >= 0 ? '19' : '';
+  if (q.get('ajout') !== 'pages' || !unit || !/^[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code) || !window.ltAddPages) return;
+  var T = unit === '29'
+    ? { h: '+ 1 h de voix, <em>environ 20 pages</em>', price: 29 }
+    : { h: '+ 30 min de voix, <em>environ 10 pages</em>', price: 19 };
+  var box = document.createElement('section');
+  box.className = 'addvoices';
+  box.innerHTML = '<div class="wrap"><div class="addvoices-card"><div><p class="kicker">Ajouter du temps à votre livre · projet ' + code + '</p>' +
+    '<h2>' + T.h + '</h2><p>Votre livre est presque plein. Ajoutez du temps pour continuer à raconter : la jauge s\'agrandit dans l\'app dès la commande, et le livre gagne des pages. Deux ajouts au plus par livre.</p></div>' +
+    '<div class="addvoices-act"><b>' + T.price + ' €</b><span>par ajout</span><button class="btn btn-ink" type="button">Ajouter du temps</button></div></div></div>';
+  box.querySelector('button').addEventListener('click', function () { window.ltAddPages(code, unit); });
   var main = document.querySelector('main') || document.body, hero = main.querySelector('.hero-top, .page-hero');
   if (hero && hero.parentNode) hero.parentNode.insertBefore(box, hero.nextSibling); else main.insertBefore(box, main.firstChild);
   setTimeout(function () { box.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
