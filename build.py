@@ -123,6 +123,13 @@ def aide_config() -> str:
     return f' data-endpoint="{url.rstrip("/")}/functions/v1/aide" data-key="{key}"'
 
 
+# Inscriptions aux questions par email (question du dimanche et sujets des livres, 12/10).
+# Vide = aperçu : les formulaires n'envoient rien. Au lancement, mettre ici l'adresse de la fonction serveur
+# (ex. https://<projet>.supabase.co/functions/v1/inscription) qui reçoit { email, sujet, page } et inscrit chez Brevo.
+# Aucune clé dans le site : la clé Brevo reste dans la fonction serveur. Détail : emails/series-par-sujet.md.
+INSCRIPTION_URL = ""
+INSCRIPTION_ATTRS = f' data-endpoint="{INSCRIPTION_URL}"' if INSCRIPTION_URL else ""
+
 AIDE_ATTRS = aide_config()
 COOKIEBOT_ID = cookiebot_id()
 COOKIEBOT_HEAD = (f'<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="{COOKIEBOT_ID}" '
@@ -268,7 +275,7 @@ def main():
                     k, v = part.split(":", 1)
                     meta[k.strip()] = v.strip()
             text = text[m.end():]
-        text = text.replace("{{AIDE}}", AIDE_ATTRS).replace("{{CTA}}", CTA).replace("{{PROOF}}", PROOF).replace("{{ONDE}}", ONDE).replace("{{STORES}}", STORES).replace("{{BRAND}}", BRAND).replace("{{REASSURE}}", REASSURE)
+        text = text.replace("{{AIDE}}", AIDE_ATTRS).replace("{{INSCRIPTION}}", INSCRIPTION_ATTRS).replace("{{CTA}}", CTA).replace("{{PROOF}}", PROOF).replace("{{ONDE}}", ONDE).replace("{{STORES}}", STORES).replace("{{BRAND}}", BRAND).replace("{{REASSURE}}", REASSURE)
         (ROOT / src.name).write_text(page(meta, text), encoding="utf-8")
         print("✓", src.name)
 

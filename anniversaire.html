@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=75b4fb49">
+<link rel="stylesheet" href="assets/site.css?v=b4c28753">
 </head>
 <body class="has-hero">
 <div class="annonce" role="region" aria-label="Offres en cours"><ul><li class="on">Livraison offerte en Europe</li><li>Satisfait ou remboursé</li><li>Paiement en 3x avec Alma</li></ul></div>
@@ -254,6 +254,24 @@
   </div>
 </section>
 
+<section class="abo" id="inscription" style="--abo-tint:#fdeef0">
+  <div class="wrap">
+    <div class="abo-band">
+      <div>
+        <p class="kicker">Gratuit · avant la fête</p>
+        <h2>Des questions pour faire parler <em>les proches</em></h2>
+        <p class="lead">Un anniversaire, un mariage, un départ à la retraite approche ? Laissez votre email : on vous envoie des questions à poser aux proches pour que chacun raconte un souvenir de la personne fêtée.</p>
+      </div>
+      <div>
+        <form class="abo-form" data-abo="voeux"><label class="sr-only" for="abo-mail">Votre email</label><input id="abo-mail" name="email" type="email" placeholder="Votre email" required autocomplete="email"><button class="btn btn-ink" type="submit">Je m'inscris</button></form>
+        <p class="abo-legal">Nous gardons votre email et le sujet choisi, seulement pour vous envoyer ces questions. Un lien pour vous désinscrire dans chaque email. <a href="confidentialite.html#inscriptions">Confidentialité</a></p>
+        <p class="ok" hidden aria-live="polite">Aperçu : rien n'est envoyé. L'inscription sera reliée à Brevo.</p>
+      </div>
+      <ul aria-label="Quelques questions de la série"><li>La première fois que vous avez croisé sa route.</li><li>Le fou rire que vous avez eu ensemble.</li><li>Ce que vous lui souhaitez pour les dix prochaines années.</li></ul>
+    </div>
+  </div>
+</section>
+
 <section>
   <div class="wrap faq">
     <div class="faq-head"><p class="kicker">Questions fréquentes</p><h2>Avant de <em>lancer l'idée</em></h2></div>
@@ -325,6 +343,6 @@
   document.addEventListener('click',function(e){if(e.target.closest('[data-cookie-reset]')){try{localStorage.removeItem(KEY);}catch(x){}bar.hidden=false;}});
 })();
 </script>
-<script src="assets/site.js?v=86e6d618" defer></script>
+<script src="assets/site.js?v=c1eb654c" defer></script>
 </body>
 </html>

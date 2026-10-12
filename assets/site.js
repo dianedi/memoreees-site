@@ -31,7 +31,33 @@
     window.addEventListener('resize', function () { size(); update(); });
   }
 
-  // Formulaires d'inscription : rien n'est envoyé dans l'aperçu.
+  // Inscriptions aux questions par email (question du dimanche, sujets des livres) : <form data-abo="sujet">.
+  // Tant que data-endpoint est vide (aperçu), rien n'est envoyé. Au lancement, build.py (INSCRIPTION_URL) y met l'adresse
+  // de la fonction serveur, qui reçoit { email, sujet, page } et inscrit l'adresse chez Brevo (double opt-in).
+  document.querySelectorAll('form[data-abo]').forEach(function (f) {
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var ok = f.parentNode.querySelector('.ok');
+      var say = function (msg) { if (!ok) return; if (msg) ok.textContent = msg; ok.hidden = false; };
+      var url = f.getAttribute('data-endpoint');
+      if (!url) { say(); return; }
+      var btn = f.querySelector('button');
+      if (btn) btn.disabled = true;
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: f.querySelector('input[type=email]').value.trim(), sujet: f.getAttribute('data-abo'), page: location.pathname })
+      }).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        say('C’est noté : confirmez votre inscription dans l’email que nous venons de vous envoyer.');
+        f.reset();
+      }).catch(function () {
+        say('L’inscription n’a pas abouti. Réessayez dans un instant, ou écrivez-nous à hello@memoreees.com.');
+      }).then(function () { if (btn) btn.disabled = false; });
+    });
+  });
+
+  // Autres formulaires de l'aperçu (compte, ambassadeur) : rien n'est envoyé.
   document.querySelectorAll('form[data-preview]').forEach(function (f) {
     f.addEventListener('submit', function (e) {
       e.preventDefault();

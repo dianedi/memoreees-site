@@ -96,6 +96,9 @@ STORES = "".join(eval("[" + ",".join(l.strip() for l in STORES_SRC.splitlines() 
 def placeholders(t):
     t = t.replace("{{CTA}}", "{% render 'cta-roll' %}").replace("{{ONDE}}", ONDE).replace("{{STORES}}", STORES)
     t = t.replace("{{BRAND}}", BRAND).replace("{{REASSURE}}", "{% render 'reassure' %}")
+    # Inscriptions par email : l'adresse de la fonction serveur viendra d'un réglage du thème (inscription_url, à créer
+    # dans settings_schema.json au branchement). Vide = rien n'est envoyé.
+    t = t.replace("{{INSCRIPTION}}", "{% if settings.inscription_url != blank %} data-endpoint=\"{{ settings.inscription_url }}\"{% endif %}")
     return t
 
 

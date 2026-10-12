@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=75b4fb49">
+<link rel="stylesheet" href="assets/site.css?v=b4c28753">
 </head>
 <body class="has-hero">
 <div class="annonce" role="region" aria-label="Offres en cours"><ul><li class="on">Livraison offerte en Europe</li><li>Satisfait ou remboursé</li><li>Paiement en 3x avec Alma</li></ul></div>
@@ -398,8 +398,9 @@
           <p class="sun-q">« Quel était ton plat préféré quand tu étais petit, et qui le cuisinait ? »</p>
           <p class="sun-tip">Laissez-les aller au bout de l'histoire : la recette vient souvent avec la cuisine, la maison et tout un monde.</p>
         </div>
-        <form data-preview><label for="mail" style="position:absolute;left:-9999px">Votre email</label><input id="mail" type="email" placeholder="Votre email" required autocomplete="email"><button class="btn btn-ink" type="submit">Je m'inscris</button></form>
-        <p class="ok" hidden>Aperçu : rien n'est envoyé. L'inscription sera reliée à Brevo.</p>
+        <form data-abo="dimanche"><label for="mail" style="position:absolute;left:-9999px">Votre email</label><input id="mail" name="email" type="email" placeholder="Votre email" required autocomplete="email"><button class="btn btn-ink" type="submit">Je m'inscris</button></form>
+        <p class="abo-legal">Nous gardons votre email, seulement pour vous envoyer la question du dimanche et nos rappels. Un lien pour vous désinscrire dans chaque email. <a href="confidentialite.html#inscriptions">Confidentialité</a></p>
+        <p class="ok" hidden aria-live="polite">Aperçu : rien n'est envoyé. L'inscription sera reliée à Brevo.</p>
       </div>
     </div>
   </div>
@@ -462,6 +463,6 @@
   document.addEventListener('click',function(e){if(e.target.closest('[data-cookie-reset]')){try{localStorage.removeItem(KEY);}catch(x){}bar.hidden=false;}});
 })();
 </script>
-<script src="assets/site.js?v=86e6d618" defer></script>
+<script src="assets/site.js?v=c1eb654c" defer></script>
 </body>
 </html>

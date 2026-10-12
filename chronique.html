@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=75b4fb49">
+<link rel="stylesheet" href="assets/site.css?v=b4c28753">
 </head>
 <body class="has-hero">
 <div class="annonce" role="region" aria-label="Offres en cours"><ul><li class="on">Livraison offerte en Europe</li><li>Satisfait ou remboursé</li><li>Paiement en 3x avec Alma</li></ul></div>
@@ -67,7 +67,7 @@
   <div class="wrap">
     <p class="kicker">Pour qui, pour quand</p>
     <h2>L'année qu'on aura <em>oubliée dans dix ans</em></h2>
-    <p class="lead">Les grandes années, on s'en souvient. Ce qui s'efface, ce sont les petites choses : la phrase que disait la petite à quatre ans, le surnom du chat, ce qu'on mangeait le vendredi soir. Ce livre les garde.</p>
+    <p class="lead">Les grandes années, on s'en souvient. Ce qui s'efface, ce sont les petites choses : la phrase que disait la petite à quatre ans, le surnom du chat, ce qu'on mangeait le vendredi soir. Ce livre les garde. Et vous pouvez aussi raconter une année déjà passée : par défaut, c'est l'année qui arrive, mais vous choisissez celle que vous voulez au début.</p>
     <div class="moments">
       <div><img class="photo" src="assets/photos/diner-jardin.jpg" alt="" loading="lazy"><b>Une année de changements</b><p>Une naissance, un déménagement, un nouveau travail, une année à l'étranger. Celle dont on voudra se souvenir de chaque détail.</p></div>
       <div><img class="photo" src="assets/photos/famille-canape.jpg" alt="" loading="lazy"><b>Une année ordinaire</b><p>Les petits-déjeuners pressés, les vacances, les disputes pour la télécommande. C'est souvent elle qu'on regrette le plus, plus tard.</p></div>
@@ -263,6 +263,22 @@
   </div>
 </section>
 
+<section class="abo" id="inscription" style="--abo-tint:#eef4ee">
+  <div class="wrap">
+    <div class="abo-weeks">
+      <div>
+        <p class="kicker">Gratuit · une question par semaine</p>
+        <h2>L'année en famille, <em>au fil des semaines</em></h2>
+        <p class="lead">Une question par semaine pour garder une trace de la vie de la maison, à poser à table aux petits comme aux grands : les mots d'enfants, les dimanches, les fêtes, ce qui change.</p>
+        <form class="abo-form" data-abo="annee-famille"><label class="sr-only" for="abo-mail">Votre email</label><input id="abo-mail" name="email" type="email" placeholder="Votre email" required autocomplete="email"><button class="btn btn-ink" type="submit">Je m'inscris</button></form>
+        <p class="abo-legal">Nous gardons votre email et le sujet choisi, seulement pour vous envoyer ces questions. Un lien pour vous désinscrire dans chaque email. <a href="confidentialite.html#inscriptions">Confidentialité</a></p>
+        <p class="ok" hidden aria-live="polite">Aperçu : rien n'est envoyé. L'inscription sera reliée à Brevo.</p>
+      </div>
+      <ol aria-label="Les premières questions"><li><small>Les mots d'enfants</small>Une phrase d'un enfant de la maison qui vous a fait rire cette semaine.</li><li><small>Le quotidien</small>Un dimanche ordinaire chez vous en ce moment.</li><li><small>Les fêtes</small>Le plat de fête que vous attendez toute l'année.</li><li><small>Ce qui a changé</small>Le jour où vous avez remarqué que quelqu'un avait grandi.</li></ol>
+    </div>
+  </div>
+</section>
+
 <section>
   <div class="wrap faq">
     <div class="faq-head"><p class="kicker">Questions fréquentes</p><h2>Ce qu'on se demande <em>en famille</em></h2><div class="ctas"><a class="btn btn-line" href="aide.html">Toutes les questions</a></div></div>
@@ -334,6 +350,6 @@
   document.addEventListener('click',function(e){if(e.target.closest('[data-cookie-reset]')){try{localStorage.removeItem(KEY);}catch(x){}bar.hidden=false;}});
 })();
 </script>
-<script src="assets/site.js?v=86e6d618" defer></script>
+<script src="assets/site.js?v=c1eb654c" defer></script>
 </body>
 </html>
