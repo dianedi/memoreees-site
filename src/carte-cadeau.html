@@ -45,6 +45,14 @@
 .of-tile.big .for{font-size:clamp(40px,4.6vw,64px)}
 .of-tile.big .price{font-size:48px}
 .of-tile.big .desc{font-size:15.5px}
+.of-tile.wide{grid-column:span 2}
+.of-tile.soft{color:var(--ink);background:linear-gradient(160deg,#fdf1f6 0%,#fff0e4 60%,#fff7e0 100%)}
+.of-tile.soft::after{display:none}
+.of-tile.soft .for{text-shadow:none}
+.of-tile.soft .bottom{background:rgba(255,255,255,.72);box-shadow:inset 0 0 0 1px var(--rule)}
+.of-tile.soft .name{color:var(--prune)}
+.of-tile.soft .desc{color:var(--grey)}
+.of-tile.soft .onde{height:34px}
 
 /* La carte cadeau en vedette */
 .gc-show{border-radius:36px;background:linear-gradient(170deg,#fff 0%,#faf6f8 45%,#fff0e4 100%);box-shadow:0 0 0 1px var(--rule);padding:clamp(28px,5vw,64px);overflow:hidden}
@@ -104,7 +112,7 @@
 @media (max-width:1000px){.of-bento{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none}.of-tile.big{grid-row:auto;min-height:440px}.of-posts{grid-template-columns:1fr}.of-post:nth-child(2){margin-top:0}.gc-by{grid-template-columns:repeat(2,minmax(0,1fr))}
   .of-day{grid-template-columns:1fr;gap:0}.of-day::before{left:6px;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,#f4432f,#ffb812 58%,var(--rule) 58.1%)}.of-step{display:grid;grid-template-columns:14px 1fr;column-gap:18px;padding-bottom:18px}.of-step time{grid-column:2;height:auto;margin-bottom:8px}.of-step .dot{grid-row:1;grid-column:1;margin:12px 0 0}.of-step .card{grid-column:2}}
 @media (max-width:860px){.of-hero,.gc-head,.gc-views{grid-template-columns:1fr}.of-stage{height:400px;overflow:hidden;margin-inline:calc(-1 * clamp(16px,5vw,48px))}.of-book{left:8%;width:min(62vw,280px)}.gc-pile .gc{margin-left:-110px;width:150px}.gc-pile .gc:first-child{margin-left:0}.gc-out{justify-content:center}.gc-out .gc{width:min(42vw,170px)}}
-@media (max-width:600px){.of-bento{grid-template-columns:1fr}.of-tile.big{grid-column:auto}.gc-specs{grid-template-columns:1fr}.gc-by{grid-template-columns:1fr}}
+@media (max-width:600px){.of-bento{grid-template-columns:1fr}.of-tile.big,.of-tile.wide{grid-column:auto}.gc-specs{grid-template-columns:1fr}.gc-by{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.of-tile img,.gc-pile .gc{transition:none}}
 </style>
 
@@ -161,6 +169,16 @@
         <p class="for">Pour toute <em>la famille</em></p>
         <div class="bottom"><span class="name">Chronique</span><div class="row"><span class="price">149 €</span><button class="btn btn-light" type="button" onclick="ltAddToCart('chronique')">Offrir</button></div></div>
       </article>
+      <article class="of-tile soft wide">
+        {{ONDE}}
+        <p class="for">Pour de futurs parents</p>
+        <div class="bottom"><span class="name">Grossesse</span><p class="desc">Le journal de l'attente, raconté par les deux parents. Ils le préparent seuls : vous leur transmettez le code.</p><div class="row"><span class="price">69 €</span><a class="btn btn-ink" href="grossesse.html">Découvrir</a><button class="btn btn-line" type="button" onclick="ltAddToCart('grossesse:simple')">Offrir</button></div></div>
+      </article>
+      <article class="of-tile soft wide">
+        {{ONDE}}
+        <p class="for">Pour une naissance, <em>un anniversaire d'enfant</em></p>
+        <div class="bottom"><span class="name">L'année de [prénom]</span><p class="desc">Une année de sa vie, de 0 à 6 ans, racontée par ses parents, avec une photo par mois.</p><div class="row"><span class="price">139 €</span><a class="btn btn-ink" href="annee-enfant.html">Découvrir</a><button class="btn btn-line" type="button" onclick="ltAddToCart('annee:simple')">Offrir</button></div></div>
+      </article>
     </div>
     <p class="note" style="margin-top:18px">La carte cadeau est comprise dans chaque livre. <a href="index.html#prix">Comparer les formats en détail</a></p>
   </div>
@@ -171,11 +189,11 @@
     <p class="kicker">Ce que vous offrez</p>
     <h2>Tout est compris dans <em>chaque histoire</em></h2>
     <div class="receive receive-6">
-      <div><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5h7a3 3 0 0 1 3 3v12a3 3 0 0 0-3-3H4zM20 5h-6"/><path d="M20 5v12h-6"/></svg></div><h3>Un livre relié</h3><p>Carré, 210 × 210 mm, jusqu'à 200 pages selon le livre.</p></div>
-      <div><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12h2l2-5 3 10 3-14 3 12 2-3h3"/></svg></div><h3>Leur voix</h3><p>Un QR code par histoire pour la réécouter, pour toujours.</p></div>
+      <div><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5h7a3 3 0 0 1 3 3v12a3 3 0 0 0-3-3H4zM20 5h-6"/><path d="M20 5v12h-6"/></svg></div><h3>Un livre relié</h3><p>Carré, 210 × 210 mm, jusqu'à 80 ou 100 pages selon le livre.</p></div>
+      <div><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12h2l2-5 3 10 3-14 3 12 2-3h3"/></svg></div><h3>Leur voix</h3><p>Des QR codes dans le livre pour la réécouter, pour toujours.</p></div>
       <div><div class="ico"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div><h3>L'app</h3><p>Pour raconter, et pour vous qui suivez et ajoutez vos questions.</p></div>
       <div><div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 12h16M12 3v18"/></svg></div><h3>La carte cadeau</h3><p>À imprimer ou à envoyer, juste après l'achat.</p></div>
-      <div><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h3>La relecture</h3><p>Vous relisez le livre mis en page : rien n'est imprimé sans votre accord.</p></div>
+      <div><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h3>La relecture</h3><p>Le livre mis en page se relit en ligne : rien n'est imprimé sans validation.</p></div>
       <div><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg></div><h3>La livraison</h3><p>Offerte partout en Europe.</p></div>
     </div>
   </div>

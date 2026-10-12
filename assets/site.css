@@ -1033,3 +1033,41 @@ header.site nav.main ul{gap:30px;font-size:15px;font-weight:600}
 .chat-dots i{width:7px;height:7px;border-radius:50%;background:var(--grey);opacity:.35;animation:chatdot 1.2s infinite}
 .chat-dots i:nth-child(2){animation-delay:.2s}.chat-dots i:nth-child(3){animation-delay:.4s}
 @keyframes chatdot{40%{opacity:1;transform:translateY(-3px)}}
+
+/* Grossesse et petite enfance (12/10) : pas de photo pour l'instant, des vignettes aux couleurs de l'onde */
+.line .thumb.art{background:linear-gradient(160deg,#fde7f1,#ffe0cc);box-shadow:none}
+.line .thumb.art .onde{height:22px}
+.line .thumb.art.small .onde{height:14px}
+.reco-art{display:block;width:48px;height:48px;border-radius:10px;background:linear-gradient(160deg,#fde7f1,#ffe0cc)}
+.tiers-k{margin:64px 0 0;text-align:center;font-size:clamp(28px,3.4vw,40px);line-height:1.1}
+.tiers-k + p{text-align:center;color:var(--grey);font-size:14px;margin:8px auto 0;max-width:620px}
+.tiers.tiers-3{margin-top:28px}
+@media (min-width:1101px){.tiers.tiers-3{grid-template-columns:repeat(3,minmax(0,1fr));margin-inline:0;margin-top:28px}}
+.tier-fid{margin:10px 0 0;padding:9px 12px;border-radius:12px;background:var(--soft);font-size:12px;line-height:1.4;color:var(--prune)}
+.tier-fid b{font-weight:800}
+.nb-hero{align-items:center}
+.nb-hero h1{font-size:clamp(42px,6vw,76px);line-height:.98}
+.nb-hero .lead{font-size:19px;max-width:600px}
+.nb-visual{display:grid;place-items:center;min-height:clamp(260px,32vw,400px);border-radius:32px;background:linear-gradient(160deg,#fdf1f6 0%,#fff0e4 60%,#fff7e0 100%)}
+.nb-visual .book.big{width:min(300px,64%)}
+.nb-visual .book .s{margin-top:10px}
+.nb-hero .pick{display:grid;gap:12px;margin-top:28px;justify-items:start}
+.nb-hero .pick .chips-pick button{padding:9px 14px;font-size:13px}
+.nb-hero .keyfacts{margin-top:36px}
+.monde-list{list-style:none;margin:0;padding:0;display:grid;gap:calc(var(--pw)*.02)}
+.monde-list li{border-top:1px solid var(--rule);padding-top:calc(var(--pw)*.02)}
+.monde-list small{display:block;font:700 calc(var(--pw)*.018)/1.2 var(--f-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--pw)*.02) calc(var(--pw)*.04);margin-top:auto}
+.fields div{border-bottom:1px solid var(--rule);padding-bottom:calc(var(--pw)*.012)}
+.fields small{display:block;font:700 calc(var(--pw)*.017)/1.2 var(--f-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+.months{list-style:none;margin:32px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;counter-reset:m}
+.months li{border-radius:16px;padding:14px 16px;background:#fff;box-shadow:inset 0 0 0 1px var(--rule);font:400 19px/1.15 var(--f-serif);min-width:0}
+.months li small{display:block;font:700 10px/1 var(--f-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--prune);margin-bottom:6px}
+@media (max-width:860px){.months{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.prose-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 48px;margin-top:32px}
+.prose-cols p{margin:0;font-size:16px;line-height:1.6;color:var(--grey)}
+.prose-cols b{color:var(--ink)}
+@media (max-width:760px){.prose-cols{grid-template-columns:1fr}}
+.ph.ph-art{background:linear-gradient(160deg,#fdf1f6 0%,#fff0e4 60%,#fff7e0 100%)}
+.ph.ph-art .book.big{width:min(240px,56%)}
+.pack-pick{margin-top:18px}.pack-pick .pick{display:grid;gap:12px;justify-items:start}

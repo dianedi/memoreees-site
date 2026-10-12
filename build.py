@@ -45,7 +45,8 @@ FOOTER = [
     ("Les livres", [("Ma vie", "ma-vie.html"), ("Mes ancêtres", "mes-ancetres.html"), ("Un temps fort", "un-temps-fort.html"),
                     ("Vœux : anniversaire, mariage, retraite…", "anniversaire.html"),
                     ("Récit : voyage, EVJF, EVG", "recit.html"), ("Carnet de bord : voyage en solitaire", "voyage-solo.html"),
-                    ("Chronique : une année en famille", "chronique.html")]),
+                    ("Chronique : une année en famille", "chronique.html"),
+                    ("Grossesse : le journal de l'attente", "grossesse.html"), ("L'année de votre enfant, de 0 à 6 ans", "annee-enfant.html")]),
     ("Offrir", [("La carte cadeau", "carte-cadeau.html"), ("Pour Noël", "offrir-noel.html"), ("Fête des grands-mères", "fete-des-grands-meres.html"),
                 ("Fête des mères", None), ("Fête des pères", None), ("Un anniversaire", None)]),
     (BRAND, [("L'application", "application.html"), ("Comment ça marche", "comment-ca-marche.html"), ("Tarifs", "index.html#prix"),
@@ -57,7 +58,7 @@ LEGAL = [("Mentions légales", "mentions-legales.html"), ("CGV", "cgv.html"), ("
 # Les données personnelles (RGPD) ont leur propre encart dans le pied de page, plutôt que trois liens perdus parmi les autres.
 PRIVACY = """<div class="fprivacy">
       <span class="fp-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></span>
-      <div><b>Vos données, protégées</b><p>Vos voix et vos récits sont stockés en Europe, strictement confidentiels, et supprimés sur simple demande.</p></div>
+      <div><b>Vos données, protégées</b><p>Vos voix, vos photos et vos récits sont hébergés en France, strictement confidentiels, et supprimés sur simple demande.</p></div>
       <nav aria-label="Vos données"><a href="donnees.html">Comment on les protège</a><a href="confidentialite.html">Politique de confidentialité</a><a href="donnees.html#supprimer">Supprimer mes données</a></nav>
     </div>"""
 
