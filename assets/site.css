@@ -1050,6 +1050,17 @@ header.site nav.main ul{gap:30px;font-size:15px;font-weight:600}
 .nb-hero .lead{font-size:19px;max-width:600px}
 .nb-visual{display:grid;place-items:center;min-height:clamp(260px,32vw,400px);border-radius:32px;background:linear-gradient(160deg,#fdf1f6 0%,#fff0e4 60%,#fff7e0 100%)}
 .nb-visual .book.big{width:min(300px,64%)}
+/* Photos de Diane (13/10) : la photo remplit le cadre de l'en-tête, en-têtes de section avec photo, photo du pack */
+.nb-visual.has-img{display:block;overflow:hidden;aspect-ratio:5/4;min-height:0;background:#efe6ea}
+.nb-visual.has-img img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-head{gap:clamp(24px,5vw,56px);align-items:center}
+.photo-head .ph{aspect-ratio:16/11}
+.photo-head.slim{grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr)}
+.photo-head.slim .ph{aspect-ratio:3/2}
+@media (max-width:860px){.photo-head.rev > .ph{order:2}.photo-head.slim{grid-template-columns:1fr}}
+.pack-card{grid-template-columns:clamp(160px,22vw,260px) minmax(0,1fr) auto}
+.pack-photo{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px;display:block}
+@media (max-width:760px){.pack-card{grid-template-columns:1fr}.pack-photo{aspect-ratio:16/10}}
 .nb-visual .book .s{margin-top:10px}
 .nb-hero .pick{display:grid;gap:12px;margin-top:28px;justify-items:start}
 .nb-hero .pick .chips-pick button{padding:9px 14px;font-size:13px}
