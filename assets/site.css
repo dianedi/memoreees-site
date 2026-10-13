@@ -504,14 +504,14 @@ header.site nav.main ul{gap:30px;font-size:15px;font-weight:600}
 .demo-b{background:linear-gradient(165deg,#fff0e4,#ffe0cc);transform:scale(.93) translateY(14px) rotate(2deg)}
 .demo-b .rec,.demo-b .transcript{opacity:0;transition:opacity .5s}
 .stamp-later,.stamp-tell{position:absolute;top:22px;padding:6px 12px;border-radius:10px;font:800 13px/1 var(--f-sans);letter-spacing:.08em;text-transform:uppercase;opacity:0;transition:opacity .35s}
-.stamp-later{right:18px;color:var(--grey);border:2.5px solid var(--grey);transform:rotate(8deg)}
-.stamp-tell{left:18px;color:#f05a28;border:2.5px solid #f05a28;transform:rotate(-8deg)}
+.stamp-later{left:18px;color:var(--grey);border:2.5px solid var(--grey);transform:rotate(-8deg)}
+.stamp-tell{right:18px;color:#f05a28;border:2.5px solid #f05a28;transform:rotate(6deg)}
 .transcript{margin:12px 0 0;font-family:var(--f-serif);font-size:16px;line-height:1.35;color:var(--ink);min-height:5.4em}
 .swipe-demo.p1 .demo-a .stamp-later{opacity:1}
-.swipe-demo.p2 .demo-a{transform:translateX(-135%) rotate(-16deg);opacity:0}
+.swipe-demo.p2 .demo-a{transform:translateX(135%) rotate(16deg);opacity:0}
 .swipe-demo.p2 .demo-a .stamp-later{opacity:0}
 .swipe-demo.p2 .demo-b{transform:none}
-.swipe-demo.p3 .demo-b{transform:translateX(22%) rotate(7deg)}
+.swipe-demo.p3 .demo-b{transform:scale(.96)}
 .swipe-demo.p3 .demo-b .stamp-tell{opacity:1}
 .swipe-demo.p4 .demo-b{transform:none}
 .swipe-demo.p4 .demo-b .stamp-tell{opacity:0}
