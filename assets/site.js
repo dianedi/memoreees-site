@@ -192,24 +192,24 @@
   // | grossesse:<simple|video> | annee:<simple|video> | pack:<simple|video> (12/10 : l'option vidéo est une variante du livre ;
   // l'année racontée, 1 à 6, se choisit dans l'app ; le tarif fidélité des années suivantes n'est pas encore vendu sur le site).
   // Compléments rattachés à une histoire : carte_<clé>, copie_<clé>, voix10_<clé> (Vœux). Lignes de vie se vend seul.
-  // Pour un livre déjà en cours (liens de l'app, propriété Shopify « Projet ») : ajoutvoix:<CODE> (Vœux, 10 voix, 15 €)
+  // Pour un livre déjà en cours (liens de l'app, propriété Shopify « Projet ») : ajoutvoix:<CODE> (Vœux, 10 voix, 10 €)
   // et ajoutvideo:<CODE> (13/10 : option vidéo ajoutée plus tard, SKU video-grossesse 20 € ou video-annee 30 € ;
   // le livre concerné, grossesse ou annee, est retenu à part dans localStorage « lt-ajoutvideo »)
   // et ajoutpages:<CODE> (13/10 : plus de temps de voix et de pages, SKU pages-29 « + 1 h, environ 20 pages » ou pages-19
   // « + 30 min, environ 10 pages » selon le livre, retenu dans localStorage « lt-ajoutpages » ; deux ajouts au plus par livre).
   var PH = 'assets/photos/';
   var BASE = {
-    mavie: { name: 'Mémoire · Ma vie', note: 'Une voix, 12 mois pour raconter', price: 119, img: 'hero-1.jpg', copy: 39, pitch: 'Toute une vie racontée de sa voix.' },
-    ancetres: { name: 'Mémoire · Mes ancêtres', note: 'Une voix, 12 mois pour raconter', price: 119, img: 'anciennes-photos.jpg', copy: 39, pitch: 'Les origines de la famille, avant qu\'elles se perdent.' },
-    tempsfort: { name: 'Mémoire · Un temps fort', note: 'Une voix, 12 mois pour raconter', price: 119, img: 'commerce-ancien.jpg', copy: 39, pitch: 'Une époque vécue de l\'intérieur.' },
-    voeux: { name: 'Vœux', note: 'Jusqu\'à 20 voix, une page par voix', price: 29, img: 'anniversaire-gateau.jpg', copy: 29, pitch: 'Les mots de 20 proches, de vive voix, dans un livre.' },
-    recit: { name: 'Récit', note: 'Jusqu\'à 10 voix, jusqu\'à 80 pages', price: 69, img: 'plage-feu.jpg', copy: 29, pitch: 'Le voyage ou l\'EVJF, raconté par tous.' },
-    chronique: { name: 'Chronique · 2027', note: 'Jusqu\'à 6 voix, jusqu\'à 100 pages', price: 149, img: 'famille-allee.jpg', copy: 39, pitch: 'Une année en famille, racontée par chacun.' },
-    voyageSolo: { name: 'Carnet de bord · Voyage en solitaire', note: 'Une voix, jusqu\'à 80 pages', price: 49, img: 'hero-3.jpg', copy: 29, pitch: 'Le carnet de bord de celui qui part seul.' },
+    mavie: { name: 'Mémoire · Ma vie', note: 'Une voix, 12 mois, environ 88 pages, jusqu\'à 112', price: 119, img: 'hero-1.jpg', copy: 39, pitch: 'Toute une vie racontée de sa voix.' },
+    ancetres: { name: 'Mémoire · Mes ancêtres', note: 'Une voix, 12 mois, environ 88 pages, jusqu\'à 112', price: 119, img: 'anciennes-photos.jpg', copy: 39, pitch: 'Les origines de la famille, avant qu\'elles se perdent.' },
+    tempsfort: { name: 'Mémoire · Un temps fort', note: 'Une voix, 12 mois, environ 88 pages, jusqu\'à 112', price: 119, img: 'commerce-ancien.jpg', copy: 39, pitch: 'Une époque vécue de l\'intérieur.' },
+    voeux: { name: 'Vœux', note: 'Jusqu\'à 20 voix, 1 page par voix, environ 28 pages', price: 29, img: 'anniversaire-gateau.jpg', copy: 29, pitch: 'Les mots de 20 proches, de vive voix, dans un livre.' },
+    recit: { name: 'Récit', note: 'Jusqu\'à 10 voix, environ 56 pages, jusqu\'à 68', price: 69, img: 'plage-feu.jpg', copy: 29, pitch: 'Le voyage ou l\'EVJF, raconté par tous.' },
+    chronique: { name: 'Chronique · 2027', note: 'Jusqu\'à 6 voix, environ 84 pages, jusqu\'à 104', price: 149, img: 'famille-allee.jpg', copy: 39, pitch: 'Une année en famille, racontée par chacun.' },
+    voyageSolo: { name: 'Carnet de bord · Voyage en solitaire', note: 'Une voix, environ 84 pages, jusqu\'à 100', price: 49, img: 'hero-3.jpg', copy: 29, pitch: 'Le carnet de bord de celui qui part seul.' },
     // Grossesse et petite enfance (12/10) : pas encore de photo, une vignette aux couleurs de l'onde.
-    grossesse: { name: 'Grossesse', note: 'Les deux parents, jusqu\'à 80 pages', price: 69, prices: { simple: 69, video: 89 }, img: null, copy: 29, pitch: 'Le journal de l\'attente, à deux voix.' },
-    annee: { name: 'L\'année de votre enfant', note: 'Les deux parents, jusqu\'à 100 pages', price: 139, prices: { simple: 139, video: 169 }, img: null, copy: 39, pitch: 'Une année de sa vie, de 0 à 6 ans.' },
-    pack: { name: 'Pack Grossesse + Année 1', note: 'Deux livres, jusqu\'à 80 et 100 pages', price: 189, prices: { simple: 189, video: 229 }, img: null, copy: null, pitch: 'L\'attente, puis sa première année.' }
+    grossesse: { name: 'Grossesse', note: 'Les deux parents, environ 56 pages, jusqu\'à 72', price: 69, prices: { simple: 69, video: 89 }, img: null, copy: 29, pitch: 'Le journal de l\'attente, à deux voix.' },
+    annee: { name: 'L\'année de votre enfant', note: 'Les deux parents, environ 76 pages, jusqu\'à 92', price: 139, prices: { simple: 139, video: 169 }, img: null, copy: 39, pitch: 'Une année de sa vie, de 0 à 6 ans.' },
+    pack: { name: 'Pack Grossesse + Année 1', note: 'Deux livres, environ 56 et 76 pages', price: 189, prices: { simple: 189, video: 229 }, img: null, copy: null, pitch: 'L\'attente, puis sa première année.' }
   };
   var OCC = {
     voeux: { anniversaire: 'Anniversaire', mariage: 'Mariage', retraite: 'Départ à la retraite', naissance: 'Naissance', depart: 'Pot de départ' },
@@ -237,7 +237,7 @@
     if (k === 'lignes') return { name: 'Lignes de vie', note: 'Le livre-journal à remplir à la main · livré en 72 h', price: 39, alone: true };
     // Voix ajoutées à un livre Vœux déjà en cours (lien de l'app ou des emails) : la ligne Shopify portera la propriété « Projet ».
     var pj = /^ajoutvoix:([A-Z0-9]{4}-[A-Z0-9]{4})$/.exec(k);
-    if (pj) return { name: '10 voix de plus', note: 'Pour votre livre Vœux en cours · projet ' + pj[1], price: 15, max: 12, kind: 'voix', alone: true, props: { Projet: pj[1] } };
+    if (pj) return { name: '10 voix de plus', note: 'Pour votre livre Vœux en cours · projet ' + pj[1], price: 10, max: 12, kind: 'voix', alone: true, props: { Projet: pj[1] } };
     var pv = /^ajoutvideo:([A-Z0-9]{4}-[A-Z0-9]{4})$/.exec(k), vv = pv && VIDEO[videoFor[pv[1]]];
     if (pv) return !vv ? null : { name: vv.name, note: vv.note + ' · pour votre livre en cours · projet ' + pv[1], price: vv.price, max: 1, kind: 'video', alone: true, sku: vv.sku, props: { Projet: pv[1] } };
     var pg = /^ajoutpages:([A-Z0-9]{4}-[A-Z0-9]{4})$/.exec(k), pp = pg && PAGES[pagesFor[pg[1]]];
@@ -249,7 +249,7 @@
       if (m[1] === 'carte') return { name: 'La carte cadeau', note: 'À personnaliser juste après le paiement, à imprimer ou à envoyer', price: 0, parent: m[2], max: 1, kind: 'card' };
       if (m[1] === 'copie') return !p.copy ? null : { name: 'Exemplaire en plus', note: 'Imprimé en même temps, livré ensemble', price: p.copy, parent: m[2], kind: 'copy' };
       if (baseOf(m[2]) !== 'voeux') return null;
-      return { name: '10 voix de plus', note: 'Jusqu\'à 150 voix au total', price: 15, parent: m[2], max: 12, kind: 'voix' };
+      return { name: '10 voix de plus', note: 'Jusqu\'à 150 voix au total', price: 10, parent: m[2], max: 12, kind: 'voix' };
     }
     if (!isStory(k)) return null;
     var b = BASE[baseOf(k)], o = k.split(':')[1], r = {};
@@ -338,7 +338,7 @@
       var offers = [];
       if (!cart['carte_' + k]) offers.push(opt('carte_' + k, 'La carte cadeau', 'À imprimer ou à envoyer le jour même. Ajoutez-la pour la recevoir.', 'Offerte'));
       if (!cart['copie_' + k] && p.copy) offers.push(opt('copie_' + k, 'Un exemplaire en plus', 'Le même livre, pour un autre membre de la famille.', euro(p.copy)));
-      if (baseOf(k) === 'voeux' && (cart['voix10_' + k] || 0) < 12) offers.push(opt('voix10_' + k, '10 voix de plus', 'Par tranche de 10, jusqu\'à 150 proches.', '15 €'));
+      if (baseOf(k) === 'voeux' && (cart['voix10_' + k] || 0) < 12) offers.push(opt('voix10_' + k, '10 voix de plus', 'Par tranche de 10, jusqu\'à 150 proches.', '10 €'));
       if (offers.length) html += '<div class="opts"><p class="opts-k">À ajouter si vous le souhaitez</p>' + offers.join('') + '</div>';
       html += '</div>';
     });
@@ -495,7 +495,7 @@
   box.innerHTML = '<div class="wrap"><div class="addvoices-card"><div><p class="kicker">Votre livre Vœux · projet ' + code + '</p>' +
     '<h2>Plus de proches veulent <em>laisser leur voix</em></h2>' +
     '<p>Ajoutez 10 voix à votre livre, autant de fois que nécessaire, jusqu\'à 150 voix en tout. Les invités en attente reçoivent aussitôt leur lien.</p></div>' +
-    '<div class="addvoices-act"><b>15 €</b><span>les 10 voix</span><button class="btn btn-ink" type="button">Ajouter 10 voix</button></div></div></div>';
+    '<div class="addvoices-act"><b>10 €</b><span>les 10 voix</span><button class="btn btn-ink" type="button">Ajouter 10 voix</button></div></div></div>';
   box.querySelector('button').addEventListener('click', function () { window.ltAddToCart('ajoutvoix:' + code); });
   var main = document.querySelector('main') || document.body, hero = main.querySelector('.hero-top, .page-hero');
   if (hero && hero.parentNode) hero.parentNode.insertBefore(box, hero.nextSibling); else main.insertBefore(box, main.firstChild);

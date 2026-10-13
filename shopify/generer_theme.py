@@ -265,7 +265,8 @@ def buy_conversions(block, st, prefix, page):
             return a
         pressed = re.search(r'data-v="(\w+)" data-id="[^"]*"[^>]*aria-pressed="true"', a)
         key = pick_key(b.group(1), pressed.group(1) if pressed else "")
-        return re.sub(r'<div class="amount">(\d+ €)</div>', lambda p: f'<div class="amount">{mm(key, "price", p.group(1))}</div>', a)
+        # « à partir de » (Vœux, 13/10) devant le prix : gardé tel quel.
+        return re.sub(r'<div class="amount">((?:<small>[^<]*</small>\s*)?)(\d+ €)</div>', lambda p: f'<div class="amount">{p.group(1)}{mm(key, "price", p.group(2))}</div>', a)
 
     block = re.sub(r'<article class="tier.*?</article>', tier, block, flags=re.S)
 
@@ -273,7 +274,7 @@ def buy_conversions(block, st, prefix, page):
         a = m.group(0)
         k = re.search(r"ltAddToCart\('([^']+)'\)", a)
         key = k.group(1) if k else "mavie"
-        return re.sub(r'<span class="price">(\d+ €)</span>', lambda p: f'<span class="price">{mm(key, "price", p.group(1))}</span>', a)
+        return re.sub(r'<span class="price">([^<\d]*)(\d+ €)</span>', lambda p: f'<span class="price">{p.group(1)}{mm(key, "price", p.group(2))}</span>', a)
 
     block = re.sub(r'<article class="of-tile.*?</article>', tile, block, flags=re.S)
 
@@ -288,6 +289,7 @@ def buy_conversions(block, st, prefix, page):
             money = "{{ product.price | money_without_trailing_zeros }}" if ":" not in own[1] else mm(own[1], "price", own_price)
             block = block.replace(f"<b>{own_price}</b><span>tout compris", f"<b>{money}</b><span>tout compris")
             block = block.replace(f"<dt>Prix</dt><dd>{own_price}", f"<dt>Prix</dt><dd>{money}")
+            block = block.replace(f"<dt>Prix</dt><dd>À partir de {own_price}", f"<dt>Prix</dt><dd>À partir de {money}")
     return block
 
 
