@@ -55,12 +55,16 @@
       <li><b>Son prénom</b> et la façon de s'adresser à elle, indiqués par la personne qui offre.</li>
       <li><b>Son compte</b> dans l'app : son email et un mot de passe, et, si elle les accepte, un jeton pour lui envoyer des notifications.</li>
       <li><b>Ses photos et ses vidéos</b>, s'il en ajoute, pour les imprimer dans le livre ou en faire des QR codes.</li>
+      <li><b>Son entretien de préparation</b> à l'oral (enregistrement et transcription), qui sert seulement à préparer les questions, jamais au livre.</li>
       <li><b>Son consentement</b>, avec sa date, recueilli dans l'app avant la toute première réponse.</li>
+      <li>Pour un livre Grossesse ou L'année de votre enfant raconté à deux : <b>l'email de l'autre parent</b>, pour lui envoyer son code personnel.</li>
     </ul>
     <h3>Pour la personne qui offre</h3>
     <ul>
       <li><b>Son email</b>, pour la commande et pour se connecter à l'app avec un code.</li>
-      <li><b>Le paramétrage de l'histoire</b> : prénoms, livre choisi, sujets souhaités ou à éviter, questions ajoutées, mot de la carte cadeau.</li>
+      <li><b>Le paramétrage de l'histoire</b> : prénoms, livre choisi, questions ajoutées, mot de la carte cadeau, et son <b>entretien de préparation</b> à l'oral (enregistrement et transcription, où elle peut citer des sujets à aborder ou à éviter), jamais repris dans le livre. Pour un livre Mémoire, les <b>photos</b> qu'elle joint à ses questions.</li>
+      <li>Si elle désigne <b>une autre personne pour valider le livre</b> : le prénom et l'email de cette personne, pour la prévenir et lui donner accès à la relecture en ligne.</li>
+      <li><b>L'avis donné à l'oral</b> sur le livre par la personne qui le valide (enregistrement et transcription), jamais imprimé.</li>
       <li><b>Les données de commande</b> (adresse de livraison, paiement), traitées par la boutique en ligne. Nous n'avons jamais accès aux numéros de carte bancaire.</li>
     </ul>
 
@@ -83,12 +87,12 @@
     <h2>Qui y a accès : nos prestataires</h2>
     <p>Nous faisons appel à des prestataires qui traitent les données pour notre compte, uniquement pour les besoins du service :</p>
     <ul>
-      <li><b>Supabase</b> : hébergement de la base de données et des enregistrements, à Paris (France).</li>
-      <li><b>Scaleway</b> : stockage des voix, des photos et des vidéos, à Paris (France). <span class="todo">[en cours de mise en place]</span></li>
-      <li><b>Gladia</b>, société française : transcription des enregistrements en texte, dans l'Union européenne.</li>
-      <li><b>Anthropic</b> : analyse et mise en forme du texte des récits, aux États-Unis.</li>
-      <li><b>Expo</b> : envoi des notifications sur le téléphone, aux États-Unis.</li>
-      <li><b>Brevo</b> : envoi des emails (code de connexion, questions par email pour les personnes inscrites), en France.</li>
+      <li><b>Supabase</b> : hébergement de la base de données, des enregistrements, des photos, des vidéos et du livre mis en page, à Paris (France), sur l'infrastructure d'Amazon Web Services (région Paris).</li>
+      <li><b>Scaleway</b>, société française : hébergement de l'outil de relecture en ligne du livre, à Paris (France) ; stockage des voix, des photos et des vidéos <span class="todo">[en cours de mise en place]</span>.</li>
+      <li><b>Gladia</b>, société française : transcription des enregistrements en texte, dans l'Union européenne. <span class="todo">[région de traitement à confirmer avec Gladia]</span></li>
+      <li><b>Anthropic</b> : analyse et mise en forme du texte des récits, choix des questions suivantes, aux États-Unis.</li>
+      <li><b>Expo</b> : envoi des notifications sur le téléphone, aux États-Unis. Une notification ne contient jamais d'extrait intime : au plus un titre et une courte phrase.</li>
+      <li><b>Brevo</b> : envoi de tous nos emails (code de connexion, confirmation de commande, rappels, invitations, relecture, téléchargement, questions par email pour les personnes inscrites), en France.</li>
       <li><b>Google Workspace</b> : notre messagerie, quand vous nous écrivez.</li>
       <li><b>Shopify</b> : boutique en ligne, commandes et paiement.</li>
     </ul>
@@ -103,14 +107,15 @@
     </ul>
 
     <h2 id="suppression">Supprimer ses données</h2>
-    <p><b>La personne qui raconte</b> peut tout supprimer à tout moment, depuis l'app : <b>Réglages › Supprimer toutes mes données</b>. Ses enregistrements, ses réponses et leurs transcriptions sont effacés immédiatement et définitivement.</p>
-    <p><b>La personne qui offre</b> peut demander la suppression de son compte en écrivant à <a href="mailto:rgpd@memoreees.com">rgpd@memoreees.com</a>.</p>
+    <p><b>La personne qui raconte</b> peut tout supprimer à tout moment, depuis l'app : <b>Réglages › Supprimer toutes mes données</b>. Ses enregistrements, ses réponses et leurs transcriptions, son entretien de préparation, ses photos et vidéos, les extraits montrés à la personne qui offre, son avis à l'oral et le livre mis en page sont effacés immédiatement et définitivement.</p>
+    <p><b>Toute personne qui a un compte</b> (celle qui offre comme celle qui raconte) peut supprimer son compte depuis l'app : <b>réglages du compte › Supprimer mon compte</b>. Les livres offerts à quelqu'un d'autre restent à sa disposition. On peut aussi écrire à <a href="mailto:rgpd@memoreees.com">rgpd@memoreees.com</a>.</p>
+    <p>Pour un livre à plusieurs voix, chaque voix efface ce qu'elle a elle-même raconté. <span class="todo">[juriste : suppression demandée par un seul des deux parents sur un livre commun, et sort des QR codes d'un livre déjà imprimé]</span></p>
 
     <h2>Vos droits</h2>
     <p>Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de vos données, et vous pouvez retirer votre consentement à tout moment. Écrivez à <a href="mailto:rgpd@memoreees.com">rgpd@memoreees.com</a>. Vous pouvez aussi adresser une réclamation à la CNIL (<a href="https://www.cnil.fr" rel="noopener">cnil.fr</a>).</p>
 
     <h2>Enfants</h2>
-    <p>Memoreees ne s'adresse pas aux enfants de moins de 15 ans.</p>
+    <p>Memoreees ne s'adresse pas aux enfants de moins de 15 ans. Dans une Chronique, un enfant ne raconte que depuis le téléphone d'un parent, sous une voix à son prénom, et c'est le parent qui donne l'accord pour l'enregistrer. Les photos et vidéos d'un enfant dans un livre Grossesse ou L'année de votre enfant sont ajoutées par ses parents seuls. <span class="todo">[À faire vérifier par un juriste.]</span></p>
   </div>
 </div>
 </main>
@@ -163,6 +168,6 @@
   document.addEventListener('click',function(e){if(e.target.closest('[data-cookie-reset]')){try{localStorage.removeItem(KEY);}catch(x){}bar.hidden=false;}});
 })();
 </script>
-<script src="assets/site.js?v=392ab106" defer></script>
+<script src="assets/site.js?v=cc0cf225" defer></script>
 </body>
 </html>

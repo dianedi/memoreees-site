@@ -153,16 +153,16 @@
             <option value="119">Mémoire · 119 €</option>
             <option value="69">Récit · 69 €</option>
             <option value="149">Chronique · 149 €</option>
-            <option value="59">Vœux · 59 €</option>
+            <option value="29">Vœux · 29 €</option>
             <option value="49">Carnet de bord · 49 €</option>
-            <option value="mix">Un peu de tout · panier moyen de 87 €</option>
+            <option value="mix">Un peu de tout · panier moyen de 83 €</option>
           </select>
         </fieldset>
         <fieldset>
           <legend><label for="amb-n">Commandes par mois</label></legend>
           <div class="amb-range"><input id="amb-n" type="range" min="1" max="50" value="5"><output for="amb-n" id="amb-n-out">5</output></div>
         </fieldset>
-        <p class="note">« Un peu de tout » : moyenne simple des cinq livres (119, 69, 149, 59 et 49 €), pour l'exemple. Prix publics. <span class="todo">[à valider : commission calculée sur le prix payé, remises déduites ?]</span></p>
+        <p class="note">« Un peu de tout » : moyenne simple des cinq livres (119, 69, 149, 29 et 49 €), pour l'exemple. Prix publics. <span class="todo">[à valider : commission calculée sur le prix payé, remises déduites ?]</span></p>
       </div>
       <div class="amb-result" aria-live="polite">
         <p class="kicker">Votre estimation</p>
@@ -258,7 +258,7 @@
   var sim = document.querySelector('[data-amb-sim]');
   if (!sim) return;
   var prod = sim.querySelector('#amb-prod'), n = sim.querySelector('#amb-n'), nOut = sim.querySelector('#amb-n-out');
-  var MIX = (119 + 69 + 149 + 59 + 49) / 5;
+  var MIX = (119 + 69 + 149 + 29 + 49) / 5;
   var eur = function (v) { return v.toLocaleString('fr-FR', { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 }) + ' €'; };
   function calc() {
     var prog = (sim.querySelector('input[name="amb-prog"]:checked') || {}).value || 'amb20';
@@ -327,6 +327,6 @@
   document.addEventListener('click',function(e){if(e.target.closest('[data-cookie-reset]')){try{localStorage.removeItem(KEY);}catch(x){}bar.hidden=false;}});
 })();
 </script>
-<script src="assets/site.js?v=392ab106" defer></script>
+<script src="assets/site.js?v=cc0cf225" defer></script>
 </body>
 </html>
