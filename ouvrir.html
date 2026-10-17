@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ouvrir l'app · Memoreees</title>
+<meta name="description" content="Le lien de votre email ouvre l'app Memoreees.">
+<link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="assets/favicon-64.png" type="image/png" sizes="64x64">
+<link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/site.css?v=57310513">
+</head>
+<body>
+<div class="annonce" role="region" aria-label="Offres en cours"><ul><li class="on">Livraison incluse, partout en Europe</li><li>Satisfait ou remboursé</li><li>Paiement en 3x avec Alma</li></ul></div>
+<header class="site">
+  <div class="bar">
+    <a class="logo" href="index.html" aria-label="Memoreees, accueil"><span class="brand" role="img" aria-label="Memoreees"><img class="va dark" src="assets/logo-a.png" alt="" width="929" height="105"><img class="vb dark" src="assets/logo-b.png" alt="" width="1269" height="250"><img class="va light" src="assets/logo-a-white.png" alt="" width="929" height="105"><img class="vb light" src="assets/logo-b-white.png" alt="" width="1269" height="250"></span></a>
+    <nav class="main" aria-label="Navigation principale"><ul><li><a href="comment-ca-marche.html">Comment ça marche</a></li><li><a href="application.html">L'application</a></li><li><a href="index.html#livres">Les livres</a></li><li><a href="carte-cadeau.html">Offrir</a></li></ul></nav>
+    <div class="hdr-right">
+      <a class="icon-btn hide-sm" href="aide.html" aria-label="Aide et questions"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.7"/><path d="M12 17.2h.01"/></svg></a>
+      <a class="icon-btn hide-sm" href="compte.html" aria-label="Mon compte"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg></a>
+      <button class="icon-btn cart-btn" type="button" aria-label="Ouvrir le panier" data-open-cart><svg viewBox="0 0 24 24"><path d="M5 8h14l-1.4 11H6.4z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><span class="cart-count" hidden>0</span></button>
+      <a class="btn btn-cta hdr-cta" href="carte-cadeau.html" aria-label="Écrire ou offrir une histoire"><span class="roll r-btn" aria-hidden="true"><span><em>Écrire</em><em class="o">Offrir</em><em>Écrire</em></span></span>une histoire</a>
+      <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+  <div class="mnav-wrap"><nav class="mobile-nav" id="mnav" aria-label="Navigation mobile"><a href="comment-ca-marche.html">Comment ça marche</a><a href="application.html">L'application</a><a href="index.html#livres">Les livres</a><a href="carte-cadeau.html">Offrir</a><a href="aide.html">Aide et questions</a><a href="compte.html">Mon compte</a><a href="index.html#prix">Commencer une histoire</a></nav></div>
+</header>
+<div class="drawer-veil" data-close-cart hidden></div>
+<aside class="drawer" id="cart" aria-label="Panier" aria-hidden="true" tabindex="-1">
+  <div class="drawer-head"><h2>Votre panier</h2><button class="icon-btn" type="button" data-close-cart aria-label="Fermer le panier"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="drawer-body" id="cart-body"></div>
+  <div class="drawer-foot" id="cart-foot"></div>
+</aside>
+<main id="top">
+<style>
+/* Le lien de confirmation de l'email (TABLEAU-MACRO.md, bloc 9) passe par ici : sur un téléphone, il ouvre l'app ;
+   sur un ordinateur, il montre un QR code à viser avec le téléphone. Rien n'est enregistré sur cette page. */
+.ou-wrap{max-width:560px;margin:0 auto;padding-block:clamp(40px,6vw,80px);text-align:center}
+.ou-wrap h1{font-size:clamp(40px,6vw,64px)}
+.ou-qr{display:inline-block;margin:24px auto;padding:16px;background:#fff;border-radius:22px;box-shadow:inset 0 0 0 1px var(--rule)}
+.ou-qr canvas,.ou-qr img{display:block;width:220px;height:220px}
+.ou-note{color:var(--grey);font-size:14.5px}
+.ou-btn{margin-top:18px}
+</style>
+<div class="wrap ou-wrap">
+  <p class="kicker">Votre lien</p>
+  <h1 id="ou-title">On ouvre <em>l'app</em></h1>
+  <p class="lead" id="ou-lead">Un instant…</p>
+  <div id="ou-desktop" hidden>
+    <div class="ou-qr"><canvas id="ou-canvas" width="220" height="220"></canvas></div>
+    <p class="ou-note">Visez ce code avec l'appareil photo de votre téléphone : l'app s'ouvre sur votre compte.<br>Ou ouvrez simplement l'email de Memoreees sur votre téléphone.</p>
+  </div>
+  <div id="ou-mobile" hidden>
+    <p class="ou-note">L'app ne s'est pas ouverte ? Installez-la, puis touchez le bouton.</p>
+    <p class="ou-btn"><a class="btn btn-ink" id="ou-open" href="#">Ouvrir Memoreees</a></p>
+    <div class="stores"><a class="store apple" href="application.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.8-3.5.8s-1.8-.8-3-.8C7 7.3 5.6 8.2 4.8 9.6c-1.6 2.8-.4 6.9 1.2 9.2.8 1.1 1.7 2.3 2.9 2.3 1.2-.1 1.6-.8 3-.8s1.8.8 3 .7c1.3 0 2.1-1.1 2.8-2.2.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.6-1-2.6-3.6zM14.2 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2-.5 2.7-1.3z"/></svg><span><small>Télécharger dans</small><b>l'App Store</b></span></a><a class="store google" href="application.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#00d7fe" d="M3.6 2.3c-.3.3-.4.7-.4 1.2v17c0 .5.1.9.4 1.2l9.5-9.7z"/><path fill="#ffce00" d="M16.3 15.2 13.1 12l3.2-3.2 3.8 2.2c1.1.6 1.1 1.6 0 2.2z"/><path fill="#ff3a44" d="M16.3 15.2 13.1 12l-9.5 9.7c.4.4 1 .4 1.7 0z"/><path fill="#00f076" d="M16.3 8.8 5.3 2.3c-.7-.4-1.3-.4-1.7 0l9.5 9.7z"/></svg><span><small>Disponible sur</small><b>Google Play</b></span></a></div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+(function () {
+  var target = 'memoreees://connexion/lien' + (location.hash || '') + (location.search || '');
+  var mobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+  var lead = document.getElementById('ou-lead');
+  if (mobile) {
+    document.getElementById('ou-mobile').hidden = false;
+    document.getElementById('ou-open').href = target;
+    lead.textContent = 'Si rien ne se passe, touchez le bouton.';
+    location.href = target;
+  } else {
+    document.getElementById('ou-desktop').hidden = false;
+    document.getElementById('ou-title').innerHTML = 'Ouvrez cet email <em>sur votre téléphone</em>';
+    lead.textContent = 'Ce lien ouvre l’app Memoreees, qui est sur votre téléphone.';
+    try {
+      var qr = qrcode(0, 'M'); qr.addData(location.href); qr.make();
+      var n = qr.getModuleCount(), cv = document.getElementById('ou-canvas'), ctx = cv.getContext('2d'), s = 220 / n;
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 220, 220); ctx.fillStyle = '#1C1320';
+      for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (qr.isDark(r, c)) ctx.fillRect(c * s, r * s, s + 0.5, s + 0.5);
+    } catch (e) { document.querySelector('.ou-qr').hidden = true; }
+  }
+})();
+</script>
+</main>
+<footer class="site">
+  <div class="wrap">
+    <div class="fcols">
+      <div>
+        <a class="logo" href="index.html" aria-label="Memoreees, accueil"><span class="brand" role="img" aria-label="Memoreees"><img class="va dark" src="assets/logo-a.png" alt="" width="929" height="105"><img class="vb dark" src="assets/logo-b.png" alt="" width="1269" height="250"><img class="va light" src="assets/logo-a-white.png" alt="" width="929" height="105"><img class="vb light" src="assets/logo-b-white.png" alt="" width="1269" height="250"></span></a>
+        <p class="story">Vos histoires, de vive voix.</p>
+        <div class="social" aria-label="Réseaux sociaux">
+          <a href="https://www.instagram.com/memoreees_fr/" target="_blank" rel="noopener" aria-label="Memoreees sur Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" class="dot"/></svg></a>
+          <a href="https://www.facebook.com/profile.php?id=61594907264943" target="_blank" rel="noopener" aria-label="Memoreees sur Facebook"><svg viewBox="0 0 24 24"><path d="M14.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H9v3h2.5V21"/></svg></a>
+        </div>
+      </div>
+      <div><h4>Les livres</h4><ul><li><a href="une-vie.html">Mémoires · Une vie</a></li><li><a href="nos-racines.html">Mémoires · Nos racines</a></li><li><a href="carnet-de-voyage.html">Carnet de voyage</a></li><li><a href="en-t-attendant.html">En t'attendant</a></li><li><a href="tes-premieres-annees.html">Tes premières années</a></li><li><a href="notre-annee.html">Notre année</a></li><li><a href="voeux.html">Vœux : anniversaire, mariage, un départ</a></li></ul></div><div><h4>Offrir</h4><ul><li><a href="carte-cadeau.html">La carte cadeau</a></li><li><a href="offrir-noel.html">Pour Noël</a></li><li><a href="offrir-anniversaire.html">Un anniversaire</a></li><li><a href="offrir-mariage.html">Un mariage</a></li><li><a href="offrir-bebe.html">Un bébé qui arrive</a></li><li><a href="offrir-naissance.html">Une naissance</a></li><li><a href="offrir-depart.html">Un départ</a></li><li><a href="offrir-voyage.html">Un voyage</a></li></ul></div><div><h4>Les fêtes</h4><ul><li><a href="fete-des-meres.html">Fête des mères</a></li><li><a href="fete-des-peres.html">Fête des pères</a></li><li><a href="fete-des-grands-meres.html">Fête des grands-mères</a></li><li><a href="nouvelle-annee.html">Une nouvelle année</a></li><li><a href="evjf.html">EVJF, EVG</a></li></ul></div><div><h4>Memoreees</h4><ul><li><a href="application.html">L'application</a></li><li><a href="comment-ca-marche.html">Comment ça marche</a></li><li><a href="index.html#prix">Tarifs</a></li><li><a href="aide.html">Aide et questions</a></li><li><a href="compte.html">Mon compte</a></li><li><a href="devenir-ambassadeur.html">Devenir ambassadeur</a></li><li style="color:var(--grey)">Notre histoire</li></ul></div>
+    </div>
+    <div class="fprivacy">
+      <span class="fp-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></span>
+      <div><b>Vos données, protégées</b><p>Vos voix, vos photos et vos récits sont hébergés en France, strictement confidentiels, et supprimés sur simple demande.</p></div>
+      <nav aria-label="Vos données"><a href="donnees.html">Comment on les protège</a><a href="confidentialite.html">Politique de confidentialité</a><a href="donnees.html#supprimer">Supprimer mes données</a></nav>
+    </div>
+    <div class="fbottom"><span>© 2026 Memoreees. Tous droits réservés.</span><div class="lang " aria-label="Langue"><a href="index.html" aria-current="true" lang="fr">FR</a><a href="es/index.html" lang="es" hreflang="es">ES</a></div><nav class="legal" aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="cgv.html">CGV</a><a href="cookies.html">Cookies</a></nav></div>
+  </div>
+</footer>
+<div class="cookie-bar" id="cookie-bar" role="region" aria-label="Cookies" hidden>
+  <p>Ce site n'enregistre que ce qui lui est indispensable, comme votre panier. Avec votre accord, nous pourrons aussi mesurer l'audience et l'efficacité de nos publicités. <a href="cookies.html">En savoir plus</a></p>
+  <div class="cookie-btns">
+    <button type="button" class="btn btn-line" data-consent="refuse">Tout refuser</button>
+    <a class="btn btn-line" href="cookies.html">Personnaliser</a>
+    <button type="button" class="btn btn-line" data-consent="accept">Tout accepter</button>
+  </div>
+</div>
+<style>
+.cookie-bar{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:30;width:min(560px,calc(100% - 32px));background:#fff;color:var(--ink);border:1px solid var(--rule);border-radius:18px;box-shadow:0 0 0 100vmax rgba(28,19,32,.45),0 18px 50px rgba(28,19,32,.14);padding:22px 22px;display:grid;gap:14px;font-size:14px;line-height:1.5}
+.cookie-bar[hidden]{display:none}
+.cookie-bar p{margin:0;color:var(--grey)}
+.cookie-bar a:not(.btn){color:var(--ink)}
+.cookie-btns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.cookie-btns .btn{padding:12px 10px;font-size:13px;white-space:normal;text-align:center}
+@media (max-width:480px){.cookie-bar{padding:16px}.cookie-btns{grid-template-columns:1fr 1fr}.cookie-btns a.btn{grid-column:1 / -1;order:3}}
+</style>
+<script>
+(function(){
+  var KEY='mm-consent', bar=document.getElementById('cookie-bar');
+  var read=function(){try{return JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){return null;}};
+  var save=function(v){try{localStorage.setItem(KEY,JSON.stringify({choice:v,date:new Date().toISOString()}));}catch(e){}};
+  var c=read();
+  if(!c||!c.choice){bar.hidden=false;}
+  bar.addEventListener('click',function(e){var b=e.target.closest('[data-consent]');if(!b)return;save(b.getAttribute('data-consent'));bar.hidden=true;});
+  document.addEventListener('click',function(e){if(e.target.closest('[data-cookie-reset]')){try{localStorage.removeItem(KEY);}catch(x){}bar.hidden=false;}});
+})();
+</script>
+<script src="assets/site.js?v=37bcbdce" defer></script>
+</body>
+</html>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Merci · votre commande · Memoreees</title>
-<meta name="description" content="Votre commande est confirmée. Préparez la carte cadeau, téléchargez l'app et suivez l'histoire.">
+<meta name="description" content="Votre commande est confirmée. Dites si le livre est pour vous, ou préparez la carte cadeau.">
 <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="assets/favicon-64.png" type="image/png" sizes="64x64">
 <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192">
@@ -13,14 +13,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=3d6f4c50">
+<link rel="stylesheet" href="assets/site.css?v=57310513">
 </head>
 <body>
-<div class="annonce" role="region" aria-label="Offres en cours"><ul><li class="on">Livraison offerte en Europe</li><li>Satisfait ou remboursé</li><li>Paiement en 3x avec Alma</li></ul></div>
+<div class="annonce" role="region" aria-label="Offres en cours"><ul><li class="on">Livraison incluse, partout en Europe</li><li>Satisfait ou remboursé</li><li>Paiement en 3x avec Alma</li></ul></div>
 <header class="site">
   <div class="bar">
     <a class="logo" href="index.html" aria-label="Memoreees, accueil"><span class="brand" role="img" aria-label="Memoreees"><img class="va dark" src="assets/logo-a.png" alt="" width="929" height="105"><img class="vb dark" src="assets/logo-b.png" alt="" width="1269" height="250"><img class="va light" src="assets/logo-a-white.png" alt="" width="929" height="105"><img class="vb light" src="assets/logo-b-white.png" alt="" width="1269" height="250"></span></a>
-    <nav class="main" aria-label="Navigation principale"><ul><li><a href="comment-ca-marche.html">Comment ça marche</a></li><li><a href="application.html">L'application</a></li><li><a href="index.html#livres">Les livres</a></li></ul></nav>
+    <nav class="main" aria-label="Navigation principale"><ul><li><a href="comment-ca-marche.html">Comment ça marche</a></li><li><a href="application.html">L'application</a></li><li><a href="index.html#livres">Les livres</a></li><li><a href="carte-cadeau.html">Offrir</a></li></ul></nav>
     <div class="hdr-right">
       <a class="icon-btn hide-sm" href="aide.html" aria-label="Aide et questions"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.7"/><path d="M12 17.2h.01"/></svg></a>
       <a class="icon-btn hide-sm" href="compte.html" aria-label="Mon compte"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg></a>
@@ -29,7 +29,7 @@
       <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
-  <div class="mnav-wrap"><nav class="mobile-nav" id="mnav" aria-label="Navigation mobile"><a href="comment-ca-marche.html">Comment ça marche</a><a href="application.html">L'application</a><a href="index.html#livres">Les livres</a><a href="aide.html">Aide et questions</a><a href="compte.html">Mon compte</a><a href="index.html#prix">Commencer une histoire</a></nav></div>
+  <div class="mnav-wrap"><nav class="mobile-nav" id="mnav" aria-label="Navigation mobile"><a href="comment-ca-marche.html">Comment ça marche</a><a href="application.html">L'application</a><a href="index.html#livres">Les livres</a><a href="carte-cadeau.html">Offrir</a><a href="aide.html">Aide et questions</a><a href="compte.html">Mon compte</a><a href="index.html#prix">Commencer une histoire</a></nav></div>
 </header>
 <div class="drawer-veil" data-close-cart hidden></div>
 <aside class="drawer" id="cart" aria-label="Panier" aria-hidden="true" tabindex="-1">
@@ -39,7 +39,8 @@
 </aside>
 <main id="top">
 <style>
-/* Page après le paiement (brouillon du 09/10, à brancher sur Shopify) : on prépare la carte cadeau tout de suite, livre par livre */
+/* La page de confirmation de commande (TABLEAU-MACRO.md, bloc 9) : pour chaque livre, « c'est pour moi » ou « je l'offre »,
+   puis la carte (prénom, mot, visuel), envoyée par email ou WhatsApp, ou téléchargée. Le lien de l'email ramène ici. */
 .ty-hero{padding-block:clamp(40px,6vw,80px) clamp(24px,4vw,40px);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(24px,5vw,64px);align-items:end}
 .ty-hero h1{font-size:clamp(48px,7vw,92px)}
 .ty-hero .onde{height:40px;gap:4px;margin-bottom:18px}.ty-hero .onde i{width:9px}
@@ -47,22 +48,20 @@
 .ty-order div{display:flex;justify-content:space-between;gap:12px;padding:6px 0}
 .ty-order div + div{border-top:1px solid #efe6ea}
 .ty-order b{font-weight:700}
-.ty-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.ty-steps li{border-radius:18px;padding:16px 18px;box-shadow:inset 0 0 0 1px var(--rule);font-size:14px;color:var(--grey)}
-.ty-steps li b{display:block;color:var(--ink);font:400 22px/1.15 var(--f-serif);margin-top:4px}
-.ty-steps li span{font:800 11px/1 var(--f-sans);letter-spacing:.14em;color:var(--prune)}
-.ty-steps li.on{background:var(--ink);color:rgba(255,255,255,.75);box-shadow:none}
-.ty-steps li.on b{color:#fff}.ty-steps li.on span{color:#ffb812}
-
-.ty-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px}
-.ty-tabs button{border:0;border-radius:999px;padding:11px 18px;font:700 14px var(--f-sans);background:var(--soft);color:var(--ink);cursor:pointer}
-.ty-tabs button[aria-selected="true"]{background:var(--ink);color:#fff}
-.ty-panel[hidden]{display:none}
-.ty-make{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,64px);align-items:start}
-.ty-preview{position:sticky;top:24px;display:grid;justify-items:center;gap:14px;padding:clamp(24px,4vw,44px);border-radius:32px;background:linear-gradient(170deg,#fff 0%,#faf6f8 45%,#fff0e4 100%);box-shadow:0 0 0 1px var(--rule)}
-.ty-card{width:min(260px,70vw);aspect-ratio:105/148;border-radius:10px;padding:20px 18px;display:flex;flex-direction:column;justify-content:space-between;background:#fff;box-shadow:0 0 0 1px rgba(28,19,32,.06),0 30px 60px rgba(28,19,32,.18);position:relative;overflow:hidden;transform:rotate(-2deg);transition:transform .4s}
+.ty-book{margin-bottom:clamp(32px,5vw,56px);padding:clamp(20px,3vw,32px);border-radius:28px;box-shadow:inset 0 0 0 1px var(--rule)}
+.ty-book h2{margin-top:0}
+.ty-choice{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0 8px}
+.ty-choice button{border:1.5px solid var(--rule);border-radius:18px;padding:18px;text-align:left;background:#fff;cursor:pointer;font:400 15px var(--f-sans);color:var(--grey)}
+.ty-choice button b{display:block;color:var(--ink);font:400 24px/1.1 var(--f-serif);margin-bottom:6px}
+.ty-choice button[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.ty-make{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,64px);align-items:start;margin-top:22px}
+.ty-preview{position:sticky;top:24px;display:grid;justify-items:center;gap:14px;padding:clamp(24px,4vw,44px);border-radius:32px;background:linear-gradient(170deg,#fff 0%,#faf6f8 45%,#fff0e4 100%);box-shadow:inset 0 0 0 1px var(--rule)}
+.ty-card{width:min(260px,70vw);aspect-ratio:105/148;border-radius:10px;padding:20px 18px;display:flex;flex-direction:column;justify-content:space-between;background:#fff;box-shadow:0 0 0 1px rgba(28,19,32,.08),0 18px 40px rgba(28,19,32,.12);position:relative;overflow:hidden}
 .ty-card > *{position:relative;z-index:1}
 .ty-card .art{position:absolute;inset:auto -20% -12% -20%;height:62%;z-index:0;transition:background .4s}
+.art.a-rose{background:radial-gradient(circle at 30% 30%,#FDE1EC,#FFE6D3 60%,#F6EEFB)}
+.art.a-noel{background:radial-gradient(circle at 30% 30%,#FFE0CC,#FDE7F1 60%,#E8F3EA)}
+.art.a-sun{background:radial-gradient(circle at 30% 30%,#EADCF5,#FDE1EC 60%,#FFF0E4)}
 .ty-card .k{font:700 9px/1.2 var(--f-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--prune)}
 .ty-card .t{font:400 30px/1.02 var(--f-serif);word-break:break-word}
 .ty-card .f{font-size:11.5px;color:var(--grey);margin-top:8px}
@@ -71,181 +70,179 @@
 .ty-form{display:grid;gap:18px}
 .ty-form label,.ty-form .lab{display:block;font:700 14px/1.3 var(--f-sans);margin-bottom:6px}
 .ty-form .hint{font-size:12.5px;color:var(--grey);margin-top:6px}
-.ty-form input[type=text],.ty-form textarea{width:100%;border:1.5px solid var(--rule);border-radius:14px;padding:13px 15px;font:400 16px var(--f-sans);color:var(--ink);background:#fff}
+.ty-form input[type=text],.ty-form input[type=email],.ty-form textarea{width:100%;border:1.5px solid var(--rule);border-radius:14px;padding:13px 15px;font:400 16px var(--f-sans);color:var(--ink);background:#fff}
 .ty-form textarea{min-height:110px;resize:vertical;font-family:var(--f-serif);font-size:19px;font-style:italic}
 .ty-form .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .ty-arts{display:flex;gap:10px;flex-wrap:wrap}
 .ty-arts button{width:56px;height:76px;border-radius:8px;border:0;cursor:pointer;box-shadow:0 0 0 1px var(--rule);position:relative;overflow:hidden;background:#fff}
 .ty-arts button i{position:absolute;inset:auto -20% -12% -20%;height:62%}
 .ty-arts button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink)}
-.ty-arts small{display:block;font-size:11px;color:var(--grey);margin-top:4px;text-align:center}
 .ty-seg{display:inline-flex;border-radius:999px;background:var(--soft);padding:4px}
 .ty-seg button{border:0;border-radius:999px;padding:9px 16px;font:700 13px var(--f-sans);background:none;cursor:pointer;color:var(--ink)}
 .ty-seg button[aria-pressed="true"]{background:#fff;box-shadow:0 2px 8px rgba(28,19,32,.1)}
-.ty-voice{display:flex;align-items:center;gap:14px;border:1.5px dashed #e2d6dd;border-radius:16px;padding:14px 16px}
-.ty-voice .rec{width:46px;height:46px;border-radius:50%;border:0;background:var(--ink);display:grid;place-items:center;cursor:pointer;flex:none}
-.ty-voice .rec::after{content:"";width:14px;height:14px;border-radius:50%;background:var(--wave)}
-.ty-voice p{margin:0;font-size:13.5px;color:var(--grey)}
-.ty-voice b{display:block;color:var(--ink);font-size:14.5px}
-.ty-actions{display:flex;flex-wrap:wrap;gap:10px}
-.ty-link{display:flex;gap:8px;align-items:center;border-radius:14px;background:var(--soft);padding:10px 10px 10px 16px;font:600 15px var(--f-sans)}
-.ty-link span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ty-link button{border:0;border-radius:10px;background:var(--ink);color:#fff;padding:9px 14px;font:700 13px var(--f-sans);cursor:pointer}
-
-.ty-app{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(24px,5vw,64px);align-items:center;border-radius:32px;padding:clamp(28px,5vw,56px);background:var(--soft)}
-.ty-app .stores{margin-top:20px}
-.ty-app .phone-shot{justify-self:center;width:min(220px,60vw);aspect-ratio:1/2;border-radius:36px;background:#141016;padding:9px;box-shadow:0 30px 60px rgba(90,36,113,.22)}
-.ty-app .phone-shot img{width:100%;height:100%;object-fit:cover;border-radius:28px}
-.ty-next{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,3vw,36px);margin-top:36px}
-.ty-next div{border-top:2px solid var(--ink);padding-top:14px}
-.ty-next b{display:block;font:400 24px/1.15 var(--f-serif);margin-bottom:6px}
-.ty-next p{margin:0;color:var(--grey);font-size:14.5px}
-@media (max-width:900px){.ty-hero,.ty-make,.ty-app{grid-template-columns:1fr}.ty-preview{position:static}.ty-steps,.ty-next{grid-template-columns:1fr}}
+.ty-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ty-send{display:grid;gap:10px;border-radius:16px;background:var(--soft);padding:14px 16px}
+.ty-send .row{display:flex;gap:8px;flex-wrap:wrap}
+.ty-send input{flex:1;min-width:200px}
+.ty-done{border-radius:18px;background:var(--soft);padding:18px 20px;font-size:15px}
+.ty-done b{display:block;font:400 24px/1.15 var(--f-serif);margin-bottom:6px}
+.ty-memoire{border-radius:18px;background:var(--ink);color:rgba(255,255,255,.8);padding:18px 20px;font-size:14.5px;margin-top:18px}
+.ty-memoire b{display:block;color:#fff;font:400 22px/1.15 var(--f-serif);margin-bottom:6px}
+.ty-memoire a{color:#ffb812}
+.ty-err{color:#B3261E;font-size:14px;min-height:20px}
+.ty-wait{padding:60px 0;color:var(--grey)}
+@media (max-width:900px){.ty-hero,.ty-make{grid-template-columns:1fr}.ty-preview{position:static}.ty-choice{grid-template-columns:1fr}}
 @media (max-width:480px){.ty-form .two{grid-template-columns:1fr}}
 </style>
 
 <div class="wrap">
-  <p class="warn" style="margin-top:24px">Brouillon de la page qui suivra le paiement. Exemple de commande : Ma vie et Vœux · Anniversaire. Rien n'est enregistré.</p>
   <div class="ty-hero">
     <div>
       <span class="onde" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
       <p class="kicker">Commande confirmée</p>
-      <h1>Merci Julien, <em>c'est parti</em></h1>
-      <p class="lead">Il reste une seule chose à faire maintenant : préparer la carte cadeau. Deux minutes, et vous pouvez l'offrir ce soir.</p>
+      <h1 id="ty-title">Merci, <em>c'est parti</em></h1>
+      <p class="lead" id="ty-lead">Une seule chose à faire maintenant, pour chaque livre : dire s'il est pour vous, ou l'offrir et préparer sa carte.</p>
     </div>
-    <div class="ty-order">
-      <div><span>Commande</span><b>n° 1042</b></div>
-      <div><span>Mémoire · Ma vie</span><b>119 €</b></div>
-      <div><span>Vœux · Anniversaire</span><b>29 €</b></div>
-      <div><span>Livraison</span><b>Offerte</b></div>
-      <div><span>Confirmation envoyée à</span><b>julien@exemple.fr</b></div>
-      <p class="note">Selon le livre, on vous demandera ici l'époque racontée (Un temps fort) ou les deux prénoms des mariés (Vœux · Mariage).</p>
-    </div>
+    <div class="ty-order" id="ty-order"></div>
   </div>
-  <ol class="ty-steps">
-    <li class="on"><span>1 · MAINTENANT</span><b>Préparez la carte</b>Imprimez-la ou envoyez-la par message.</li>
-    <li><span>2 · CE SOIR</span><b>Offrez-la</b>Avec votre mot, écrit à la main.</li>
-    <li><span>3 · ENSUITE</span><b>Suivez l'histoire</b>Dans l'app, avec l'email de votre commande.</li>
-  </ol>
+  <p class="ty-wait" id="ty-wait">Un instant…</p>
+  <div id="ty-books"></div>
 </div>
 
-<section>
+<section id="ty-app" hidden>
   <div class="wrap">
-    <p class="kicker">Étape 1</p>
-    <h2>Votre carte cadeau, <em>livre par livre</em></h2>
-    <div class="ty-tabs" role="tablist">
-      <button role="tab" aria-selected="true" data-panel="p-mavie">Ma vie</button>
-      <button role="tab" aria-selected="false" data-panel="p-anniv">Vœux · Anniversaire</button>
-    </div>
-
-    <div class="ty-panel" id="p-mavie" role="tabpanel">
-      <div class="ty-make">
-        <div class="ty-preview">
-          <div class="ty-card" data-card><span class="art a-rose"></span><span class="k">Ma vie</span><div><div class="t" data-out="title">L'histoire de Mamie</div><div class="f" data-out="from">De la part de Julien</div></div></div>
-          <p class="ty-code">Code : <b>K7Q2-M9TA</b></p>
-        </div>
-        <form class="ty-form" onsubmit="event.preventDefault()">
-          <div class="two">
-            <div><label for="m-for">Pour qui ?</label><input type="text" id="m-for" value="Mamie" data-in="for"><p class="hint">Son prénom, ou comme vous l'appelez.</p></div>
-            <div><label for="m-from">De la part de</label><input type="text" id="m-from" value="Julien" data-in="from"></div>
-          </div>
-          <div><span class="lab">L'illustration</span><div class="ty-arts" data-arts>
-            <div><button type="button" aria-pressed="true" data-art="a-rose" aria-label="Rose"><i class="art a-rose"></i></button><small>Douceur</small></div>
-            <div><button type="button" aria-pressed="false" data-art="a-noel" aria-label="Noël"><i class="art a-noel"></i></button><small>Noël</small></div>
-            <div><button type="button" aria-pressed="false" data-art="a-sun" aria-label="Soleil"><i class="art a-sun"></i></button><small>Soleil</small></div>
-            <div><button type="button" aria-pressed="false" data-art="a-sky" aria-label="Ciel"><i class="art a-sky"></i></button><small>Ciel</small></div>
-          </div><p class="hint"><span class="todo">[illustrations en aquarelle à venir]</span></p></div>
-          <div><span class="lab">Dans les questions, on lui dit</span><div class="ty-seg"><button type="button" aria-pressed="false">tu</button><button type="button" aria-pressed="true">vous</button></div></div>
-          <div><label for="m-word">Votre mot</label><textarea id="m-word">Mamie, tu nous as tant raconté. Cette fois, c'est pour garder ta voix.</textarea><p class="hint">Il s'affichera dans l'app, à sa toute première ouverture. Sur la carte imprimée, vous l'écrirez à la main.</p></div>
-          <div class="ty-voice"><button type="button" class="rec" aria-label="Enregistrer un message vocal"></button><p><b>Ajoutez votre voix, en option</b>Un message de quelques secondes, avec son QR code au dos de la carte. <span class="todo">[option à confirmer pour le lancement]</span></p></div>
-          <div class="ty-actions"><button class="btn btn-ink" type="button">Télécharger la carte à imprimer</button><button class="btn btn-line" type="button">L'envoyer par message</button></div>
-        </form>
-      </div>
-    </div>
-
-    <div class="ty-panel" id="p-anniv" role="tabpanel" hidden>
-      <div class="ty-make">
-        <div class="ty-preview">
-          <div class="ty-card" data-card><span class="art a-sun"></span><span class="k">Vœux · Anniversaire</span><div><div class="t" data-out="title">Les 30 ans de Paul</div><div class="f" data-out="from">De la part de toute la bande</div></div></div>
-          <p class="ty-code">À offrir le jour J</p>
-        </div>
-        <form class="ty-form" onsubmit="event.preventDefault()">
-          <div><span class="lab">D'abord, lancez l'invitation</span>
-            <div class="ty-voice"><button type="button" class="rec" aria-label="Enregistrer votre message aux invités"></button><p><b>Votre message aux invités</b>Expliquez l'idée en quelques secondes : c'est lui que les proches écouteront avant de répondre.</p></div>
-          </div>
-          <div><span class="lab">Le lien à partager</span><div class="ty-link"><span>voix.memoreees.com/K7Q2-M9TA</span><button type="button">Copier</button></div><p class="hint">Dans le groupe WhatsApp, par email ou par SMS. Les proches répondent depuis le lien, sans installer d'app, pendant 2 semaines.</p></div>
-          <div class="two">
-            <div><label for="a-for">Le titre de la carte</label><input type="text" id="a-for" value="Les 30 ans de Paul" data-in="title"></div>
-            <div><label for="a-from">De la part de</label><input type="text" id="a-from" value="toute la bande" data-in="from"></div>
-          </div>
-          <div><span class="lab">L'illustration</span><div class="ty-arts" data-arts>
-            <div><button type="button" aria-pressed="true" data-art="a-sun" aria-label="Soleil"><i class="art a-sun"></i></button><small>Soleil</small></div>
-            <div><button type="button" aria-pressed="false" data-art="a-rose" aria-label="Rose"><i class="art a-rose"></i></button><small>Douceur</small></div>
-            <div><button type="button" aria-pressed="false" data-art="a-sky" aria-label="Ciel"><i class="art a-sky"></i></button><small>Ciel</small></div>
-          </div></div>
-          <div class="ty-actions"><button class="btn btn-ink" type="button">Télécharger la carte à imprimer</button><button class="btn btn-line" type="button">L'envoyer par message</button></div>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="ty-app">
-      <div>
-        <p class="kicker">Étape 3</p>
-        <h2>Suivez l'histoire <em>dans l'app</em></h2>
-        <p class="lead">Touchez « Me connecter avec mon email » et utilisez julien@exemple.fr : vos deux livres vous y attendent. Vous y verrez le livre avancer, vous y ajouterez vos questions, et vous y recevrez les premiers extraits.</p>
-        <div class="stores"><a class="store apple" href="application.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.8-3.5.8s-1.8-.8-3-.8C7 7.3 5.6 8.2 4.8 9.6c-1.6 2.8-.4 6.9 1.2 9.2.8 1.1 1.7 2.3 2.9 2.3 1.2-.1 1.6-.8 3-.8s1.8.8 3 .7c1.3 0 2.1-1.1 2.8-2.2.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.6-1-2.6-3.6zM14.2 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2-.5 2.7-1.3z"/></svg><span><small>Télécharger dans</small><b>l'App Store</b></span></a><a class="store google" href="application.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#00d7fe" d="M3.6 2.3c-.3.3-.4.7-.4 1.2v17c0 .5.1.9.4 1.2l9.5-9.7z"/><path fill="#ffce00" d="M16.3 15.2 13.1 12l3.2-3.2 3.8 2.2c1.1.6 1.1 1.6 0 2.2z"/><path fill="#ff3a44" d="M16.3 15.2 13.1 12l-9.5 9.7c.4.4 1 .4 1.7 0z"/><path fill="#00f076" d="M16.3 8.8 5.3 2.3c-.7-.4-1.3-.4-1.7 0l9.5 9.7z"/></svg><span><small>Disponible sur</small><b>Google Play</b></span></a></div>
-      </div>
-      <div class="phone-shot"><img src="assets/photos/app-cartes-anniversaire.jpg" alt="L'app Memoreees" loading="lazy"></div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <p class="kicker">Et ensuite</p>
-    <h2>Ce qui va <em>se passer</em></h2>
-    <div class="ty-next">
-      <div><b>Il ouvre la carte</b><p>Il télécharge l'app, saisit le code, et la première question l'attend. Les proches de Paul, eux, répondent depuis le lien.</p></div>
-      <div><b>L'histoire s'écrit</b><p>À leur rythme. Vous suivez l'avancement, sans tout entendre : la surprise reste entière.</p></div>
-      <div><b>Vous relisez, puis il arrive</b><p>Rien n'est imprimé sans votre relecture. Le livre est livré environ 3 semaines après la validation.</p></div>
-    </div>
-    <p class="note" style="margin-top:24px">Une question ? <a href="aide.html">Notre page d'aide</a> répond tout de suite, ou transmet votre message par email.</p>
+    <p class="kicker">Et maintenant</p>
+    <h2>Votre livre vous attend <em>dans l'app</em></h2>
+    <p class="lead">Installez l'app et connectez-vous avec l'adresse de votre commande : votre livre est déjà là, aucun code à taper.</p>
+    <div class="stores"><a class="store apple" href="application.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.8-3.5.8s-1.8-.8-3-.8C7 7.3 5.6 8.2 4.8 9.6c-1.6 2.8-.4 6.9 1.2 9.2.8 1.1 1.7 2.3 2.9 2.3 1.2-.1 1.6-.8 3-.8s1.8.8 3 .7c1.3 0 2.1-1.1 2.8-2.2.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.6-1-2.6-3.6zM14.2 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2-.5 2.7-1.3z"/></svg><span><small>Télécharger dans</small><b>l'App Store</b></span></a><a class="store google" href="application.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#00d7fe" d="M3.6 2.3c-.3.3-.4.7-.4 1.2v17c0 .5.1.9.4 1.2l9.5-9.7z"/><path fill="#ffce00" d="M16.3 15.2 13.1 12l3.2-3.2 3.8 2.2c1.1.6 1.1 1.6 0 2.2z"/><path fill="#ff3a44" d="M16.3 15.2 13.1 12l-9.5 9.7c.4.4 1 .4 1.7 0z"/><path fill="#00f076" d="M16.3 8.8 5.3 2.3c-.7-.4-1.3-.4-1.7 0l9.5 9.7z"/></svg><span><small>Disponible sur</small><b>Google Play</b></span></a></div>
   </div>
 </section>
 
 <script>
-// Aperçu en direct de la carte : prénom, signature, illustration ; onglets par livre.
-document.querySelectorAll('.ty-tabs button').forEach(function (b) {
-  b.addEventListener('click', function () {
-    document.querySelectorAll('.ty-tabs button').forEach(function (x) { x.setAttribute('aria-selected', x === b); });
-    document.querySelectorAll('.ty-panel').forEach(function (p) { p.hidden = p.id !== b.dataset.panel; });
-  });
-});
-document.querySelectorAll('.ty-panel').forEach(function (panel) {
-  var card = panel.querySelector('[data-card]'), out = function (k) { return card.querySelector('[data-out="' + k + '"]'); };
-  panel.querySelectorAll('[data-in]').forEach(function (inp) {
-    inp.addEventListener('input', function () {
-      var k = inp.dataset.in, v = inp.value.trim();
-      if (k === 'for') out('title').textContent = "L'histoire de " + (v || '…');
-      if (k === 'title') out('title').textContent = v || '…';
-      if (k === 'from') out('from').textContent = 'De la part de ' + (v || '…');
+(function () {
+  var FN = 'https://nlkywtkybhstjjwznkur.supabase.co/functions/v1/commande', KEY = 'sb_publishable_y8EokB0QcI6MuFhCo9IO-w_Al3FCCBR';
+  var q = new URLSearchParams(location.search), c = q.get('c'), t = q.get('t');
+  var wait = document.getElementById('ty-wait'), host = document.getElementById('ty-books'), order = document.getElementById('ty-order');
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (ch) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]; }); };
+  if (!c || !t) { wait.textContent = 'Ce lien est incomplet. Retrouvez-le dans l’email de votre commande.'; return; }
+  var ARTS = [['a-rose', 'Douceur'], ['a-noel', 'Noël'], ['a-sun', 'Soleil']];
+  var state = {};
+
+  function cardTitle(b, who) {
+    var w = who || '…';
+    if (b.format === 'memoire') return b.theme === 'racines' ? 'Les racines de ' + w : 'L’histoire de ' + w;
+    if (b.format === 'carnet') return 'Le voyage de ' + w;
+    if (b.format === 'grossesse') return 'En t’attendant';
+    if (b.format === 'annee') return 'Les premières années';
+    if (b.format === 'famille') return 'Notre année';
+    if (b.format === 'voeux') return b.celebrated_name ? (b.occasion === 'mariage' ? 'Le mariage de ' + b.celebrated_name + (b.celebrated_name2 ? ' et ' + b.celebrated_name2 : '') : b.occasion === 'depart' ? 'Le départ de ' + b.celebrated_name : 'L’anniversaire de ' + b.celebrated_name) : 'Un livre de vœux';
+    return b.product;
+  }
+  function render(data) {
+    order.innerHTML = '<div><span>Commande</span><b>' + esc(data.ref.replace(/^shopify-/, '')) + '</b></div>' +
+      data.books.map(function (b) { return '<div><span>' + esc(b.product) + '</span><b>' + (b.extra_copies ? '+ ' + b.extra_copies + ' ex.' : '') + '</b></div>'; }).join('') +
+      '<div><span>Livraison</span><b>Incluse</b></div><div><span>Confirmation envoyée à</span><b>' + esc(data.email) + '</b></div>';
+    if (data.first_name) document.getElementById('ty-title').innerHTML = 'Merci ' + esc(data.first_name) + ', <em>c’est parti</em>';
+    host.innerHTML = data.books.map(bookHtml).join('');
+    data.books.forEach(function (b) { state[b.id] = b; wire(b); });
+    document.getElementById('ty-app').hidden = !data.books.some(function (b) { return b.buyer_for_self; });
+  }
+  function defaultSelf(b) { return b.buyer_for_self || (b.activated ? true : ['voeux', 'grossesse', 'annee', 'famille'].indexOf(b.format) >= 0 && b.buyer_for_self !== false) ; }
+  function bookHtml(b) {
+    var self = b.buyer_for_self === true || (!b.storyteller_name && ['voeux', 'grossesse', 'annee', 'famille'].indexOf(b.format) >= 0);
+    var isVoeux = b.format === 'voeux', isMemoire = b.format === 'memoire';
+    return '<div class="ty-book" id="b-' + b.id + '" data-id="' + b.id + '">' +
+      '<p class="kicker">' + esc(b.product) + '</p><h2>' + (b.activated ? 'Ce livre est <em>déjà ouvert</em>' : 'Ce livre est <em>pour qui ?</em>') + '</h2>' +
+      (b.activated ? '<p class="lead">La personne a déjà ouvert son livre dans l’app : il n’y a plus rien à régler ici.</p>' :
+      '<div class="ty-choice"><button type="button" data-self="1" aria-pressed="' + (self ? 'true' : 'false') + '"><b>C’est pour moi</b>' + (isVoeux ? 'J’organise ce livre de vœux et j’invite les proches.' : 'Je vais raconter dans l’app, avec l’adresse de ma commande.') + '</button>' +
+      '<button type="button" data-self="0" aria-pressed="' + (self ? 'false' : 'true') + '"><b>Je l’offre</b>Je prépare la carte et je la donne : la personne raconte, je n’ai rien d’autre à faire.</button></div>' +
+      '<div class="ty-make" data-gift' + (self ? ' hidden' : '') + '>' +
+        '<div class="ty-preview"><div class="ty-card" data-card><span class="art ' + ARTS[(b.gift_design || 0) % 3][0] + '"></span><span class="k">' + esc(b.product) + '</span><div><div class="t" data-out="title">' + esc(cardTitle(b, b.storyteller_name)) + '</div><div class="f" data-out="from">De la part de ' + esc(b.buyer_name || '…') + '</div></div></div>' +
+        '<p class="ty-code">Code : <b>' + esc(b.code || '') + '</b></p></div>' +
+        '<form class="ty-form" onsubmit="return false">' +
+          '<div class="two"><div><label>Pour qui ?</label><input type="text" data-in="who" value="' + esc(b.storyteller_name || (isVoeux ? b.celebrated_name : '') || '') + '" placeholder="Mamie"><p class="hint">Son prénom, ou comme vous l’appelez.</p></div>' +
+          '<div><label>De la part de</label><input type="text" data-in="from" value="' + esc(b.buyer_name || '') + '" placeholder="Julien"></div></div>' +
+          (isVoeux ? '<div class="two"><div><label>Le prénom de la personne fêtée</label><input type="text" data-in="celebrated" value="' + esc(b.celebrated_name || '') + '"></div>' + (b.occasion === 'mariage' ? '<div><label>Et de l’autre</label><input type="text" data-in="celebrated2" value="' + esc(b.celebrated_name2 || '') + '"></div>' : '<div></div>') + '</div>' : '') +
+          '<div><span class="lab">L’illustration</span><div class="ty-arts">' + ARTS.map(function (a, i) { return '<div><button type="button" aria-pressed="' + (i === ((b.gift_design || 0) % 3) ? 'true' : 'false') + '" data-art="' + i + '" aria-label="' + a[1] + '"><i class="art ' + a[0] + '"></i></button><small>' + a[1] + '</small></div>'; }).join('') + '</div></div>' +
+          '<div><span class="lab">Dans les questions, on lui dit</span><div class="ty-seg"><button type="button" data-tu="1" aria-pressed="' + (b.tutoiement !== false ? 'true' : 'false') + '">tu</button><button type="button" data-tu="0" aria-pressed="' + (b.tutoiement === false ? 'true' : 'false') + '">vous</button></div></div>' +
+          '<div><label>Votre mot</label><textarea data-in="word" placeholder="Un mot pour accompagner la carte">' + esc(b.buyer_message || '') + '</textarea><p class="hint">Il s’affichera dans l’app, à sa toute première ouverture, et sur la carte.</p></div>' +
+          '<p class="ty-err" data-err></p>' +
+          '<div class="ty-actions"><button class="btn btn-ink" type="button" data-save>Préparer la carte</button></div>' +
+          '<div class="ty-send" data-send hidden><span class="lab">Envoyer la carte</span><div class="row"><a class="btn btn-line" data-wa href="#" target="_blank" rel="noopener">WhatsApp</a><a class="btn btn-line" data-pdf href="#" target="_blank" rel="noopener">Télécharger (PDF)</a></div>' +
+            '<div class="row"><input type="email" data-in="to" placeholder="Son email"><button class="btn btn-ink" type="button" data-mail>Envoyer par email</button></div><p class="hint" data-sent></p></div>' +
+          (isMemoire ? '<div class="ty-memoire"><b>Avant de la donner, dix minutes dans l’app</b>Dites-nous qui est la personne et ce que vous rêvez d’entendre : ses questions seront les bonnes. Installez l’app et connectez-vous avec l’adresse de votre commande. <a href="application.html">L’app Memoreees</a></div>' : '') +
+        '</form></div>' +
+      '<div class="ty-done" data-self-done' + (self ? '' : ' hidden') + '><b>Votre livre vous attend dans l’app</b>Installez l’app et connectez-vous avec l’adresse de votre commande : le livre est déjà là, aucun code à taper. <span data-self-save>' + (b.buyer_for_self ? '' : '<button class="btn btn-ink" type="button" data-confirm-self style="margin-top:10px">C’est bien pour moi</button>') + '</span></div>') +
+    '</div>';
+  }
+  function post(body) {
+    return fetch(FN, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: KEY, Authorization: 'Bearer ' + KEY }, body: JSON.stringify(Object.assign({ c: c, t: t }, body)) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); });
+  }
+  function wire(b) {
+    var el = document.getElementById('b-' + b.id); if (!el || b.activated) return;
+    var gift = el.querySelector('[data-gift]'), done = el.querySelector('[data-self-done]'), card = el.querySelector('[data-card]');
+    var out = function (k) { return card.querySelector('[data-out="' + k + '"]'); };
+    var val = function (k) { var i = el.querySelector('[data-in="' + k + '"]'); return i ? i.value.trim() : ''; };
+    el.querySelectorAll('.ty-choice button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        el.querySelectorAll('.ty-choice button').forEach(function (x) { x.setAttribute('aria-pressed', x === btn); });
+        var self = btn.dataset.self === '1'; gift.hidden = self; done.hidden = !self;
+      });
     });
-  });
-  panel.querySelectorAll('[data-art]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      panel.querySelectorAll('[data-art]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
-      card.querySelector('.art').className = 'art ' + b.dataset.art;
-      card.style.transform = 'rotate(1deg) scale(1.02)'; setTimeout(function () { card.style.transform = ''; }, 300);
+    el.querySelectorAll('[data-in="who"],[data-in="from"],[data-in="celebrated"],[data-in="celebrated2"]').forEach(function (inp) {
+      inp.addEventListener('input', function () {
+        var who = val('who'); var tmp = Object.assign({}, b, { celebrated_name: val('celebrated') || b.celebrated_name, celebrated_name2: val('celebrated2') || b.celebrated_name2 });
+        out('title').textContent = cardTitle(tmp, who); out('from').textContent = 'De la part de ' + (val('from') || '…');
+      });
     });
-  });
-  panel.querySelectorAll('.ty-seg button').forEach(function (b) {
-    b.addEventListener('click', function () { b.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); });
-  });
-});
+    el.querySelectorAll('[data-art]').forEach(function (btn) {
+      btn.addEventListener('click', function () { el.querySelectorAll('[data-art]').forEach(function (x) { x.setAttribute('aria-pressed', x === btn); }); card.querySelector('.art').className = 'art ' + ARTS[+btn.dataset.art][0]; });
+    });
+    el.querySelectorAll('[data-tu]').forEach(function (btn) { btn.addEventListener('click', function () { el.querySelectorAll('[data-tu]').forEach(function (x) { x.setAttribute('aria-pressed', x === btn); }); }); });
+    var err = el.querySelector('[data-err]');
+    el.querySelector('[data-save]').addEventListener('click', function () {
+      var who = val('who'); if (!who) { err.textContent = 'Le prénom de la personne, s’il vous plaît.'; return; }
+      err.textContent = ''; this.disabled = true;
+      var art = el.querySelector('[data-art][aria-pressed="true"]'), tu = el.querySelector('[data-tu][aria-pressed="true"]');
+      var body = { story_id: b.id, for_self: false, storyteller_name: who, buyer_name: val('from') || undefined, buyer_message: val('word') || null,
+        gift_design: art ? +art.dataset.art : 0, tutoiement: !tu || tu.dataset.tu === '1' };
+      if (b.format === 'voeux') { body.celebrated_name = val('celebrated') || undefined; body.celebrated_name2 = val('celebrated2') || undefined; }
+      var btn = this;
+      post(body).then(function (x) {
+        btn.disabled = false;
+        if (!x.ok) { err.textContent = (x.j && x.j.error) || 'Enregistrement impossible.'; return; }
+        state[b.id] = x.j.book; btn.textContent = 'Carte prête ✓';
+        var send = el.querySelector('[data-send]'); send.hidden = false;
+        el.querySelector('[data-pdf]').href = x.j.book.card_url;
+        var text = who + ', j’ai un cadeau un peu particulier pour toi : un livre qui n’existe pas encore, parce que c’est toi qui vas le raconter. Tout est là 👉 ' + x.j.book.card_url + '\nJe t’embrasse, ' + (val('from') || '');
+        el.querySelector('[data-wa]').href = 'https://wa.me/?text=' + encodeURIComponent(text);
+      }).catch(function () { btn.disabled = false; err.textContent = 'Le serveur ne répond pas.'; });
+    });
+    el.querySelector('[data-mail]').addEventListener('click', function () {
+      var to = val('to'), sent = el.querySelector('[data-sent]');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) { sent.textContent = 'Un email valide, s’il vous plaît.'; return; }
+      var tu = el.querySelector('[data-tu][aria-pressed="true"]'), art = el.querySelector('[data-art][aria-pressed="true"]');
+      sent.textContent = 'Envoi…';
+      post({ story_id: b.id, for_self: false, storyteller_name: val('who'), buyer_name: val('from') || undefined, buyer_message: val('word') || null, gift_design: art ? +art.dataset.art : 0, tutoiement: !tu || tu.dataset.tu === '1', send_to: to })
+        .then(function (x) { sent.textContent = x.ok && x.j.card_sent ? 'La carte est partie à ' + to + '.' : (x.j && x.j.error) || 'L’email n’a pas pu partir.'; })
+        .catch(function () { sent.textContent = 'Le serveur ne répond pas.'; });
+    });
+    var cs = el.querySelector('[data-confirm-self]');
+    if (cs) cs.addEventListener('click', function () {
+      var btn = this; btn.disabled = true;
+      post({ story_id: b.id, for_self: true }).then(function (x) {
+        if (!x.ok) { btn.disabled = false; btn.textContent = (x.j && x.j.error) || 'Réessayer'; return; }
+        btn.replaceWith(Object.assign(document.createElement('span'), { textContent: 'C’est noté : un email vous attend.' }));
+        document.getElementById('ty-app').hidden = false;
+      }).catch(function () { btn.disabled = false; });
+    });
+  }
+  fetch(FN + '?c=' + encodeURIComponent(c) + '&t=' + encodeURIComponent(t), { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })
+    .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+    .then(function (x) { wait.hidden = true; if (!x.ok) { wait.hidden = false; wait.textContent = (x.j && x.j.error) || 'Commande introuvable.'; return; } render(x.j); })
+    .catch(function () { wait.textContent = 'Le serveur ne répond pas.'; });
+})();
 </script>
 </main>
 <footer class="site">
@@ -259,7 +256,7 @@ document.querySelectorAll('.ty-panel').forEach(function (panel) {
           <a href="https://www.facebook.com/profile.php?id=61594907264943" target="_blank" rel="noopener" aria-label="Memoreees sur Facebook"><svg viewBox="0 0 24 24"><path d="M14.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H9v3h2.5V21"/></svg></a>
         </div>
       </div>
-      <div><h4>Les livres</h4><ul><li><a href="ma-vie.html">Ma vie</a></li><li><a href="mes-ancetres.html">Mes ancêtres</a></li><li><a href="un-temps-fort.html">Un temps fort</a></li><li><a href="anniversaire.html">Vœux : anniversaire, mariage, retraite…</a></li><li><a href="recit.html">Récit : voyage, EVJF, EVG</a></li><li><a href="voyage-solo.html">Carnet de bord : voyage en solitaire</a></li><li><a href="chronique.html">Chronique : une année en famille</a></li><li><a href="grossesse.html">Grossesse : le journal de l'attente</a></li><li><a href="annee-enfant.html">L'année de votre enfant, de 0 à 6 ans</a></li></ul></div><div><h4>Offrir</h4><ul><li><a href="carte-cadeau.html">La carte cadeau</a></li><li><a href="offrir-noel.html">Pour Noël</a></li><li><a href="fete-des-grands-meres.html">Fête des grands-mères</a></li><li style="color:var(--grey)">Fête des mères</li><li style="color:var(--grey)">Fête des pères</li><li style="color:var(--grey)">Un anniversaire</li></ul></div><div><h4>Memoreees</h4><ul><li><a href="application.html">L'application</a></li><li><a href="comment-ca-marche.html">Comment ça marche</a></li><li><a href="index.html#prix">Tarifs</a></li><li><a href="aide.html">Aide et questions</a></li><li><a href="compte.html">Mon compte</a></li><li><a href="engagement.html">Notre engagement : 25 € par livre Mémoire</a></li><li><a href="devenir-ambassadeur.html">Devenir ambassadeur</a></li><li style="color:var(--grey)">Notre histoire</li></ul></div>
+      <div><h4>Les livres</h4><ul><li><a href="une-vie.html">Mémoires · Une vie</a></li><li><a href="nos-racines.html">Mémoires · Nos racines</a></li><li><a href="carnet-de-voyage.html">Carnet de voyage</a></li><li><a href="en-t-attendant.html">En t'attendant</a></li><li><a href="tes-premieres-annees.html">Tes premières années</a></li><li><a href="notre-annee.html">Notre année</a></li><li><a href="voeux.html">Vœux : anniversaire, mariage, un départ</a></li></ul></div><div><h4>Offrir</h4><ul><li><a href="carte-cadeau.html">La carte cadeau</a></li><li><a href="offrir-noel.html">Pour Noël</a></li><li><a href="offrir-anniversaire.html">Un anniversaire</a></li><li><a href="offrir-mariage.html">Un mariage</a></li><li><a href="offrir-bebe.html">Un bébé qui arrive</a></li><li><a href="offrir-naissance.html">Une naissance</a></li><li><a href="offrir-depart.html">Un départ</a></li><li><a href="offrir-voyage.html">Un voyage</a></li></ul></div><div><h4>Les fêtes</h4><ul><li><a href="fete-des-meres.html">Fête des mères</a></li><li><a href="fete-des-peres.html">Fête des pères</a></li><li><a href="fete-des-grands-meres.html">Fête des grands-mères</a></li><li><a href="nouvelle-annee.html">Une nouvelle année</a></li><li><a href="evjf.html">EVJF, EVG</a></li></ul></div><div><h4>Memoreees</h4><ul><li><a href="application.html">L'application</a></li><li><a href="comment-ca-marche.html">Comment ça marche</a></li><li><a href="index.html#prix">Tarifs</a></li><li><a href="aide.html">Aide et questions</a></li><li><a href="compte.html">Mon compte</a></li><li><a href="devenir-ambassadeur.html">Devenir ambassadeur</a></li><li style="color:var(--grey)">Notre histoire</li></ul></div>
     </div>
     <div class="fprivacy">
       <span class="fp-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></span>
@@ -297,6 +294,6 @@ document.querySelectorAll('.ty-panel').forEach(function (panel) {
   document.addEventListener('click',function(e){if(e.target.closest('[data-cookie-reset]')){try{localStorage.removeItem(KEY);}catch(x){}bar.hidden=false;}});
 })();
 </script>
-<script src="assets/site.js?v=50981d74" defer></script>
+<script src="assets/site.js?v=37bcbdce" defer></script>
 </body>
 </html>

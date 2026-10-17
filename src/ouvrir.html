@@ -1,0 +1,49 @@
+<!-- title: Ouvrir l'app | description: Le lien de votre email ouvre l'app Memoreees. | nav: -->
+<style>
+/* Le lien de confirmation de l'email (TABLEAU-MACRO.md, bloc 9) passe par ici : sur un téléphone, il ouvre l'app ;
+   sur un ordinateur, il montre un QR code à viser avec le téléphone. Rien n'est enregistré sur cette page. */
+.ou-wrap{max-width:560px;margin:0 auto;padding-block:clamp(40px,6vw,80px);text-align:center}
+.ou-wrap h1{font-size:clamp(40px,6vw,64px)}
+.ou-qr{display:inline-block;margin:24px auto;padding:16px;background:#fff;border-radius:22px;box-shadow:inset 0 0 0 1px var(--rule)}
+.ou-qr canvas,.ou-qr img{display:block;width:220px;height:220px}
+.ou-note{color:var(--grey);font-size:14.5px}
+.ou-btn{margin-top:18px}
+</style>
+<div class="wrap ou-wrap">
+  <p class="kicker">Votre lien</p>
+  <h1 id="ou-title">On ouvre <em>l'app</em></h1>
+  <p class="lead" id="ou-lead">Un instant…</p>
+  <div id="ou-desktop" hidden>
+    <div class="ou-qr"><canvas id="ou-canvas" width="220" height="220"></canvas></div>
+    <p class="ou-note">Visez ce code avec l'appareil photo de votre téléphone : l'app s'ouvre sur votre compte.<br>Ou ouvrez simplement l'email de Memoreees sur votre téléphone.</p>
+  </div>
+  <div id="ou-mobile" hidden>
+    <p class="ou-note">L'app ne s'est pas ouverte ? Installez-la, puis touchez le bouton.</p>
+    <p class="ou-btn"><a class="btn btn-ink" id="ou-open" href="#">Ouvrir Memoreees</a></p>
+    {{STORES}}
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+(function () {
+  var target = 'memoreees://connexion/lien' + (location.hash || '') + (location.search || '');
+  var mobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+  var lead = document.getElementById('ou-lead');
+  if (mobile) {
+    document.getElementById('ou-mobile').hidden = false;
+    document.getElementById('ou-open').href = target;
+    lead.textContent = 'Si rien ne se passe, touchez le bouton.';
+    location.href = target;
+  } else {
+    document.getElementById('ou-desktop').hidden = false;
+    document.getElementById('ou-title').innerHTML = 'Ouvrez cet email <em>sur votre téléphone</em>';
+    lead.textContent = 'Ce lien ouvre l’app Memoreees, qui est sur votre téléphone.';
+    try {
+      var qr = qrcode(0, 'M'); qr.addData(location.href); qr.make();
+      var n = qr.getModuleCount(), cv = document.getElementById('ou-canvas'), ctx = cv.getContext('2d'), s = 220 / n;
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 220, 220); ctx.fillStyle = '#1C1320';
+      for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (qr.isDark(r, c)) ctx.fillRect(c * s, r * s, s + 0.5, s + 0.5);
+    } catch (e) { document.querySelector('.ou-qr').hidden = true; }
+  }
+})();
+</script>
