@@ -1,7 +1,8 @@
 """Assemble le site d'aperçu Memoreees : chaque page de src/ reçoit l'en-tête, le pied de page et les métadonnées communs.
 
 Une page de src/ commence par un commentaire de métadonnées :
-<!-- title: Titre de la page | description: Phrase pour Google | nav: comment -->
+<!-- title: Titre de la page | description: Phrase pour Google | nav: comment | noindex: 1 -->
+(noindex: 1 est réservé aux pages légales, qui ne doivent jamais être indexées, même après le lancement.)
 puis le contenu de <main>. Le résultat est écrit à la racine du dossier site/ (servi tel quel par GitHub Pages).
 
 Depuis le 17/10 (TABLEAU-MACRO.md) : le catalogue (PRODUITS), les pages d'occasion de l'onglet Offrir (OCCASIONS, bloc 8, écrites
@@ -151,7 +152,9 @@ FOOTER = [
              ("Aide et questions", "aide.html"), ("Ma bibliothèque", "https://livre.memoreees.com/bibliotheque"), ("Devenir ambassadeur", "devenir-ambassadeur.html"), ("Notre histoire", None)]),
 ]
 
-LEGAL = [("Mentions légales", "mentions-legales.html"), ("CGV", "cgv.html"), ("Cookies", "cookies.html")]
+LEGAL = [("Mentions légales", "mentions-legales.html"), ("CGV", "cgv.html"), ("CGU", "cgu.html"), ("Cookies", "cookies.html")]
+# Pages légales : « noindex: 1 » dans leur en-tête (décision du 17/10, chantier juridique : le nom de Diane n'y est pas indexé).
+# Pendant l'aperçu, tout le site est déjà noindex ; au lancement, retirer la balise générale et garder celle des pages légales.
 # Les données personnelles (RGPD) ont leur propre encart dans le pied de page, plutôt que trois liens perdus parmi les autres.
 PRIVACY = """<div class="fprivacy">
       <span class="fp-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></span>
@@ -329,6 +332,7 @@ def version(name: str) -> str:
 
 def page(meta: dict, body: str) -> str:
     body_class = ' class="has-hero"' if meta.get("hero") else ""
+    robots = '<meta name="robots" content="noindex, nofollow">' if meta.get("noindex") else '<meta name="robots" content="noindex, nofollow">'  # aperçu : tout noindex ; au lancement, remplacer le second par ''
     title = meta.get("title", BRAND)
     full_title = title if BRAND in title else f"{title} · {BRAND}"
     return f"""<!doctype html>
@@ -336,7 +340,7 @@ def page(meta: dict, body: str) -> str:
 <head>
 <meta charset="utf-8">
 {COOKIEBOT_HEAD}<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
+{robots}
 <title>{full_title}</title>
 <meta name="description" content="{meta.get('description', '')}">
 <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
