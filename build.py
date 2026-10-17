@@ -135,6 +135,8 @@ REDIRECTIONS = {
     "recit.html": "carnet-de-voyage.html", "voyage-solo.html": "carnet-de-voyage.html", "chronique.html": "notre-annee.html",
     "grossesse.html": "en-t-attendant.html", "annee-enfant.html": "tes-premieres-annees.html", "anniversaire.html": "voeux.html",
     "engagement.html": "index.html",
+    # Le compte du site est la bibliothèque, sur livre.memoreees.com (TABLEAU-MACRO bloc 11, 17/10 au soir).
+    "compte.html": "https://livre.memoreees.com/bibliotheque",
 }
 
 # Pages existantes : les liens du pied de page vers une page pas encore écrite restent du texte simple.
@@ -146,7 +148,7 @@ FOOTER = [
     ("Les fêtes", [("Fête des mères", "fete-des-meres.html"), ("Fête des pères", "fete-des-peres.html"), ("Fête des grands-mères", "fete-des-grands-meres.html"),
                    ("Une nouvelle année", "nouvelle-annee.html"), ("EVJF, EVG", "evjf.html")]),
     (BRAND, [("L'application", "application.html"), ("Comment ça marche", "comment-ca-marche.html"), ("Tarifs", "index.html#prix"),
-             ("Aide et questions", "aide.html"), ("Mon compte", "compte.html"), ("Devenir ambassadeur", "devenir-ambassadeur.html"), ("Notre histoire", None)]),
+             ("Aide et questions", "aide.html"), ("Ma bibliothèque", "https://livre.memoreees.com/bibliotheque"), ("Devenir ambassadeur", "devenir-ambassadeur.html"), ("Notre histoire", None)]),
 ]
 
 LEGAL = [("Mentions légales", "mentions-legales.html"), ("CGV", "cgv.html"), ("Cookies", "cookies.html")]
@@ -275,13 +277,13 @@ def header(active: str) -> str:
     <nav class="main" aria-label="Navigation principale"><ul>{links}</ul></nav>
     <div class="hdr-right">
       <a class="icon-btn hide-sm" href="aide.html" aria-label="Aide et questions"{current if active == "aide" else ""}>{ICON_HELP}</a>
-      <a class="icon-btn hide-sm" href="compte.html" aria-label="Mon compte">{ICON_USER}</a>
+      <a class="icon-btn hide-sm" href="https://livre.memoreees.com/bibliotheque" aria-label="Ma bibliothèque">{ICON_USER}</a>
       <button class="icon-btn cart-btn" type="button" aria-label="Ouvrir le panier" data-open-cart>{ICON_BAG}<span class="cart-count" hidden>0</span></button>
       <a class="btn btn-cta hdr-cta" href="carte-cadeau.html" aria-label="Écrire ou offrir une histoire"><span class="roll r-btn" aria-hidden="true"><span><em>Écrire</em><em class="o">Offrir</em><em>Écrire</em></span></span>une histoire</a>
       <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
-  <div class="mnav-wrap"><nav class="mobile-nav" id="mnav" aria-label="Navigation mobile">{mobile}<a href="aide.html">Aide et questions</a><a href="compte.html">Mon compte</a><a href="index.html#prix">Commencer une histoire</a></nav></div>
+  <div class="mnav-wrap"><nav class="mobile-nav" id="mnav" aria-label="Navigation mobile">{mobile}<a href="aide.html">Aide et questions</a><a href="https://livre.memoreees.com/bibliotheque">Ma bibliothèque</a><a href="index.html#prix">Commencer une histoire</a></nav></div>
 </header>
 <div class="drawer-veil" data-close-cart hidden></div>
 <aside class="drawer" id="cart" aria-label="Panier" aria-hidden="true" tabindex="-1">
