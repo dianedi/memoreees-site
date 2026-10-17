@@ -4,6 +4,9 @@ Une page de src/ commence par un commentaire de métadonnées :
 <!-- title: Titre de la page | description: Phrase pour Google | nav: comment -->
 puis le contenu de <main>. Le résultat est écrit à la racine du dossier site/ (servi tel quel par GitHub Pages).
 
+Depuis le 17/10 (TABLEAU-MACRO.md) : le catalogue (PRODUITS), les pages d'occasion de l'onglet Offrir (OCCASIONS, bloc 8, écrites
+par ce script) et les redirections des anciennes pages (REDIRECTIONS) vivent ici.
+
 Usage : python3 site/build.py
 """
 import hashlib
@@ -31,27 +34,119 @@ NAV = [
     ("comment", "comment-ca-marche.html", "Comment ça marche"),
     ("app", "application.html", "L'application"),
     ("livres", "index.html#livres", "Les livres"),
+    ("offrir", "carte-cadeau.html", "Offrir"),
 ]
 
 # Messages du bandeau (validés le 08/10), fixes : tous visibles sur grand écran, un à la fois en fondu sur mobile. Alma : à installer sur la boutique avant la mise en ligne.
 BANNER = [
-    "Livraison offerte en Europe",
+    "Livraison incluse, partout en Europe",
     "Satisfait ou remboursé",
     "Paiement en 3x avec Alma",
 ]
 
+# Le catalogue (TABLEAU-MACRO, blocs 1 et 5, 17/10) : six produits, une seule taille et un seul prix chacun.
+# clé = clé du panier (SKU lus par le serveur), page, nom, prix, photo, une phrase, à qui on l'offre.
+PRODUITS = {
+    "memoire:vie": {"page": "une-vie.html", "nom": "Mémoires · Une vie", "court": "Une vie", "prix": 119, "photo": "hero-1.jpg",
+                    "pitch": "Toute une vie, racontée de sa voix : l'enfance, les amours, le travail, ce qu'on transmet.",
+                    "specs": "1 voix · 128 pages · 24 photos", "pour": "un parent, un grand-parent"},
+    "memoire:racines": {"page": "nos-racines.html", "nom": "Mémoires · Nos racines", "court": "Nos racines", "prix": 119, "photo": "anciennes-photos.jpg",
+                        "pitch": "Les parents, les grands-parents, les origines, les secrets de famille, en remontant l'arbre.",
+                        "specs": "1 voix · 128 pages · 24 photos", "pour": "celui qui sait, dans la famille"},
+    "carnet": {"page": "carnet-de-voyage.html", "nom": "Carnet de voyage", "court": "Carnet de voyage", "prix": 69, "photo": "hero-3.jpg",
+               "pitch": "Un voyage, seul ou à plusieurs, raconté au fil des jours, étape par étape.",
+               "specs": "1 voix ou plusieurs · 64 pages · 16 photos", "pour": "celui qui part"},
+    "grossesse": {"page": "en-t-attendant.html", "nom": "En t'attendant", "court": "En t'attendant", "prix": 89, "photo": "grossesse-robe-rouge.jpg",
+                  "pitch": "L'attente d'un enfant, racontée par ses parents, en s'adressant à lui.",
+                  "specs": "1 ou 2 parents · 96 pages · 24 photos", "pour": "de futurs parents"},
+    "annee:1": {"page": "tes-premieres-annees.html", "nom": "Tes premières années", "court": "Tes premières années", "prix": 89, "photo": "annee-balancoire.jpg",
+                "pitch": "Une année de l'enfant, racontée par ses parents : l'année 1, puis chaque année jusqu'à 6 ans.",
+                "specs": "1 ou 2 parents · 96 pages · 24 photos", "pour": "de jeunes parents"},
+    "famille": {"page": "notre-annee.html", "nom": "Notre année", "court": "Notre année", "prix": 129, "photo": "famille-canape.jpg",
+                "pitch": "Les douze mois d'une famille, racontés par tous, petits et grands.",
+                "specs": "toute la famille · 128 pages · 24 photos", "pour": "une famille"},
+    "voeux:anniversaire:petit": {"page": "voeux.html", "nom": "Vœux · Anniversaire", "court": "Vœux", "prix": 29, "photo": "anniversaire-gateau.jpg",
+                                 "pitch": "Les mots de ses proches, de leur voix, une page chacun : 5 à 20 voix, ou 40, ou 60.",
+                                 "specs": "5 à 20 voix · 1 page par voix", "pour": "la personne qu'on fête"},
+    "voeux:mariage:moyen": {"page": "voeux.html#mariage", "nom": "Vœux · Mariage", "court": "Vœux", "prix": 49, "photo": "mariage-couple.jpg",
+                            "pitch": "Les témoins, la famille, les amis laissent aux mariés un souvenir, un mot, un vœu, de leur voix.",
+                            "specs": "40 voix · 1 page par voix", "pour": "les mariés"},
+    "voeux:depart:moyen": {"page": "voeux.html#depart", "nom": "Vœux · Un départ", "court": "Vœux", "prix": 49, "photo": "fete-champagne.jpg",
+                           "pitch": "Une retraite, un collègue qui part, une nouvelle vie : les mots de ceux qui restent.",
+                           "specs": "40 voix · 1 page par voix", "pour": "celui qui part"},
+    "pack": {"page": "en-t-attendant.html#pack", "nom": "Pack En t'attendant + Tes premières années", "court": "Le pack", "prix": 159, "photo": "naissance-pieds-coeur.jpg",
+             "pitch": "L'attente, puis la première année : deux livres, la naissance racontée une seule fois.",
+             "specs": "2 livres · 96 pages chacun", "pour": "un bébé qui arrive"},
+}
+
+# Les occasions de l'onglet Offrir (TABLEAU-MACRO, bloc 8) : les produits proposés, dans l'ordre, le premier mis en avant.
+# Noël et la fête des grands-mères ont leur page écrite à la main (offrir-noel.html, fete-des-grands-meres.html) ; les autres
+# sont écrites par ce script (page_occasion), avec deux présentations qui alternent.
+OCCASIONS = [
+    {"page": "offrir-anniversaire.html", "nav": "Un anniversaire", "titre": "Un anniversaire", "accroche": "Pour ses 30, 50, 80 ans : <em>des voix, pas des objets</em>",
+     "description": "Idée de cadeau d'anniversaire : les vœux de ses proches de vive voix dans un livre, ou le livre de sa vie. Carte cadeau à imprimer tout de suite.",
+     "photo": "anniversaire-gateau.jpg", "lead": "Un anniversaire, c'est le jour où l'on a envie de dire à quelqu'un ce qu'il représente. Ici, chacun le dit de sa voix, et tout tient dans un livre qu'on garde.",
+     "produits": [("voeux:anniversaire:petit", "Le livre des vœux de ses proches, prêt pour le jour J."), ("memoire:vie", "Un anniversaire rond : le moment de raconter toute une vie."),
+                  ("annee:1", "L'anniversaire d'un enfant de 1 à 6 ans : l'année qu'il vient de vivre, par ses parents."), ("carnet", "Le voyage qu'on lui offre, raconté au retour."),
+                  ("grossesse", "Si elle attend un bébé : neuf mois à lui raconter.")]},
+    {"page": "offrir-mariage.html", "nav": "Un mariage", "titre": "Un mariage", "accroche": "Les vœux des témoins, <em>de leur voix</em>",
+     "description": "Cadeau de mariage : les témoins, la famille et les amis laissent aux mariés un souvenir, un mot, un vœu, de vive voix, dans un livre.",
+     "photo": "mariage-haie.jpg", "lead": "Le discours des témoins s'oublie, les messages se perdent. Dans ce livre, chacun a sa page, et chaque page se réécoute.",
+     "produits": [("voeux:mariage:moyen", "Quarante voix, une page chacune, le QR code pour les entendre. Les prénoms des mariés sur la couverture.")]},
+    {"page": "offrir-bebe.html", "nav": "Un bébé qui arrive", "titre": "Un bébé qui arrive", "accroche": "Neuf mois à l'attendre, <em>puis sa première année</em>",
+     "description": "Cadeau pour de futurs parents : le journal de l'attente, puis celui de la première année, racontés de vive voix à leur enfant.",
+     "photo": "grossesse-coeur-ventre.jpg", "lead": "Les futurs parents n'ont pas le temps d'écrire. Ils ont celui de parler, le soir, à l'enfant qui arrive. Le livre, lui, restera.",
+     "produits": [("grossesse", "L'attente, mois après mois, en s'adressant à l'enfant."), ("annee:1", "Puis l'année 1 : la naissance, les premières fois, trois vidéos."), ("pack", "Les deux livres ensemble, 159 € au lieu de 178.")]},
+    {"page": "offrir-naissance.html", "nav": "Une naissance", "titre": "Une naissance", "accroche": "Sa première année, <em>racontée par ses parents</em>",
+     "description": "Cadeau de naissance : les parents racontent la première année de leur enfant de vive voix, mois après mois, avec la naissance en ouverture.",
+     "photo": "naissance-pieds-coeur.jpg", "lead": "Le livre s'ouvre sur le jour de sa naissance et le monde ce jour-là. Puis douze mois, un chapitre chacun, avec les premières fois.",
+     "produits": [("annee:1", "L'année 1 : la naissance, puis chaque mois, par ses parents, avec trois vidéos.")]},
+    {"page": "offrir-depart.html", "nav": "Un départ", "titre": "Un départ", "accroche": "Une retraite, un collègue qui part : <em>les mots de ceux qui restent</em>",
+     "description": "Cadeau de départ à la retraite ou pot de départ : les vœux des collègues et des proches de vive voix, dans un livre. Ou le grand voyage, ou le moment de raconter sa vie.",
+     "photo": "fete-champagne.jpg", "lead": "Un départ, c'est des gens qui ont quelque chose à dire et pas le temps de le dire. Ici, chacun prend trois minutes, de sa voix.",
+     "produits": [("voeux:depart:moyen", "Les vœux des collègues et des proches, une page chacun."), ("carnet", "Le grand voyage qui commence, raconté étape par étape."), ("memoire:vie", "Le moment de raconter toute une vie.")]},
+    {"page": "offrir-voyage.html", "nav": "Un voyage", "titre": "Un voyage", "accroche": "Le carnet qu'on n'a jamais <em>le temps d'écrire</em>",
+     "description": "Cadeau pour un voyage : le carnet de voyage raconté de vive voix, étape par étape, seul ou à plusieurs, avec les photos et la voix à réécouter.",
+     "photo": "hero-3.jpg", "lead": "Au troisième jour, le carnet reste au fond du sac. Parler, c'est plus facile : deux minutes le soir, et rien ne se perd.",
+     "produits": [("carnet", "Un voyage, seul ou à plusieurs, au fil des jours : 64 pages, 16 photos, une par étape.")]},
+    {"page": "fete-des-meres.html", "nav": "Fête des mères", "titre": "La fête des mères", "accroche": "Cette année, <em>demandez-lui de raconter</em>",
+     "description": "Cadeau de fête des mères : le livre de sa vie, raconté de sa voix, ou les mots de toute la famille dans un livre de vœux.",
+     "photo": "famille-allee.jpg", "lead": "On connaît ses recettes et ses expressions. Sait-on comment elle a rencontré notre père, ce qu'elle rêvait de faire à vingt ans ?",
+     "produits": [("memoire:vie", "Toute sa vie, une question à la fois, de sa voix."), ("voeux:anniversaire:petit", "Les mots de la famille, une page chacun."),
+                  ("memoire:racines", "Les origines de la famille, qu'elle est souvent seule à connaître."), ("annee:1", "Pour une jeune maman : l'année de son enfant."), ("grossesse", "Pour une future maman : l'attente, racontée à l'enfant.")]},
+    {"page": "fete-des-peres.html", "nav": "Fête des pères", "titre": "La fête des pères", "accroche": "Ce qu'il n'a jamais <em>pensé à raconter</em>",
+     "description": "Cadeau de fête des pères : le livre de sa vie, raconté de sa voix, ou les mots de toute la famille dans un livre de vœux.",
+     "photo": "commerce-ancien.jpg", "lead": "Sa jeunesse avant nous, ses choix, ses doutes. Tout ce qu'il n'a jamais raconté, parce que personne ne l'avait demandé.",
+     "produits": [("memoire:vie", "Toute sa vie, une question à la fois, de sa voix."), ("voeux:anniversaire:petit", "Les mots de la famille, une page chacun."),
+                  ("memoire:racines", "Les origines de la famille, branche par branche."), ("annee:1", "Pour un jeune papa : l'année de son enfant."), ("grossesse", "Pour un futur papa : l'attente, racontée à l'enfant.")]},
+    {"page": "nouvelle-annee.html", "nav": "Une nouvelle année", "titre": "Une nouvelle année", "accroche": "L'année qui commence, <em>racontée par tous</em>",
+     "description": "Pour la nouvelle année : les douze mois de la famille racontés par chacun, ou le livre de la vie d'un parent, ou le carnet du voyage qui s'annonce.",
+     "photo": "diner-jardin.jpg", "lead": "Les grandes années, on s'en souvient. Ce qui s'efface, ce sont les petites choses. Ce livre les garde, mois après mois.",
+     "produits": [("famille", "Les douze mois qui viennent, racontés par toute la famille."), ("memoire:vie", "Une bonne résolution : la vie d'un parent, enfin racontée."), ("carnet", "Le voyage de l'année, raconté au fil des jours.")]},
+    {"page": "evjf.html", "nav": "EVJF, EVG", "titre": "Un EVJF, un EVG", "accroche": "Le week-end par toute la bande, <em>ou le livre des témoins</em>",
+     "description": "Cadeau d'EVJF ou d'EVG : le week-end raconté par toute la bande dans un carnet de voyage, ou les vœux des témoins aux mariés de vive voix.",
+     "photo": "hero-2.jpg", "lead": "Deux cadeaux possibles : le week-end raconté par toute la bande, souvenirs inavouables compris, ou le livre des témoins pour le jour du mariage.",
+     "produits": [("carnet", "Le week-end, raconté à plusieurs voix, étape par étape."), ("voeux:mariage:moyen", "Les vœux des témoins et des amis aux mariés, pour le jour J.")]},
+]
+
+# Anciennes pages (produits et noms d'avant le 17/10) : une page de redirection vers la nouvelle.
+REDIRECTIONS = {
+    "ma-vie.html": "une-vie.html", "mes-ancetres.html": "nos-racines.html", "un-temps-fort.html": "une-vie.html", "memoire.html": "une-vie.html",
+    "recit.html": "carnet-de-voyage.html", "voyage-solo.html": "carnet-de-voyage.html", "chronique.html": "notre-annee.html",
+    "grossesse.html": "en-t-attendant.html", "annee-enfant.html": "tes-premieres-annees.html", "anniversaire.html": "voeux.html",
+    "engagement.html": "index.html",
+}
+
 # Pages existantes : les liens du pied de page vers une page pas encore écrite restent du texte simple.
 FOOTER = [
-    ("Les livres", [("Ma vie", "ma-vie.html"), ("Mes ancêtres", "mes-ancetres.html"), ("Un temps fort", "un-temps-fort.html"),
-                    ("Vœux : anniversaire, mariage, retraite…", "anniversaire.html"),
-                    ("Récit : voyage, EVJF, EVG", "recit.html"), ("Carnet de bord : voyage en solitaire", "voyage-solo.html"),
-                    ("Chronique : une année en famille", "chronique.html"),
-                    ("Grossesse : le journal de l'attente", "grossesse.html"), ("L'année de votre enfant, de 0 à 6 ans", "annee-enfant.html")]),
-    ("Offrir", [("La carte cadeau", "carte-cadeau.html"), ("Pour Noël", "offrir-noel.html"), ("Fête des grands-mères", "fete-des-grands-meres.html"),
-                ("Fête des mères", None), ("Fête des pères", None), ("Un anniversaire", None)]),
+    ("Les livres", [("Mémoires · Une vie", "une-vie.html"), ("Mémoires · Nos racines", "nos-racines.html"), ("Carnet de voyage", "carnet-de-voyage.html"),
+                    ("En t'attendant", "en-t-attendant.html"), ("Tes premières années", "tes-premieres-annees.html"), ("Notre année", "notre-annee.html"),
+                    ("Vœux : anniversaire, mariage, un départ", "voeux.html")]),
+    ("Offrir", [("La carte cadeau", "carte-cadeau.html"), ("Pour Noël", "offrir-noel.html")] + [(o["nav"], o["page"]) for o in OCCASIONS[:6]]),
+    ("Les fêtes", [("Fête des mères", "fete-des-meres.html"), ("Fête des pères", "fete-des-peres.html"), ("Fête des grands-mères", "fete-des-grands-meres.html"),
+                   ("Une nouvelle année", "nouvelle-annee.html"), ("EVJF, EVG", "evjf.html")]),
     (BRAND, [("L'application", "application.html"), ("Comment ça marche", "comment-ca-marche.html"), ("Tarifs", "index.html#prix"),
-             ("Aide et questions", "aide.html"), ("Mon compte", "compte.html"),
-             ("Notre engagement : 25 € par livre Mémoire", "engagement.html"), ("Devenir ambassadeur", "devenir-ambassadeur.html"), ("Notre histoire", None)]),
+             ("Aide et questions", "aide.html"), ("Mon compte", "compte.html"), ("Devenir ambassadeur", "devenir-ambassadeur.html"), ("Notre histoire", None)]),
 ]
 
 LEGAL = [("Mentions légales", "mentions-legales.html"), ("CGV", "cgv.html"), ("Cookies", "cookies.html")]
@@ -142,7 +237,7 @@ LAUREL = '<svg class="laurel" viewBox="0 0 24 48" aria-hidden="true"><path d="M2
 REASSURE = f"""<div class="trust">
       <ul class="trust-list">
         <li>Satisfait ou remboursé 30 jours</li>
-        <li>Livraison offerte en Europe</li>
+        <li>Livraison incluse en Europe</li>
         <li>Leur voix, pour toujours</li>
       </ul>
       <div class="trust-proof">
@@ -264,7 +359,82 @@ def page(meta: dict, body: str) -> str:
 """
 
 
+def euro(n) -> str:
+    return f"{n} €"
+
+
+def carte_produit(cle: str, pourquoi: str, vedette: bool = False) -> str:
+    """Une carte de produit d'une page d'occasion : photo, nom, une phrase, prix, le bouton vers la fiche."""
+    p = PRODUITS[cle]
+    return (f'<article class="oc-prod{" vedette" if vedette else ""}"><a class="oc-photo" href="{p["page"]}"><img src="assets/photos/{p["photo"]}" alt="" loading="lazy"></a>'
+            f'<div><p class="fmt">{p["nom"]}</p><h3>{p["pitch"]}</h3><p class="oc-why">{pourquoi}</p><p class="specs">{p["specs"]}</p>'
+            f'<div class="row"><span class="price">{euro(p["prix"])}</span><a class="btn {"btn-ink" if vedette else "btn-line"}" href="{p["page"]}">Découvrir</a>'
+            f'<button class="btn btn-peach" type="button" onclick="ltAddToCart(\'{cle}\')">Offrir</button></div></div></article>')
+
+
+def page_occasion(o: dict, variante: int) -> tuple:
+    """Le corps d'une page d'occasion (bloc 8) : l'accroche, les produits dans l'ordre, le premier mis en avant, les trois étapes,
+    une question fréquente. Deux présentations alternent : grande photo en tête (0) ou photo à côté du texte (1)."""
+    premier, suite = o["produits"][0], o["produits"][1:]
+    cartes = carte_produit(premier[0], premier[1], True) + "".join(carte_produit(c, w) for c, w in suite)
+    if variante == 0:
+        tete = (f'<div class="hero-top product-hero"><div class="hero-bg" aria-hidden="true"><img src="assets/photos/{o["photo"]}" alt="" fetchpriority="high"></div>'
+                f'<div class="wrap"><div class="hero-grid"><div><p class="kicker">Offrir · {o["titre"]}</p><h1>{o["accroche"]}</h1><p class="lead">{o["lead"]}</p>'
+                f'<div class="ctas"><a class="btn btn-light" href="#choisir">Choisir le livre</a><a class="btn btn-ghost-light" href="carte-cadeau.html">La carte cadeau</a></div></div></div>{{{{REASSURE}}}}</div></div>')
+    else:
+        tete = (f'<div class="wrap page-hero split nb-hero"><div><p class="kicker">Offrir · {o["titre"]}</p><h1>{o["accroche"]}</h1><p class="lead">{o["lead"]}</p>'
+                f'<div class="ctas"><a class="btn btn-ink" href="#choisir">Choisir le livre</a><a class="btn btn-line" href="carte-cadeau.html">La carte cadeau</a></div></div>'
+                f'<div class="nb-visual has-img"><img src="assets/photos/{o["photo"]}" alt="" fetchpriority="high"></div></div>')
+    n = len(o["produits"])
+    corps = f"""{tete}
+<section id="choisir">
+  <div class="wrap">
+    <p class="kicker">{"Le livre qu'on offre" if n == 1 else "Les livres qu'on offre"}</p>
+    <h2>{"Un seul livre, <em>fait pour ça</em>" if n == 1 else "Dans l'ordre : <em>celui qu'on conseille d'abord</em>"}</h2>
+    <div class="oc-list">{cartes}</div>
+    <p class="note">Livraison incluse partout en Europe. Un seul prix par livre, tout compris : l'app, le livre relié, les voix à réécouter, la carte cadeau.</p>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <p class="kicker">Comment ça se passe</p>
+    <h2>Une carte le jour J, <em>le livre ensuite</em></h2>
+    <ol class="journey">
+      <li><small>Le jour J</small><b>Vous offrez la carte</b><p>Juste après l'achat, vous préparez la carte cadeau sur la page de confirmation : elle s'imprime ou s'envoie par message, avec son code. <a href="carte-cadeau.html">Voir la carte</a></p></li>
+      <li><small>Ensuite</small><b>On raconte</b><p>Avec le code, le livre s'ouvre dans l'app. Une question à la fois, à voix haute, à son rythme : aucune durée imposée.</p></li>
+      <li><small>Quand tout est dit</small><b>On relit, on valide</b><p>Le livre mis en page se relit en ligne, autant de fois qu'on veut. Rien ne part à l'impression sans validation.</p></li>
+      <li><small>Trois semaines plus tard</small><b>Le livre arrive</b><p>Relié, 21 × 21 cm, avec les QR codes pour réécouter les voix. Livraison incluse en Europe.</p></li>
+    </ol>
+  </div>
+</section>
+<section>
+  <div class="wrap final">
+    {{{{ONDE}}}}
+    <h2>{o["accroche"]}</h2>
+    <a class="btn btn-ink" href="#choisir">Choisir le livre</a>
+  </div>
+</section>"""
+    meta = {"title": f"{o['titre']} · idée de cadeau qui se raconte de vive voix", "description": o["description"], "nav": "offrir"}
+    if variante == 0:
+        meta["hero"] = "1"
+    return meta, corps
+
+
+def page_redirection(vers: str) -> str:
+    return (f'<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url={vers}">'
+            f'<link rel="canonical" href="{vers}"><meta name="robots" content="noindex"><title>Memoreees</title></head>'
+            f'<body><p>Cette page a changé d\'adresse : <a href="{vers}">{vers}</a></p></body></html>\n')
+
+
 def main():
+    for ancienne, vers in REDIRECTIONS.items():
+        (ROOT / ancienne).write_text(page_redirection(vers), encoding="utf-8")
+        print("→", ancienne, "vers", vers)
+    for i, o in enumerate(OCCASIONS):
+        meta, corps = page_occasion(o, i % 2)
+        corps = corps.replace("{{ONDE}}", ONDE).replace("{{REASSURE}}", REASSURE)
+        (ROOT / o["page"]).write_text(page(meta, corps), encoding="utf-8")
+        print("✓", o["page"], "(occasion)")
     for src in sorted(SRC.glob("*.html")):
         text = src.read_text(encoding="utf-8")
         m = re.match(r"\s*<!--(.*?)-->", text, re.S)

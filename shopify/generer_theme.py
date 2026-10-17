@@ -22,51 +22,35 @@ ONDE = '<span class="onde" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i
 
 # ---- Produits : page du site -> poignée (handle) Shopify, clé du panier ----
 PRODUCT_PAGES = {
-    # page : (handle, clé « maison » du livre, base pour les pastilles)
-    "ma-vie": ("ma-vie", "mavie", "memoire"),
-    "mes-ancetres": ("mes-ancetres", "ancetres", "memoire"),
-    "un-temps-fort": ("un-temps-fort", "tempsfort", "memoire"),
-    "anniversaire": ("voeux", "voeux:anniversaire", "voeux"),
-    "recit": ("recit", "recit:voyage", "recit"),
-    "chronique": ("chronique", "chronique", "chronique"),
-    "voyage-solo": ("voyage-solo", "voyageSolo", "voyageSolo"),
-    "lignes-de-vie": ("lignes-de-vie", "lignes", "lignes"),
-    "grossesse": ("grossesse", "grossesse:simple", "grossesse"),
-    "annee-enfant": ("annee-enfant", "annee:simple", "annee"),
-    "memoire": ("memoire", None, None),
+    # page : (handle, clé « maison » du livre, base pour les pastilles) — 17/10 : six produits (TABLEAU-MACRO)
+    "une-vie": ("memoires", "memoire:vie", "memoire"),
+    "nos-racines": ("memoires", "memoire:racines", "memoire"),
+    "carnet-de-voyage": ("carnet-de-voyage", "carnet", "carnet"),
+    "en-t-attendant": ("en-t-attendant", "grossesse", "grossesse"),
+    "tes-premieres-annees": ("tes-premieres-annees", "annee:1", "annee"),
+    "notre-annee": ("notre-annee", "famille", "famille"),
+    "voeux": ("voeux", "voeux:anniversaire:petit", "voeux"),
+    "lignes-de-vie": ("lignes-de-vie", None, None),
 }
 
-# Clé du panier -> (handle, titre exact de la variante ou None pour la première variante)
+# Clé du panier (= SKU lu par le serveur) -> (handle, titre exact de la variante ou None pour la première variante)
 KEYS = {
-    "mavie": ("ma-vie", None),
-    "ancetres": ("mes-ancetres", None),
-    "tempsfort": ("un-temps-fort", None),
-    "voeux:anniversaire": ("voeux", "Anniversaire"),
-    "voeux:mariage": ("voeux", "Mariage"),
-    "voeux:retraite": ("voeux", "Départ à la retraite"),
-    "voeux:naissance": ("voeux", "Naissance"),
-    "voeux:depart": ("voeux", "Pot de départ"),
-    "recit:voyage": ("recit", "Voyage entre amis"),
-    "recit:evjf": ("recit", "EVJF"),
-    "recit:evg": ("recit", "EVG"),
-    "chronique": ("chronique", None),
-    "voyageSolo": ("voyage-solo", None),
-    "lignes": ("lignes-de-vie", None),
-    # 12/10 : l'option vidéo est une variante du produit (Sans vidéo / Avec vidéos). Le pack n'a pas de page à lui.
-    "grossesse:simple": ("grossesse", "Sans vidéo"),
-    "grossesse:video": ("grossesse", "Avec vidéos"),
-    "annee:simple": ("annee-enfant", "Sans vidéo"),
-    "annee:video": ("annee-enfant", "Avec vidéos"),
-    "pack:simple": ("pack-grossesse-annee-1", "Sans vidéo"),
-    "pack:video": ("pack-grossesse-annee-1", "Avec vidéos"),
+    "memoire:vie": ("memoires", "Une vie"),
+    "memoire:racines": ("memoires", "Nos racines"),
+    "carnet": ("carnet-de-voyage", None),
+    "grossesse": ("en-t-attendant", None),
+    **{f"annee:{n}": ("tes-premieres-annees", f"Année {n}") for n in range(1, 7)},
+    "famille": ("notre-annee", None),
+    **{f"voeux:{o}:{t}": ("voeux", f"{lib} · {tl}") for o, lib in (("anniversaire", "Anniversaire"), ("mariage", "Mariage"), ("depart", "Un départ"))
+       for t, tl in (("petit", "5 à 20 voix"), ("moyen", "40 voix"), ("grand", "60 voix"))},
+    "pack": ("pack-en-t-attendant-tes-premieres-annees", None),
 }
-COPY_HANDLE = "exemplaire-supplementaire"
-VOIX_HANDLE = "10-voix-de-plus"
-# 13/10 : option vidéo ajoutée plus tard à un livre en cours (ligne ajoutvideo:<CODE>, propriété « Projet »).
-VIDEO_HANDLES = {"grossesse": "video-grossesse", "annee": "video-annee"}
-# 13/10 : plus de temps de voix et de pages pour un livre en cours (ligne ajoutpages:<CODE>, propriété « Projet ») :
-# « + 1 h, environ 20 pages » (Mémoire, Chronique, Année) ou « + 30 min, environ 10 pages » (Récit, Carnet de bord, Grossesse).
-PAGES_HANDLES = {"29": "pages-29", "19": "pages-19"}
+COPY_HANDLE = "exemplaire-en-plus"          # SKU exemplaire
+VOIX_HANDLE = "10-voix-de-plus"             # SKU voix-10
+PAGES_HANDLE = "16-pages-de-plus"           # SKU pages-16
+# Plus d'option vidéo ni de pages-29 / pages-19 (17/10).
+VIDEO_HANDLES = {}
+PAGES_HANDLES = {"16": PAGES_HANDLE}
 
 
 def base_of(key):
@@ -357,19 +341,19 @@ def template(tname, sections, order, extra=None):
 
 
 LEGAL = {"cgv", "mentions-legales", "confidentialite", "cookies"}
-HOME_NAMES = ["Haut de page", "Comme une interview", "L'app", "Les livres", "Extrait d'un livre", "Ce que vous offrez",
-              "Tarifs", "Avis (exemples)", "Questions fréquentes", "Question du dimanche", "Dernier appel"]
-HOME_FILES = ["home-hero", "home-interview", "home-app", "home-livres", "home-extrait", "home-compris",
+HOME_NAMES = ["Haut de page", "Comme une interview", "Les livres", "Extrait d'un livre", "Ce que vous offrez",
+              "Tarifs", "Avis (exemples)", "Questions fréquentes", "La question du dimanche", "Dernier appel"]
+HOME_FILES = ["home-hero", "home-interview", "home-livres", "home-extrait", "home-compris",
               "home-tarifs", "home-avis", "home-faq", "home-dimanche", "home-final"]
 
 PAGE_LABEL = {
-    "ma-vie": "Ma vie", "mes-ancetres": "Mes ancêtres", "un-temps-fort": "Un temps fort", "anniversaire": "Vœux",
-    "recit": "Récit", "chronique": "Chronique", "voyage-solo": "Carnet de bord", "lignes-de-vie": "Lignes de vie",
-    "memoire": "Mémoire", "aide": "Aide", "comment-ca-marche": "Comment ça marche", "application": "L'app",
-    "donnees": "Vos données", "engagement": "Engagement", "devenir-ambassadeur": "Ambassadeur", "offrir-noel": "Noël",
-    "fete-des-grands-meres": "Fête des grands-mères", "compte": "Mon compte", "merci": "Merci", "app": "Télécharger l'app",
+    "une-vie": "Une vie", "nos-racines": "Nos racines", "carnet-de-voyage": "Carnet de voyage", "en-t-attendant": "En t'attendant",
+    "tes-premieres-annees": "Tes premières années", "notre-annee": "Notre année", "voeux": "Vœux", "lignes-de-vie": "Lignes de vie",
+    "aide": "Aide", "comment-ca-marche": "Comment ça marche", "application": "L'app",
+    "donnees": "Vos données", "devenir-ambassadeur": "Ambassadeur", "offrir-noel": "Noël",
+    "fete-des-grands-meres": "Fête des grands-mères", "compte": "Mon compte", "merci": "Merci", "commande": "Commande", "ouvrir": "Ouvrir",
     "carte-cadeau": "Offrir", "cgv": "CGV", "mentions-legales": "Mentions légales", "confidentialite": "Confidentialité",
-    "cookies": "Cookies", "grossesse": "Grossesse", "annee-enfant": "L'année",
+    "cookies": "Cookies",
 }
 
 
@@ -400,7 +384,7 @@ def home_hero(block, st):
 def build_home():
     meta, body = read("index")
     blocks, _ = top_blocks(body)
-    assert len(blocks) == 11, len(blocks)
+    assert len(blocks) == 10, len(blocks)
     sections, order = {}, []
     for i, (b, fname, name) in enumerate(zip(blocks, HOME_FILES, HOME_NAMES)):
         st = Settings()
@@ -437,7 +421,7 @@ def build_page(page):
         else:
             groups[-1][1].append(b)
     is_product = page in PRODUCT_PAGES
-    label = PAGE_LABEL[page]
+    label = PAGE_LABEL.get(page, page[:25])
     sections, order = {}, []
     n_content = 0
     for gi, (ex, bl) in enumerate(groups):

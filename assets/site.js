@@ -186,84 +186,52 @@
     plxUpdate();
   }
 
-  // ---- Panier latéral (aperçu : rien n'est vendu, le panier reste dans ce navigateur) ----
-  // 5 formats ; le thème (Mémoire) ou l'occasion (Vœux, Récit) se choisit à l'achat et fait partie du produit.
-  // Clés : mavie | ancetres | tempsfort | voeux:<occasion> | recit:<occasion> | chronique | voyageSolo
-  // | grossesse:<simple|video> | annee:<simple|video> | pack:<simple|video> (12/10 : l'option vidéo est une variante du livre ;
-  // l'année racontée, 1 à 6, se choisit dans l'app ; le tarif fidélité des années suivantes n'est pas encore vendu sur le site).
-  // Compléments rattachés à une histoire : carte_<clé>, copie_<clé>, voix10_<clé> (Vœux). Lignes de vie se vend seul.
-  // Pour un livre déjà en cours (liens de l'app, propriété Shopify « Projet ») : ajoutvoix:<CODE> (Vœux, 10 voix, 10 €)
-  // et ajoutvideo:<CODE> (13/10 : option vidéo ajoutée plus tard, SKU video-grossesse 20 € ou video-annee 30 € ;
-  // le livre concerné, grossesse ou annee, est retenu à part dans localStorage « lt-ajoutvideo »)
-  // et ajoutpages:<CODE> (13/10 : plus de temps de voix et de pages, SKU pages-29 « + 1 h, environ 20 pages » ou pages-19
-  // « + 30 min, environ 10 pages » selon le livre, retenu dans localStorage « lt-ajoutpages » ; deux ajouts au plus par livre).
+  // ---- Panier latéral (aperçu : le panier reste dans ce navigateur ; la page commande.html lit ltCartItems()) ----
+  // 17/10 (TABLEAU-MACRO, blocs 1, 5 et 8) : six produits, une seule taille et un seul prix chacun. Les clés du panier sont
+  // exactement les SKU lus par le serveur (supabase/functions/shopify-order/order.ts) :
+  //   memoire:vie · memoire:racines (119 €) · carnet (69 €) · grossesse (89 €) · annee:1 … annee:6 (89 € l'année) · famille (129 €)
+  //   voeux:<anniversaire|mariage|depart>:<petit|moyen|grand> (29 / 49 / 69 €) · pack (159 €)
+  // Suppléments, rattachés au premier livre du panier ou à un livre en cours (propriété « Projet » = son code) :
+  //   voix-10 (12 €, Vœux, jusqu'à 150 voix) · pages-16 (12 €, toujours avec « Projet », jusqu'à 160 pages) · exemplaire (39 € ; Vœux 15 / 29 / 39)
+  // Plus de carte cadeau en ligne de panier (offerte, préparée sur la page de confirmation), plus d'option vidéo.
   var PH = 'assets/photos/';
+  var VOEUX_OCC = { anniversaire: 'Anniversaire', mariage: 'Mariage', depart: 'Un départ' };
+  var VOEUX_TAILLE = { petit: { nom: '5 à 20 voix, fascicule', price: 29, copy: 15, pages: '8 à 24 pages' }, moyen: { nom: '40 voix, relié', price: 49, copy: 29, pages: '44 pages' }, grand: { nom: '60 voix, relié', price: 69, copy: 39, pages: '64 pages' } };
+  var VOEUX_IMG = { anniversaire: 'anniversaire-gateau.jpg', mariage: 'mariage-couple.jpg', depart: 'fete-champagne.jpg' };
   var BASE = {
-    mavie: { name: 'Mémoire · Ma vie', note: 'Une voix, 12 mois, environ 88 pages, jusqu\'à 112', price: 119, img: 'hero-1.jpg', copy: 39, pitch: 'Toute une vie racontée de sa voix.' },
-    ancetres: { name: 'Mémoire · Mes ancêtres', note: 'Une voix, 12 mois, environ 88 pages, jusqu\'à 112', price: 119, img: 'anciennes-photos.jpg', copy: 39, pitch: 'Les origines de la famille, avant qu\'elles se perdent.' },
-    tempsfort: { name: 'Mémoire · Un temps fort', note: 'Une voix, 12 mois, environ 88 pages, jusqu\'à 112', price: 119, img: 'commerce-ancien.jpg', copy: 39, pitch: 'Une époque vécue de l\'intérieur.' },
-    voeux: { name: 'Vœux', note: 'Jusqu\'à 20 voix, 1 page par voix, environ 28 pages', price: 29, img: 'anniversaire-gateau.jpg', copy: 29, pitch: 'Les mots de 20 proches, de vive voix, dans un livre.' },
-    recit: { name: 'Récit', note: 'Jusqu\'à 10 voix, environ 56 pages, jusqu\'à 68', price: 69, img: 'plage-feu.jpg', copy: 29, pitch: 'Le voyage ou l\'EVJF, raconté par tous.' },
-    chronique: { name: 'Chronique · 2027', note: 'Jusqu\'à 6 voix, environ 84 pages, jusqu\'à 104', price: 149, img: 'famille-allee.jpg', copy: 39, pitch: 'Une année en famille, racontée par chacun.' },
-    voyageSolo: { name: 'Carnet de bord · Voyage en solitaire', note: 'Une voix, environ 84 pages, jusqu\'à 100', price: 49, img: 'hero-3.jpg', copy: 29, pitch: 'Le carnet de bord de celui qui part seul.' },
-    // Grossesse et petite enfance (12/10) : pas encore de photo, une vignette aux couleurs de l'onde.
-    grossesse: { name: 'Grossesse', note: 'Les deux parents, environ 56 pages, jusqu\'à 72', price: 69, prices: { simple: 69, video: 89 }, img: null, copy: 29, pitch: 'Le journal de l\'attente, à deux voix.' },
-    annee: { name: 'L\'année de votre enfant', note: 'Les deux parents, environ 76 pages, jusqu\'à 92', price: 139, prices: { simple: 139, video: 169 }, img: null, copy: 39, pitch: 'Une année de sa vie, de 0 à 6 ans.' },
-    pack: { name: 'Pack Grossesse + Année 1', note: 'Deux livres, environ 56 et 76 pages', price: 189, prices: { simple: 189, video: 229 }, img: null, copy: null, pitch: 'L\'attente, puis sa première année.' }
+    'memoire:vie': { name: 'Mémoires · Une vie', note: '1 voix · 128 pages · 24 photos', price: 119, img: 'hero-1.jpg', copy: 39, pitch: 'Toute une vie racontée de sa voix.' },
+    'memoire:racines': { name: 'Mémoires · Nos racines', note: '1 voix · 128 pages · 24 photos', price: 119, img: 'anciennes-photos.jpg', copy: 39, pitch: "Les origines de la famille, avant qu'elles se perdent." },
+    carnet: { name: 'Carnet de voyage', note: '1 voix ou plusieurs · 64 pages · 16 photos', price: 69, img: 'hero-3.jpg', copy: 39, pitch: 'Un voyage raconté au fil des jours.' },
+    grossesse: { name: "En t'attendant", note: '1 ou 2 parents · 96 pages · 24 photos', price: 89, img: 'grossesse-robe-rouge.jpg', copy: 39, pitch: "L'attente, racontée à l'enfant." },
+    annee: { name: 'Tes premières années', note: '1 ou 2 parents · 96 pages · 24 photos', price: 89, img: 'annee-balancoire.jpg', copy: 39, pitch: 'Une année de sa vie, par ses parents.' },
+    famille: { name: 'Notre année', note: 'toute la famille · 128 pages · 24 photos', price: 129, img: 'famille-canape.jpg', copy: 39, pitch: 'Douze mois racontés par tous.' },
+    voeux: { name: 'Vœux', note: '1 page par voix', price: 29, img: 'anniversaire-gateau.jpg', copy: 15, pitch: 'Les mots de ses proches, de leur voix.' },
+    pack: { name: "Pack En t'attendant + Tes premières années", note: "Deux livres : l'attente, puis l'année 1 · au lieu de 178 €", price: 159, img: 'naissance-pieds-coeur.jpg', copy: null, pitch: "L'attente, puis sa première année." }
   };
-  var OCC = {
-    voeux: { anniversaire: 'Anniversaire', mariage: 'Mariage', retraite: 'Départ à la retraite', naissance: 'Naissance', depart: 'Pot de départ' },
-    recit: { voyage: 'Voyage entre amis', evjf: 'EVJF', evg: 'EVG' },
-    grossesse: { simple: 'Sans vidéo', video: 'Avec vidéos' },
-    annee: { simple: 'Sans vidéo', video: 'Année 1 avec vidéos' },
-    pack: { simple: 'Sans vidéo', video: 'Avec vidéos' }
-  };
-  var OCC_IMG = { 'voeux:mariage': 'mariage-couple.jpg', 'voeux:retraite': 'diner-jardin.jpg', 'voeux:depart': 'fete-champagne.jpg', 'voeux:naissance': 'famille-canape.jpg', 'recit:evjf': 'hero-2.jpg', 'recit:evg': 'montagne-amis.jpg' };
-  var VIDEO = {
-    grossesse: { name: 'Option vidéo · Grossesse', note: '4 vidéos d\'une minute', price: 20, sku: 'video-grossesse' },
-    annee: { name: 'Option vidéo · L\'année 1', note: '12 vidéos d\'une minute', price: 30, sku: 'video-annee' }
-  };
-  var PAGES = {
-    '29': { name: '+ 1 h de voix, environ 20 pages', price: 29, sku: 'pages-29' },
-    '19': { name: '+ 30 min de voix, environ 10 pages', price: 19, sku: 'pages-19' }
-  };
-  var pagesFor = {};
-  try { pagesFor = JSON.parse(localStorage.getItem('lt-ajoutpages') || '{}') || {}; } catch (e) { pagesFor = {}; }
-  var videoFor = {};
-  try { videoFor = JSON.parse(localStorage.getItem('lt-ajoutvideo') || '{}') || {}; } catch (e) { videoFor = {}; }
+  var ANNEES = { '1': 'Année 1', '2': 'Année 2', '3': 'Année 3', '4': 'Année 4', '5': 'Année 5', '6': 'Année 6' };
   var baseOf = function (k) { return String(k).split(':')[0]; };
-  var isStory = function (k) { var b = baseOf(k), o = k.split(':')[1]; return !!BASE[b] && (!OCC[b] || !!OCC[b][o]); };
+  // Un livre du panier : { name, note, price, img, copy, pitch } ou null si la clé est inconnue.
   var prod = function (k) {
-    if (k === 'lignes') return { name: 'Lignes de vie', note: 'Le livre-journal à remplir à la main · livré en 72 h', price: 39, alone: true };
-    // Voix ajoutées à un livre Vœux déjà en cours (lien de l'app ou des emails) : la ligne Shopify portera la propriété « Projet ».
-    var pj = /^ajoutvoix:([A-Z0-9]{4}-[A-Z0-9]{4})$/.exec(k);
-    if (pj) return { name: '10 voix de plus', note: 'Pour votre livre Vœux en cours · projet ' + pj[1], price: 10, max: 12, kind: 'voix', alone: true, props: { Projet: pj[1] } };
-    var pv = /^ajoutvideo:([A-Z0-9]{4}-[A-Z0-9]{4})$/.exec(k), vv = pv && VIDEO[videoFor[pv[1]]];
-    if (pv) return !vv ? null : { name: vv.name, note: vv.note + ' · pour votre livre en cours · projet ' + pv[1], price: vv.price, max: 1, kind: 'video', alone: true, sku: vv.sku, props: { Projet: pv[1] } };
-    var pg = /^ajoutpages:([A-Z0-9]{4}-[A-Z0-9]{4})$/.exec(k), pp = pg && PAGES[pagesFor[pg[1]]];
-    if (pg) return !pp ? null : { name: pp.name, note: 'Plus de temps pour raconter · pour votre livre en cours · projet ' + pg[1], price: pp.price, max: 2, kind: 'pages', alone: true, sku: pp.sku, props: { Projet: pg[1] } };
-    var m = /^(carte|copie|voix10)_(.+)$/.exec(k);
-    if (m) {
-      var p = isStory(m[2]) && prod(m[2]);
-      if (!p) return null;
-      if (m[1] === 'carte') return { name: 'La carte cadeau', note: 'À personnaliser juste après le paiement, à imprimer ou à envoyer', price: 0, parent: m[2], max: 1, kind: 'card' };
-      if (m[1] === 'copie') return !p.copy ? null : { name: 'Exemplaire en plus', note: 'Imprimé en même temps, livré ensemble', price: p.copy, parent: m[2], kind: 'copy' };
-      if (baseOf(m[2]) !== 'voeux') return null;
-      return { name: '10 voix de plus', note: 'Jusqu\'à 150 voix au total', price: 10, parent: m[2], max: 12, kind: 'voix' };
+    var parts = String(k).split(':'), b = parts[0];
+    if (b === 'voeux') {
+      var occ = VOEUX_OCC[parts[1]], taille = VOEUX_TAILLE[parts[2]];
+      if (!occ || !taille) return null;
+      return { name: 'Vœux · ' + occ, note: taille.nom + ' · ' + taille.pages, price: taille.price, img: VOEUX_IMG[parts[1]], copy: taille.copy, pitch: BASE.voeux.pitch, voeux: true };
     }
-    if (!isStory(k)) return null;
-    var b = BASE[baseOf(k)], o = k.split(':')[1], r = {};
-    for (var f in b) r[f] = b[f];
-    if (o) { r.name = b.name + ' · ' + OCC[baseOf(k)][o]; r.img = OCC_IMG[k] || b.img; }
-    if (b.prices && o) r.price = b.prices[o];
-    return r;
+    if (b === 'memoire') return parts[1] === 'vie' || parts[1] === 'racines' ? BASE[k] : null;
+    if (b === 'annee') { if (!ANNEES[parts[1]]) return null; var r = {}; for (var f in BASE.annee) r[f] = BASE.annee[f]; r.name += ' · ' + ANNEES[parts[1]]; return r; }
+    if (parts.length > 1) return null;
+    return BASE[b] || null;
   };
-  // Sélecteur à pastilles (tarifs, pages produits) : on choisit le thème ou l'occasion, puis on ajoute directement.
+  var isStory = function (k) { return !!prod(k); };
+  var SUPP = { 'voix-10': { name: '10 voix de plus', note: 'Par tranche de 10, jusqu’à 150 voix', price: 12, voeux: true },
+               'pages-16': { name: '16 pages de plus', note: 'Environ 50 minutes de voix de plus, jusqu’à 160 pages', price: 12 },
+               exemplaire: { name: 'Un exemplaire en plus', note: 'Imprimé en même temps, dans le même colis', price: 39 } };
+  // Sélecteur à pastilles (tarifs, pages produits) : on choisit le thème, l'occasion ou la taille, puis on ajoute directement.
   document.addEventListener('click', function (e) {
     var chip = e.target.closest('.pick [data-v]');
     if (chip) {
       chip.parentNode.querySelectorAll('[data-v]').forEach(function (c) { c.setAttribute('aria-pressed', c === chip); });
-      // Option qui change le prix (vidéo) : le prix affiché suit la pastille choisie.
       if (chip.dataset.price) {
         var box = chip.closest('.tier') || chip.closest('.pick');
         var amt = box.querySelector('.amount'), add = chip.closest('.pick').querySelector('[data-pick-add]');
@@ -274,96 +242,88 @@
     }
     var go = e.target.closest('.pick [data-pick-add]');
     if (!go) return;
-    var pick = go.closest('.pick'), base = pick.dataset.base, on = pick.querySelector('[data-v][aria-pressed="true"]');
-    var v = on ? on.dataset.v : '';
-    window.ltAddToCart(base === 'memoire' ? v : base + (v ? ':' + v : ''));
+    var pick = go.closest('.pick'), key = pick.dataset.key || '';
+    pick.querySelectorAll('.chips-pick').forEach(function (g) { var on = g.querySelector('[data-v][aria-pressed="true"]'); key = key.replace('{' + (g.dataset.part || 'v') + '}', on ? on.dataset.v : ''); });
+    window.ltAddToCart(key);
   });
-  var DEFAULTS = ['mavie', 'ancetres', 'tempsfort', 'voeux:anniversaire', 'recit:voyage', 'chronique', 'voyageSolo', 'grossesse:simple', 'annee:simple'];
+  var DEFAULTS = ['memoire:vie', 'memoire:racines', 'famille', 'annee:1', 'carnet', 'grossesse', 'voeux:anniversaire:petit'];
+  // Le panier : { clé: { q, props } } ; un livre ne s'ajoute qu'une fois ; les suppléments ont une quantité et des propriétés.
   var cart = {};
   try { cart = JSON.parse(localStorage.getItem('lt-cart') || '{}') || {}; } catch (e) { cart = {}; }
-  Object.keys(cart).forEach(function (k) { if (!prod(k) || !(cart[k] > 0)) delete cart[k]; else if (isStory(k)) cart[k] = 1; });
+  var ligne = function (k) { var l = cart[k]; if (typeof l === 'number') l = cart[k] = { q: l, props: {} }; return l; };
+  Object.keys(cart).forEach(function (k) { var l = ligne(k); if (!(l && l.q > 0) || !(isStory(k) || SUPP[baseOf(k)])) delete cart[k]; else if (isStory(k)) l.q = 1; });
   var save = function () { try { localStorage.setItem('lt-cart', JSON.stringify(cart)); } catch (e) {} };
   var drawer = document.getElementById('cart');
   var veil = document.querySelector('.drawer-veil');
   var euro = function (n) { return (Math.round(n * 100) / 100).toLocaleString('fr-FR', { minimumFractionDigits: n % 1 ? 2 : 0 }) + ' €'; };
-  var count = function () { return Object.keys(cart).reduce(function (a, k) { return a + cart[k]; }, 0); };
+  var count = function () { return Object.keys(cart).reduce(function (a, k) { return a + ligne(k).q; }, 0); };
+  var stories = function () { return Object.keys(cart).filter(isStory); };
   var lastFocus = null;
   var recoTimer = null;
-  // Une image propre à chaque complément : la carte, le livre en deux exemplaires, la bulle « +10 », le carnet à lignes.
   var ACC = {
-    card: '<svg viewBox="0 0 40 48"><rect x="6" y="4" width="28" height="40" rx="3" fill="#fde7f1"/><rect x="6" y="26" width="28" height="18" rx="3" fill="#ffe0cc"/><g fill="#fa8216"><rect x="13" y="22" width="2.4" height="5" rx="1.2"/><rect x="16.6" y="19" width="2.4" height="11" rx="1.2"/><rect x="20.2" y="17.5" width="2.4" height="14" rx="1.2"/><rect x="23.8" y="21" width="2.4" height="7" rx="1.2"/><rect x="27.4" y="19.5" width="2.4" height="10" rx="1.2"/></g></svg>',
-    copy: '<svg viewBox="0 0 40 48"><rect x="12" y="8" width="24" height="24" rx="2" fill="#e8ddd2"/><rect x="5" y="15" width="24" height="24" rx="2" fill="#f4ede6" stroke="#d6cabe"/><rect x="5" y="15" width="3" height="24" fill="#d6cabe"/><text x="17" y="31" font-size="9" font-family="Manrope,sans-serif" font-weight="800" fill="#5a2471" text-anchor="middle">×2</text></svg>',
-    voix: '<svg viewBox="0 0 40 48"><path d="M6 12h28a3 3 0 0 1 3 3v15a3 3 0 0 1-3 3H17l-7 6v-6H6a3 3 0 0 1-3-3V15a3 3 0 0 1 3-3z" fill="#fde7f1"/><text x="20" y="27" font-size="11" font-family="Manrope,sans-serif" font-weight="800" fill="#5a2471" text-anchor="middle">+10</text></svg>',
-    pages: '<svg viewBox="0 0 40 48"><rect x="9" y="6" width="22" height="30" rx="2" fill="#fde7f1"/><path d="M14 14h12M14 19h12M14 24h8" stroke="#e2b9cc" stroke-width="1.4"/><circle cx="29" cy="35" r="8" fill="#5a2471"/><path d="M29 31v8M25 35h8" stroke="#fff" stroke-width="2"/></svg>',
-    video: '<svg viewBox="0 0 40 48"><rect x="4" y="13" width="32" height="22" rx="3" fill="#fde7f1"/><path d="M17 19v10l9-5z" fill="#5a2471"/></svg>',
-    lignes: '<svg viewBox="0 0 40 48"><rect x="8" y="5" width="26" height="38" rx="2" fill="#fff" stroke="#d6cabe"/><path d="M13 14h16M13 19h16M13 24h16M13 29h16M13 34h11" stroke="#e2d6dd" stroke-width="1.4"/><path d="M8 5v38" stroke="#ff2e7e" stroke-width="2"/></svg>'
+    exemplaire: '<svg viewBox="0 0 40 48"><rect x="12" y="8" width="24" height="24" rx="2" fill="#e8ddd2"/><rect x="5" y="15" width="24" height="24" rx="2" fill="#f4ede6" stroke="#d6cabe"/><rect x="5" y="15" width="3" height="24" fill="#d6cabe"/><text x="17" y="31" font-size="9" font-family="Manrope,sans-serif" font-weight="800" fill="#5a2471" text-anchor="middle">×2</text></svg>',
+    'voix-10': '<svg viewBox="0 0 40 48"><path d="M6 12h28a3 3 0 0 1 3 3v15a3 3 0 0 1-3 3H17l-7 6v-6H6a3 3 0 0 1-3-3V15a3 3 0 0 1 3-3z" fill="#fde7f1"/><text x="20" y="27" font-size="11" font-family="Manrope,sans-serif" font-weight="800" fill="#5a2471" text-anchor="middle">+10</text></svg>',
+    'pages-16': '<svg viewBox="0 0 40 48"><rect x="9" y="6" width="22" height="30" rx="2" fill="#fde7f1"/><path d="M14 14h12M14 19h12M14 24h8" stroke="#e2b9cc" stroke-width="1.4"/><circle cx="29" cy="35" r="8" fill="#5a2471"/><path d="M29 31v8M25 35h8" stroke="#fff" stroke-width="2"/></svg>'
   };
   var thumb = function (k, small) {
-    var p = prod(k), kind = k === 'lignes' ? 'lignes' : p.kind;
-    if (kind) return '<div class="thumb small acc-ico">' + ACC[kind] + '</div>';
-    if (!p.img) return '<div class="thumb art' + (small ? ' small' : '') + '"><span class="onde" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><img class="logo" src="assets/favicon-192.png" alt=""></div>';
+    var p = prod(k);
+    if (!p) return '<div class="thumb small acc-ico">' + (ACC[baseOf(k)] || '') + '</div>';
     return '<div class="thumb' + (small ? ' small' : '') + '"><img class="bg" src="' + PH + p.img + '" alt=""><img class="logo" src="assets/favicon-192.png" alt=""></div>';
   };
-  var qty = function (k) { return '<div class="mini-qty"><button type="button" data-dec="' + k + '" aria-label="Un de moins">−</button><span>' + cart[k] + '</span><button type="button" data-inc="' + k + '" aria-label="Un de plus">+</button></div>'; };
-
+  var qty = function (k) { return '<div class="mini-qty"><button type="button" data-dec="' + k + '" aria-label="Un de moins">−</button><span>' + ligne(k).q + '</span><button type="button" data-inc="' + k + '" aria-label="Un de plus">+</button></div>'; };
+  // Le prix d'un exemplaire en plus suit le livre auquel il est rattaché (le premier du panier, ou le livre en cours « Projet »).
+  var prixSupp = function (k) {
+    var b = baseOf(k), s = SUPP[b], l = ligne(k), st = stories();
+    if (b !== 'exemplaire') return s.price;
+    if (l.props && l.props.Taille) return VOEUX_TAILLE[l.props.Taille] ? VOEUX_TAILLE[l.props.Taille].copy : 39;
+    var p = st.length ? prod(st[0]) : null;
+    return p && p.copy ? p.copy : 39;
+  };
   function renderCart() {
     var body = document.getElementById('cart-body'), foot = document.getElementById('cart-foot');
     if (!body) return;
-    // Un complément sans son histoire n'a pas de sens : il part avec elle.
-    Object.keys(cart).forEach(function (k) { var p = prod(k); if (!p || (p.parent && !cart[p.parent])) delete cart[k]; });
+    var st = stories();
+    // Un supplément sans livre dans le panier n'a de sens que pour un livre en cours (propriété « Projet »).
+    Object.keys(cart).forEach(function (k) { var b = baseOf(k); if (SUPP[b] && !st.length && !ligne(k).props.Projet) delete cart[k]; if (b === 'voix-10' && !ligne(k).props.Projet && !st.some(function (s) { return baseOf(s) === 'voeux'; })) delete cart[k]; });
     var badge = document.querySelector('.cart-count');
     if (badge) { badge.hidden = count() === 0; badge.textContent = count(); }
-    var stories = Object.keys(cart).filter(isStory);
-    var topups = Object.keys(cart).filter(function (k) { return k.indexOf('ajoutvoix:') === 0 || k.indexOf('ajoutvideo:') === 0 || k.indexOf('ajoutpages:') === 0; });
-    if (!stories.length && !cart.lignes && !topups.length) {
+    var supps = Object.keys(cart).filter(function (k) { return !!SUPP[baseOf(k)]; });
+    if (!st.length && !supps.length) {
       body.innerHTML = '<p class="empty">Votre panier est vide.</p>';
       foot.innerHTML = '<a class="btn btn-ink" href="index.html#prix">Choisir un livre</a>';
       return;
     }
     var html = '', sub = 0;
-    stories.forEach(function (k) {
+    st.forEach(function (k) {
       var p = prod(k); sub += p.price;
-      html += '<div class="group"><div class="line">' + thumb(k) + '<div><b>' + p.name + '</b><small>' + p.note + '</small><button type="button" class="remove" data-dec="' + k + '">Retirer</button></div><span class="price">' + euro(p.price) + '</span></div>';
-      var kids = ['carte_' + k, 'copie_' + k].concat(baseOf(k) === 'voeux' ? ['voix10_' + k] : []);
-      kids.forEach(function (c) {
-        if (!cart[c]) return;
-        var q = prod(c); sub += q.price * cart[c];
-        var ctl = q.max === 1 ? '<button type="button" class="remove" data-dec="' + c + '">Retirer</button>' : qty(c);
-        html += '<div class="line sub">' + thumb(c, true) + '<div><b>' + q.name + '</b><small>' + q.note + '</small>' + ctl + '</div><span class="price' + (q.price ? '' : ' free') + '">' + (q.price ? euro(q.price * cart[c]) : 'Offerte') + '</span></div>';
-      });
-      // Les options pas encore choisies : une ligne claire, avec un vrai bouton « Ajouter ».
-      var opt = function (c, title, sub2, price) {
-        return '<div class="opt">' + thumb(c, true) + '<div><b>' + title + '</b><small>' + sub2 + '</small></div><button type="button" class="opt-add" data-inc="' + c + '"><span>' + price + '</span>Ajouter</button></div>';
-      };
-      var offers = [];
-      if (!cart['carte_' + k]) offers.push(opt('carte_' + k, 'La carte cadeau', 'À imprimer ou à envoyer le jour même. Ajoutez-la pour la recevoir.', 'Offerte'));
-      if (!cart['copie_' + k] && p.copy) offers.push(opt('copie_' + k, 'Un exemplaire en plus', 'Le même livre, pour un autre membre de la famille.', euro(p.copy)));
-      if (baseOf(k) === 'voeux' && (cart['voix10_' + k] || 0) < 12) offers.push(opt('voix10_' + k, '10 voix de plus', 'Par tranche de 10, jusqu\'à 150 proches.', '10 €'));
-      if (offers.length) html += '<div class="opts"><p class="opts-k">À ajouter si vous le souhaitez</p>' + offers.join('') + '</div>';
-      html += '</div>';
+      html += '<div class="group"><div class="line">' + thumb(k) + '<div><b>' + p.name + '</b><small>' + p.note + '</small><button type="button" class="remove" data-dec="' + k + '">Retirer</button></div><span class="price">' + euro(p.price) + '</span></div></div>';
     });
-    // Lignes de vie : un livre papier, vendu seul.
-    if (cart.lignes) {
-      sub += 39 * cart.lignes;
-      html += '<div class="group"><div class="line">' + thumb('lignes') + '<div><b>Lignes de vie</b><small>' + prod('lignes').note + '</small>' + qty('lignes') + '</div><span class="price">' + euro(39 * cart.lignes) + '</span></div></div>';
+    supps.forEach(function (k) {
+      var s = SUPP[baseOf(k)], l = ligne(k), prix = prixSupp(k);
+      sub += prix * l.q;
+      var note = s.note + (l.props.Projet ? ' · pour votre livre en cours ' + l.props.Projet : '');
+      html += '<div class="group"><div class="line">' + thumb(k) + '<div><b>' + s.name + '</b><small>' + note + '</small>' + qty(k) + '</div><span class="price">' + euro(prix * l.q) + '</span></div></div>';
+    });
+    // Les suppléments pas encore choisis, pour les livres du panier
+    var offers = [];
+    var opt = function (c, title, sub2, price) { return '<div class="opt">' + thumb(c, true) + '<div><b>' + title + '</b><small>' + sub2 + '</small></div><button type="button" class="opt-add" data-inc="' + c + '"><span>' + price + '</span>Ajouter</button></div>'; };
+    if (st.length) {
+      if (!cart.exemplaire && prod(st[0]).copy) offers.push(opt('exemplaire', 'Un exemplaire en plus', 'Le même livre, pour un autre membre de la famille. Dans le même colis.', euro(prod(st[0]).copy)));
+      var v = st.filter(function (s) { return baseOf(s) === 'voeux'; })[0];
+      if (v && !cart['voix-10']) offers.push(opt('voix-10', '10 voix de plus', 'Par tranche de 10, jusqu’à 150 voix.', '12 €'));
     }
-    // Voix ou option vidéo pour un livre déjà en cours : seules (150 voix au plus en tout, vérifié par le serveur ; vidéo : une fois).
-    topups.forEach(function (k) {
-      var p = prod(k); sub += p.price * cart[k];
-      var ctl = p.max === 1 ? '<button type="button" class="remove" data-dec="' + k + '">Retirer</button>' : qty(k);
-      html += '<div class="group"><div class="line">' + thumb(k) + '<div><b>' + p.name + '</b><small>' + p.note + '</small>' + ctl + '</div><span class="price">' + euro(p.price * cart[k]) + '</span></div></div>';
-    });
+    if (offers.length) html += '<div class="opts"><p class="opts-k">À ajouter si vous le souhaitez</p>' + offers.join('') + '</div>';
     body.innerHTML = html;
-    var inBase = stories.map(baseOf).concat(stories);
+    var inBase = st.map(baseOf).concat(st);
     var reco = DEFAULTS.filter(function (k) { return inBase.indexOf(k) < 0 && inBase.indexOf(baseOf(k)) < 0; });
-    var recoHtml = reco.length ? '<div class="cart-reco" aria-label="À offrir aussi"><p class="reco-k">Et pour quelqu\'un d\'autre ?</p><div class="reco-track">' + reco.map(function (k, i) {
+    var recoHtml = reco.length ? '<div class="cart-reco" aria-label="À offrir aussi"><p class="reco-k">Et pour quelqu’un d’autre ?</p><div class="reco-track">' + reco.map(function (k, i) {
       var p = prod(k);
-      return '<div class="reco' + (i ? '' : ' on') + '">' + (p.img ? '<img src="' + PH + p.img + '" alt="">' : '<span class="reco-art" aria-hidden="true"></span>') + '<div><b>' + p.name.replace('Mémoire · ', '').replace(' · Anniversaire', '').replace(' · Voyage entre amis', '').replace(' · Sans vidéo', '') + '</b><small>' + p.pitch + '</small></div><button type="button" data-inc="' + k + '">' + euro(p.price) + ' · Ajouter</button></div>';
+      return '<div class="reco' + (i ? '' : ' on') + '"><img src="' + PH + p.img + '" alt=""><div><b>' + p.name.replace(' · Anniversaire', '') + '</b><small>' + p.pitch + '</small></div><button type="button" data-inc="' + k + '">' + euro(p.price) + ' · Ajouter</button></div>';
     }).join('') + '</div></div>' : '';
     foot.innerHTML = recoHtml + '<details class="promo-toggle"><summary>Vous avez un code ?</summary><form class="promo" onsubmit="event.preventDefault();this.querySelector(\'button\').textContent=\'Aperçu\'"><label for="promo" style="position:absolute;left:-9999px">Code</label><input id="promo" placeholder="Votre code" autocomplete="off"><button type="submit">Appliquer</button></form></details>' +
-      '<div class="sum"><span>Livraison</span><span>Offerte en Europe</span></div>' +
+      '<div class="sum"><span>Livraison</span><span>Incluse, partout en Europe</span></div>' +
       '<div class="sum total"><span>Total</span><span>' + euro(sub) + '</span></div>' +
-      '<a class="btn btn-ink" href="merci.html">Finaliser la commande</a><p class="note" style="margin:0;text-align:center">Aperçu : le paiement Shopify viendra ici. Le bouton montre la page qui suit le paiement.</p>';
+      '<a class="btn btn-ink" href="commande.html">Finaliser la commande</a><p class="note" style="margin:0;text-align:center">La carte cadeau se prépare juste après, sur la page de confirmation.</p>';
     clearInterval(recoTimer);
     var slides = foot.querySelectorAll('.reco');
     if (slides.length > 1 && !reduce) {
@@ -381,30 +341,37 @@
     drawer.classList.remove('open'); drawer.setAttribute('aria-hidden', 'true'); veil.hidden = true;
     if (lastFocus) lastFocus.focus();
   }
-  var addItem = function (k, n) {
-    var p = prod(k);
-    if (!p) return;
-    var max = isStory(k) ? 1 : p.max || 99;
-    cart[k] = Math.min(max, isStory(k) ? 1 : (cart[k] || 0) + (n || 1));
+  var addItem = function (k, n, props) {
+    var b = baseOf(k);
+    if (!isStory(k) && !SUPP[b]) return;
+    if (isStory(k)) { cart[k] = { q: 1, props: props || {} }; return; }
+    var l = cart[k] || (cart[k] = { q: 0, props: props || {} });
+    if (props) for (var f in props) l.props[f] = props[f];
+    var max = b === 'voix-10' ? 13 : b === 'pages-16' ? 8 : 9;
+    l.q = Math.min(max, l.q + (n || 1));
   };
-  window.ltAddToCart = function (k, n) { addItem(k, n); save(); openCart(); };
-  window.ltAddVideo = function (code, book) { videoFor[code] = book; window.ltAddToCart('ajoutvideo:' + code); };
-  window.ltAddPages = function (code, unit) {
-    pagesFor[code] = unit;
-    try { localStorage.setItem('lt-ajoutpages', JSON.stringify(pagesFor)); } catch (e) {}
-    window.ltAddToCart('ajoutpages:' + code);
+  window.ltAddToCart = function (k, n, props) { addItem(k, n, props); save(); openCart(); };
+  // Liens de l'app pour un livre en cours (bloc 5) : des voix ou des pages en plus, un exemplaire en plus. props : { Projet, Taille }.
+  window.ltAddSupplement = function (sku, code, props) { var p = props || {}; p.Projet = code; window.ltAddToCart(sku, 1, p); };
+  // Pour la page de commande : les lignes du panier telles que le serveur les lit (clé = SKU, quantité, propriétés de ligne).
+  window.ltCartItems = function () {
+    return Object.keys(cart).map(function (k) { var l = ligne(k); var props = {}; for (var f in l.props) if (l.props[f]) props[f] = l.props[f]; return { key: k, quantity: l.q, properties: props }; });
   };
+  window.ltCartClear = function () { cart = {}; save(); renderCart(); };
   document.addEventListener('click', function (e) {
     var t = e.target.closest('[data-open-cart],[data-close-cart],[data-inc],[data-dec]');
     if (!t) return;
     if (t.hasAttribute('data-open-cart')) openCart();
     else if (t.hasAttribute('data-close-cart')) closeCart();
     else if (t.dataset.inc) { addItem(t.dataset.inc); save(); renderCart(); }
-    else if (t.dataset.dec) { var k = t.dataset.dec; cart[k] = Math.max(0, (cart[k] || 0) - 1); if (!cart[k]) delete cart[k]; save(); renderCart(); }
+    else if (t.dataset.dec) { var k = t.dataset.dec; if (cart[k]) { ligne(k).q -= 1; if (ligne(k).q <= 0 || isStory(k)) delete cart[k]; } save(); renderCart(); }
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && drawer && drawer.classList.contains('open')) closeCart(); });
   renderCart();
   if (location.hash === '#panier') openCart();
+  // Lien de l'app : ?ajout=pages-16&projet=CODE (ou voix-10, exemplaire&taille=petit) ouvre le panier avec le supplément.
+  var qs = new URLSearchParams(location.search);
+  if (qs.get('ajout') && SUPP[qs.get('ajout')]) window.ltAddSupplement(qs.get('ajout'), (qs.get('projet') || '').toUpperCase(), qs.get('taille') ? { Taille: qs.get('taille') } : null);
 
   // ---- Assistant de la page Aide (aperçu : réponses tirées de la FAQ, rien n'est envoyé) ----
   var chat = document.getElementById('assistant');
